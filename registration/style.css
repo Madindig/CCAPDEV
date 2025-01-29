@@ -1,0 +1,27 @@
+.navbar {
+    background-color: #45474b;
+    color: #f7f6f9;
+}
+
+.card-body {
+    background-color: #485e58;
+}
+
+.create-acc-btn {
+    background-color: #f7f6f9;
+    color: #485e58;
+}
+
+.card {
+    width: 80%;
+    border:none;
+}
+
+.card-body {
+    border-radius: 20px;
+}
+
+.container.mt-5 {
+    display: flex;
+    justify-content: center;
+}
