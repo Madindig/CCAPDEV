@@ -2,26 +2,24 @@
     background-color: #485e58;
 }
 
-.login-btn {
-    background-color: #f7f6f9;
-    color: #485e58;
-}
-
-.create-acc-btn {
-    background-color: #f7f6f9;
-    color: #485e58;
-}
-
 .card {
-    width: 80%;
     border:none;
 }
 
 .card-body {
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
-.container.mt-5 {
-    display: flex;
-    justify-content: center;
+.create-acc-btn {
+    background-color: white;
+    color: #475d57;
+}
+
+.create-acc-btn:hover {
+    color: #475d57;
+    background-color: #e2e6ec;
+}
+
+label, .form-control, .btn {
+    font-size: 0.8rem;
 }

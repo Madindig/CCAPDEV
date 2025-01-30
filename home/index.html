@@ -11,8 +11,16 @@
     <div class="container mt-5">
         <div class="card text-white">
             <div class="card-body">
-                <h2 class="card-title text-left">Search Gyms</h2>
+                <h2 class="card-title text-left">Search</h2>
                 <form>
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select class="form-control" id="type">
+                            <option value="">Select</option>
+                            <option value="pool">Gym</option>
+                            <option value="sauna">People</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="location">Location:</label>
                         <input type="text" class="form-control" id="location" placeholder="Enter Location">
@@ -23,8 +31,8 @@
                             <option value="">All</option>
                             <option value="pool">Pool</option>
                             <option value="sauna">Sauna</option>
-                            <option value="gym">Gym</option>
-                            <option value="classes">Classes</option> 
+                            <option value="gym">Lounge</option>
+                            <option value="classes">Locker Rooms</option> 
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block search-btn rounded-pill mt-3">Search</button>

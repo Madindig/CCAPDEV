@@ -1,27 +1,52 @@
-.navbar {
-    background-color: #45474b;
-    color: #f7f6f9;
-}
-
 .card-body {
     background-color: #485e58;
 }
 
-.create-acc-btn {
-    background-color: #f7f6f9;
-    color: #485e58;
-}
-
 .card {
-    width: 80%;
     border:none;
 }
 
 .card-body {
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
-.container.mt-5 {
+textarea {
+    resize: none;
+}
+
+label, .form-control, .btn {
+    font-size: 0.8rem;
+}
+
+.privacy-policy {
+    font-size: 0.8rem;
+}
+
+.privacy-link {
+    color: white;
+    text-decoration: underline;
+}
+
+a.privacy-link:hover {
+    color: #037bff;
+}
+
+.image-upload-container {
+    border: 1px solid #ced4da;
+    padding: 1px; 
     display: flex;
-    justify-content: center;
+    overflow: hidden; 
+    height: 152px;
+    width: 152px;
+}
+
+.profile-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.image-upload-container label {
+    cursor: pointer;
+    margin-bottom: 0;
 }
