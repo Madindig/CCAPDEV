@@ -1,0 +1,171 @@
+
+<style>
+
+body {
+    margin: 0;
+}
+
+.navbar {
+    background-color: #45474b;
+    color: #f7f6f9;
+}
+
+.selfbg {
+display: flex;
+padding: 40px;
+justify-content: space-around;
+
+} 
+
+
+.viewbg {
+padding: 40px;
+justify-content: space-around;
+}
+
+.selfgym {
+width: 700px;
+height: 500px;
+border: 1px solid #495e57;
+background-color: #495e57;
+border-radius: 25px;
+display:flex;
+margin-bottom:40px;
+}
+
+.viewgym {
+margin: auto;
+width: 1300px;
+height: 500px;
+border: 1px solid #495e57;
+background-color: #495e57;
+border-radius: 25px;
+display:flex;
+margin-bottom:40px;
+}
+
+
+.basicInfo {
+display:flex;	
+padding:20px;
+margin-top:20px;
+margin-left:15px;
+}
+
+.basicInfo .pfp {
+display: flex;
+margin-left: 10px;
+margin-right: 20px;
+}
+
+.basicInfo .wordinfo {
+margin-left: 10px;
+margin-right: 20px;
+margin-top: 20px;
+color: white;
+}
+
+.bioinfo {
+margin-left:45px;
+}
+
+.bigpics {
+    margin-top: 40px;
+}
+.smallpics {
+    display:flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+
+.makereview {
+    width: 750px;
+    height: 300px;
+    border: 1px solid #495e57;
+    background-color: #495e57;
+    border-radius: 25px;
+    margin-left: 263px;
+    margin-top: 0px;
+    padding:20px;
+}
+
+.reviewcontainerview {
+    margin-left: 233px;
+    margin-top: 30px;
+    overflow-x:hidden; 
+    overflow-y:auto; 
+    height:700px;
+}
+
+.reviewcontainerself {
+    overflow-x:hidden; 
+    overflow-y:auto; 
+    height:700px;
+}
+
+.review {
+    width: 750px;
+    height: 100px;
+    border: 1px solid #495e57;
+    background-color: #495e57;
+    border-radius: 25px;
+    margin: 30px;
+    margin-top: 0px;
+    display:flex;
+}
+
+
+.review .gymthumbnail {
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+.review .stars {
+    color:white;
+    margin-left: 5px;
+    margin-bottom: -10px;
+    padding: 5px;
+    line-height: 10px;
+    display: flex;
+}
+
+
+.review .reviewtext {
+    color:white;
+    margin-top: 12px;
+    margin-left: 5px;
+    padding: 5px;
+    line-height: 10px;
+}
+
+.gymthumbnail img {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    width: 200px;
+    height: 100px;
+}
+
+
+.logout {
+width: 100px;
+height: 40px;
+border: 1px solid #495e57;
+background-color: #495e57;
+border-radius: 35px;
+margin-left: 1680px;
+color: white;
+text-align:center;
+padding-top:5px;
+}
+
+.stars{
+    color:white;
+    margin:auto;
+}
+
+.starrating {
+    display:flex;
+    margin-top:30px;
+}
+</style>
