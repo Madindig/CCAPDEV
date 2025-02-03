@@ -1,13 +1,49 @@
-
-body {
-	margin: 0;
-	
+.navbar {
+    background-color: #45474b;
+    color: #f7f6f9;
 }
+
+.btn-navbar {
+    background-color: white;
+    color: #333a3f;
+}
+
+.btn-navbar:hover {
+    color: #333a3f;
+    background-color: #e2e6ec;
+}
+
 
 .navbar {
     background-color: #45474b;
     color: #f5f5f5;
 }
+
+body {
+	margin: 0;
+    background-image: url(https://st2.depositphotos.com/1875497/10890/i/600/depositphotos_108901614-stock-photo-blur-gym-and-fitness-room.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    opacity: .1;
+  }
+
+ ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 
 .bg {
 display: flex;
@@ -47,7 +83,7 @@ margin-left:30px;
 .reviewcontainer {
 	overflow-x:hidden; 
 	overflow-y:auto; 
-	height:700px;
+	height:750px;
 }
 
 .reviewcontainer .review {
@@ -114,44 +150,3 @@ padding-top:5px;
 
 
 
-
-
-
-.navbar {
-    background-color: #45474b;
-    color: #f7f6f9;
-}
-
-.btn-navbar {
-    background-color: white;
-    color: #333a3f;
-}
-
-.btn-navbar:hover {
-    color: #333a3f;
-    background-color: #e2e6ec;
-}
-
-.image-upload-container {
-    border: 1px solid #ced4da;
-    padding: 1px; 
-    display: flex;
-    overflow: hidden; 
-    height: 156px;
-    width: 156px;
-}
-
-.profile-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.image-upload-container label {
-    cursor: pointer;
-    margin-bottom: 0;
-}
-
-textarea {
-    resize: none;
-}
