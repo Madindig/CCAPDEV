@@ -20,6 +20,7 @@
     overflow: hidden; 
     height: 156px;
     width: 156px;
+    
 }
 
 .profile-image {
@@ -46,11 +47,13 @@ textarea {
 
 .search-card-body {
     background-color: #485e58;
+    
 }
 
 .search-card {
     width: 55%;
     border:none;
+    border-radius:25px;
 }
 
 .search-card-body {
@@ -70,6 +73,16 @@ textarea {
     display: flex;
     padding: 40px;
     justify-content: center;
+}
+
+.blur {
+    padding: 40px;
+    justify-content: center;
+    background-image: url(https://www.commercialhomegym.com/cdn/shop/files/slider_bg_gym.jpg?v=1701987096&width=3840);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
  .review {
