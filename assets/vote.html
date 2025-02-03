@@ -68,15 +68,15 @@
             const upClass = upButton.classList;
             const downClass = downButton.classList;
 			
-			function toggleUp() {
-				upButton.classList.toggle('vote-button-up-empty');
-                upButton.classList.toggle('vote-button-up-checked');
-			}
+	    function toggleUp() {
+		upButton.classList.toggle('vote-button-up-empty');
+                    upButton.classList.toggle('vote-button-up-checked');
+	    }
 			
-			function toggleDown() {
-				downButton.classList.toggle('vote-button-down-empty');
-                downButton.classList.toggle('vote-button-down-checked');
-			}
+	    function toggleDown() {
+		    downButton.classList.toggle('vote-button-down-empty');
+                    downButton.classList.toggle('vote-button-down-checked');
+	    }
 
             if (upClass.contains('vote-button-up-empty') && downClass.contains('vote-button-down-empty')) {
                 if (choice === 'up') {
@@ -89,10 +89,10 @@
             } else if(upClass.contains('vote-button-up-checked') && choice === 'up') {
 				toggleUp();
 				//console.log("Removing upvote");
-			} else if(downClass.contains('vote-button-down-checked') && choice === 'down') {
+	    } else if(downClass.contains('vote-button-down-checked') && choice === 'down') {
 				toggleDown();
 				//console.log("Removing downvote");
-			} else {
+	    } else {
                 toggleUp();
                 toggleDown();
 				/*
