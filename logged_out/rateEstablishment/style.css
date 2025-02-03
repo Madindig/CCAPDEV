@@ -1,7 +1,30 @@
 
 body {
     margin: 0;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/002/901/886/large_2x/abstract-blurred-fitness-or-gym-background-free-photo.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    opacity: .1;
+  }
+
+ ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
 
 .navbar {
     background-color: #45474b;
@@ -99,7 +122,7 @@ margin-left:45px;
 .reviewcontainerself {
     overflow-x:hidden; 
     overflow-y:auto; 
-    height:700px;
+    height:750px;
 }
 
 .review {
@@ -168,8 +191,6 @@ padding-top:5px;
 }
 
 
-
-
 .navbar {
     background-color: #45474b;
     color: #f7f6f9;
@@ -183,28 +204,4 @@ padding-top:5px;
 .btn-navbar:hover {
     color: #333a3f;
     background-color: #e2e6ec;
-}
-
-.image-upload-container {
-    border: 1px solid #ced4da;
-    padding: 1px; 
-    display: flex;
-    overflow: hidden; 
-    height: 156px;
-    width: 156px;
-}
-
-.profile-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.image-upload-container label {
-    cursor: pointer;
-    margin-bottom: 0;
-}
-
-textarea {
-    resize: none;
 }
