@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <!-- Navbar Logged-Out -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar-container">
+        <div class="container">
+    
+            <!-- Logo -->
+            <div class="logo">
+                <a class="navbar-brand" href="#">Spotter</a>  
+            </div>
+            
+            <!-- Search -->
+            <div class="input-group ml-5">
+                <input type="text" class="form-control border-left-0 border-0" id="searchQuery" placeholder="Search" aria-describedby="search-addon">
+                <div class="input-group-append">
+                    <span class="btn btn-warning border-0" id="search-addon">Search</span>
+                </div>
+            </div>
+    
+            <!-- Spacers -->
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+            <div class="ml-5"></div>
+    
+            <!-- Buttons for Login and Sign up -->
+            <a class="nav-link btn btn-navbar" href="#" id="peopleButton" data-toggle="modal" data-target="#peopleLoginModal">People</a>
+            <a class="nav-link btn btn-navbar ml-3" href="#" id="businessButton" data-toggle="modal" data-target="#businessLoginModal">Business</a>
+        </div>
+    </nav>
+
+	<!-- Body -->
+	<div class ="viewbg">
+		<div class="viewgym">
+			<div>
+				<div class ="basicInfo">
+					<div class="pfp">
+						<img src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-660714144-1516227341.jpg"style=  "border-radius:25px; width:300px; height:200px;">
+							<div class="wordinfo">
+							<h3> Albuquerque City Gym </h3>
+							<div class="stars">
+								<h5>insert stars here</h5>
+							</div>
+							</div>
+							
+					</div>
+				</div>
+				<div class="bioinfo">
+					<textarea id="description" name="description" rows="3" cols="80" style="border-radius: 25px"readonly>
+						enter description here.
+					</textarea>
+				</div>
+				<div>
+					<div class="starrating">
+						<div class="stars">
+							<h5>insert stars here</h5>
+						</div>
+						<div class="stars">
+							<h5>insert stars here</h5>
+						</div>
+					</div>
+					<div class="starrating">
+						<div class="stars">
+							<h5>insert stars here</h5>
+						</div>
+						<div class="stars">
+							<h5>insert stars here</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="bigpics">
+					<img src="https://snworksceo.imgix.net/cav/8d443aec-2090-4e9e-8793-6b95d830d89f.sized-1000x1000.JPG?w=1000" style=  "border-radius:25px; width:550px; height:300px;">
+				</div>
+				<div class="smallpics">
+					<div>
+					<img src="https://cdn.prod.website-files.com/65d7b904c0af185c6d721f6f/667331aa70b1676c48307c53_Man-Chest-Fly-NewYorkCity.webp" style=  "border-radius:25px; width:130px; height:100px;">
+					</div>
+					<div>
+					<img src="https://cdn.prod.website-files.com/65d7b904c0af185c6d721f6f/667331aa70b1676c48307c53_Man-Chest-Fly-NewYorkCity.webp" style=  "border-radius:25px; width:130px; height:100px;">
+					</div>
+					<div>
+					<img src="https://cdn.prod.website-files.com/65d7b904c0af185c6d721f6f/667331aa70b1676c48307c53_Man-Chest-Fly-NewYorkCity.webp" style=  "border-radius:25px; width:130px; height:100px;">
+					</div>
+					<div>
+					<img src="https://cdn.prod.website-files.com/65d7b904c0af185c6d721f6f/667331aa70b1676c48307c53_Man-Chest-Fly-NewYorkCity.webp" style=  "border-radius:25px; width:130px; height:100px;">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="makereview">
+			<div class="stars">
+				<h5>insert stars here</h5>
+			</div>
+			<textarea id="review" name="review" rows="3" cols="90" style="border-radius: 25px; margin-top:10px;">
+				enter review here.
+			</textarea>
+			<div>
+				<div class="starrating">
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+				</div>
+				<div class="starrating">
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class ="reviewcontainerview">
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2020/02/Breaking-Bad-things-Walter-White-feature.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5>insert stars here</h5>
+					</div>
+					<div class="reviewtext">
+						<p> Profile Name: Walter H. White </p>
+						<p> Review: yap yap yap yap yap </p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- People Login Modal -->
+
+    <div class="modal fade" id="peopleLoginModal" tabindex="-1" aria-labelledby="peopleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="peopleModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="peopleLoginUsername" placeholder="Enter Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="peopleLoginPassword" placeholder="Enter Password">
+                        </div>
+    
+                        <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="peopleLoginButton">Log In</button>
+ 
+                        <label class="register mt-2"> 
+                            Don't have an account? Register <a href=" " id="people-register-link" data-toggle="modal" data-target="#peopleRegisterModal">here</a>.
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- People Register Modal -->
+
+    <div class="modal fade" id="peopleRegisterModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-7">  
+                                <div class="form-group">
+                                    <label for="username">Username:</label>
+                                    <input type="text" class="form-control" id="peopleRegisterUsername" placeholder="Enter Username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" class="form-control" id="peopleRegisterPassword" placeholder="Enter Password">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password:</label>
+                                    <input type="password" class="form-control" id="peopleRegisterConfirmPassword" placeholder="Confirm Password">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">  
+                                <div class="form-group">
+                                    <label for="profileImage">Profile Image:</label>
+                                    <div class="image-upload-container">  
+                                        <img id="profileImageDisplay" src="/assets/default_avatar.jpg" alt="" class="profile-image">
+                                    </div>
+                                    <div class="custom-file mt-3">
+                                        <input type="file" class="custom-file-input" id="peopleProfilePictureFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="row"> 
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label for="description">Short Description:</label>
+                                    <textarea class="form-control short-desc" id="peopleProfileDescription" rows="2" placeholder="Enter a short description"></textarea>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="row">  
+                            <div class="col-md-12">  
+                                <label class="privacy-policy">
+                                    By clicking Submit, you agree on our <a href="#" class="privacy-link">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <div class="col-md-12">  
+                                <button type="submit" class="btn btn-primary btn-block mt-3" id="peopleRegisterButton">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Login Modal -->
+
+    <div class="modal fade" id="businessLoginModal" tabindex="-1" aria-labelledby="businessModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="businessModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="businessLoginUsername" placeholder="Enter Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="businessLoginPassword" placeholder="Enter Password">
+                        </div>
+    
+                        <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="businessLoginButton">Log In</button>
+                        
+                        <label class="register mt-2"> 
+                            Don't have an account? Register <a href="#" id="business-register-link" data-toggle="modal" data-target="#businessRegisterModal">here</a>.
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Register Modal -->
+
+    <div class="modal fade" id="businessRegisterModal" tabindex="-1" aria-labelledby="businessRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="businessRegisterModalLabel">Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-7">  
+                                <div class="form-group">
+                                    <label for="username">Username:</label>
+                                    <input type="text" class="form-control" id="businessRegisterUsername" placeholder="Enter Username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="username">Contact Number:</label>
+                                    <input type="text" class="form-control" id="businessRegisterContact" placeholder="Enter Contact No.">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" class="form-control" id="businessRegisterPassword" placeholder="Enter Password">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password:</label>
+                                    <input type="password" class="form-control" id="businessRegisterConfirmPassword" placeholder="Confirm Password">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">  
+                                <div class="form-group">
+                                    <label for="profileImage">Profile Image:</label>
+                                    <div class="image-upload-container">  
+                                        <img id="profileImageDisplay" src="/assets/default_avatar.jpg" alt="" class="profile-image">
+                                    </div>
+                                    <div class="custom-file mt-3">
+                                        <input type="file" class="custom-file-input" id="businessProfilePictureFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="row"> 
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label for="address">Address:</label>
+                                    <textarea class="form-control short-desc" id="businessAddress" rows="2" placeholder="Enter address"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label for="description">Short Description:</label>
+                                    <textarea class="form-control short-desc" id="businessProfileDescription" rows="2" placeholder="Enter a short description"></textarea>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="row">  
+                            <div class="col-md-12">  
+                                <label class="privacy-policy">
+                                    By clicking Submit, you agree on our <a href="#" class="privacy-link">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <div class="col-md-12">  
+                                <button type="submit" class="btn btn-primary btn-block mt-3" id="businessRegisterButton">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+    <!-- Script for Modals -->
+    <script>
+        $(document).ready(function() {
+            $('#people-register-link').click(function() {
+                $('#peopleRegisterModal').modal('show');
+                $('#peopleLoginModal').modal('hide');
+            });
+
+            $('#business-register-link').click(function() {
+                $('#businessRegisterModal').modal('show');
+                $('#businessLoginModal').modal('hide');
+            });
+
+        });
+    </script>
+</body>
+</html>
