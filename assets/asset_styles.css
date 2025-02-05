@@ -2,8 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 72px;
-    height: 33px;
+    height: 100%;
 }
 
 .position-absolute {
@@ -11,8 +10,7 @@
 }
 
 .vote-button {
-    width: 36px;
-    height: 33px;
+    width: 50%;
     padding: 0;
     margin: 0;
     border: none;
@@ -41,8 +39,7 @@
 }
 
 .star-container {
-		height: 36px;
-		width: 180px;
+		height: 100%;
 		padding: 0px;
 		border-width: 0px;
 	  background-image: url('images/5_stars_empty.svg'); 
