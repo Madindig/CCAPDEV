@@ -10,12 +10,12 @@ const establishmentSchema = new mongoose.Schema({
   rating: { type: Number },
   establishmentCreationDate: { type: Date, default: Date.now },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  mainPicture: { type: String, required: true },  // URL or file path for the main picture
+  mainPicture: { type: String, required: true },
   supportingPictures: { 
     type: [String], 
     validate: {
       validator: function(value) {
-        return value.length <= 5;  // Ensure a maximum of 5 pictures
+        return value.length <= 5;
       },
       message: 'Supporting pictures cannot exceed 5.'
     } 

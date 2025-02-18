@@ -118,7 +118,7 @@ router.delete('/reviews/:reviewId', async (req, res) => {
       return res.status(404).json({ message: 'Review not found' });
     }
 
-    // Ensure the logged-in user is the one who created the review
+    // Ensure the logged in user is the one who created the review
     if (review.username !== username) {
       return res.status(403).json({ message: 'You are not authorized to delete this review' });
     }
