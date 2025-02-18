@@ -35,7 +35,7 @@ mongoose
 // Use routes
 app.use("/api/users", userRoutes);
 app.use("/api/establishments", establishmentRoutes);
-app.use("/api/reviews", reviewRoutes);
+app.use("/api/establishments", reviewRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
