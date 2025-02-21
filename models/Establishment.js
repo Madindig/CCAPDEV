@@ -9,7 +9,7 @@ const establishmentSchema = new mongoose.Schema({
   contactNumber: { type: String },
   rating: { type: Number },
   establishmentCreationDate: { type: Date, default: Date.now },
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   mainPicture: { type: String, required: true },
   supportingPictures: { 
     type: [String], 

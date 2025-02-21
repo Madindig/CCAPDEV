@@ -10,11 +10,11 @@ const validateReviewData = (data) => {
 };
 
 // Create a new review for an establishment
-router.post('/:establishmentId/reviews', async (req, res) => {
+router.post('/:establishmentId/createReview', async (req, res) => {
   try {
     const { reviewText, rating, supportingPictures } = req.body;
     const establishmentId = req.params.establishmentId;
-    const username = req.session.user.username; // Assuming the logged-in user's username is available in the session
+    const username = req.session.user.username;
 
     // Ensure all required fields are provided
     if (!validateReviewData(req.body)) {
@@ -79,11 +79,6 @@ router.put('/reviews/:reviewId', async (req, res) => {
       return res.status(404).json({ message: 'Review not found' });
     }
 
-    // Ensure the logged-in user is the one who created the review
-    if (review.username !== username) {
-      return res.status(403).json({ message: 'You are not authorized to update this review' });
-    }
-
     // Update the review fields
     review.reviewText = reviewText || review.reviewText;
     review.rating = rating || review.rating;
@@ -116,11 +111,6 @@ router.delete('/reviews/:reviewId', async (req, res) => {
 
     if (!review) {
       return res.status(404).json({ message: 'Review not found' });
-    }
-
-    // Ensure the logged in user is the one who created the review
-    if (review.username !== username) {
-      return res.status(403).json({ message: 'You are not authorized to delete this review' });
     }
 
     // Delete the review

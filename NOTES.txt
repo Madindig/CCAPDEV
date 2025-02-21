@@ -1,0 +1,5 @@
+Lacking:
+- Password hashing
+- Image upload
+- Requiring image to be uploaded for registration
+- Updating profile image
