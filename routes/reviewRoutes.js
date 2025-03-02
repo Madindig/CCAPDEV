@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Review = require('../models/Review');
-const Establishment = require('../models/Establishment');
 
 // Helper function to validate review data
 const validateReviewData = (data) => {
@@ -10,20 +9,16 @@ const validateReviewData = (data) => {
 };
 
 // Create a new review for an establishment
-router.post('/:establishmentId/createReview', async (req, res) => {
+router.post('/establishments/:establishmentId/reviews', async (req, res) => {
   try {
-    const { reviewText, rating, supportingPictures } = req.body;
+    const { reviewText, rating } = req.body;
     const establishmentId = req.params.establishmentId;
     const username = req.session.user.username;
+    const userId = req.session.user._id;
 
     // Ensure all required fields are provided
     if (!validateReviewData(req.body)) {
       return res.status(400).json({ message: 'Missing required fields' });
-    }
-
-    // Validate supportingPictures (maximum of 5 pictures)
-    if (supportingPictures && supportingPictures.length > 5) {
-      return res.status(400).json({ message: 'Supporting pictures cannot exceed 5' });
     }
 
     // Create the new review object
@@ -31,8 +26,8 @@ router.post('/:establishmentId/createReview', async (req, res) => {
       reviewText,
       rating,
       username,
-      establishmentId,
-      supportingPictures
+      userId,
+      establishmentId
     });
 
     // Save the review to the database
@@ -46,13 +41,12 @@ router.post('/:establishmentId/createReview', async (req, res) => {
 });
 
 // Get all reviews for a specific establishment
-router.get('/:establishmentId/reviews', async (req, res) => {
+router.get('/establishments/:establishmentId/reviews', async (req, res) => {
   try {
     const establishmentId = req.params.establishmentId;
 
     // Find reviews for the establishment
-    const reviews = await Review.find({ establishmentId })
-      .sort({ reviewDate: -1 }); // Sort by latest review first
+    const reviews = await Review.find({ establishmentId }).sort({ createdAt: -1 });
 
     if (reviews.length === 0) {
       return res.status(404).json({ message: 'No reviews found for this establishment' });
@@ -65,11 +59,27 @@ router.get('/:establishmentId/reviews', async (req, res) => {
   }
 });
 
-// Update a review by review ID
+// Get a specific review by ID
+router.get('/reviews/:reviewId', async (req, res) => {
+  try {
+    const reviewId = req.params.reviewId;
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    res.json(review);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
+// Update a review by ID
 router.put('/reviews/:reviewId', async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
-    const { reviewText, rating, supportingPictures } = req.body;
+    const { reviewText, rating } = req.body;
     const username = req.session.user.username;
 
     // Find the review by ID
@@ -83,13 +93,6 @@ router.put('/reviews/:reviewId', async (req, res) => {
     review.reviewText = reviewText || review.reviewText;
     review.rating = rating || review.rating;
 
-    // Only update supporting pictures if they are provided, and validate the number of pictures
-    if (supportingPictures && supportingPictures.length <= 5) {
-      review.supportingPictures = supportingPictures || review.supportingPictures;
-    } else if (supportingPictures) {
-      return res.status(400).json({ message: 'Supporting pictures cannot exceed 5' });
-    }
-
     // Save the updated review
     await review.save();
 
@@ -100,7 +103,7 @@ router.put('/reviews/:reviewId', async (req, res) => {
   }
 });
 
-// Delete a review by review ID
+// Delete a review by ID
 router.delete('/reviews/:reviewId', async (req, res) => {
   try {
     const reviewId = req.params.reviewId;

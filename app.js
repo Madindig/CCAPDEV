@@ -1,8 +1,8 @@
 /*
-  Import the necessary packages
+  Import necessary packages:
   1. express.js
   2. mongoose
-  3. dontenv (loads environment variables from .env file)
+  3. dotenv (loads environment variables)
   4. express-session (manages user sessions)
 */
 const express = require("express");
@@ -11,42 +11,44 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 
 /*
-  Import routes
-  1. user-related routes (login, registration, etc.)
-  2. routes for establishments
-  3. routes for reviews of establishment
+  Import routes:
+  1. User routes (login, registration, etc.)
+  2. Establishment routes
+  3. Review routes
 */
 const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 
-// Loads variables from the .env file into process.env
+// Load environment variables
 dotenv.config();
 
-// Creates a new instance of an Express application
+// Initialize Express application
 const app = express();
 
-// Parses incoming JSON requests and makes them accessible via req.body
+// Parse incoming JSON requests
 app.use(express.json());
 
 app.use(
   session({
-  secret: process.env.SESSION_SECRET, // Secret used to sign session cookies for security
-  resave: false, // Do not save session data if it hasn’t changed
-  saveUninitialized: true, // Save a new, but unmodified session (e.g., login sessions)
-  cookie: { secure: false } // Cookie settings; 'secure: false' means HTTPS is not required (use 'true' in production with HTTPS)
+    secret: process.env.SESSION_SECRET, // Secret key for signing session cookies
+    resave: false, // Do not save session if it hasn't changed
+    saveUninitialized: true, // Save new sessions
+    cookie: { secure: false } // Use 'true' in production with HTTPS
   })
 );
 
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI) // Connects to MongoDB using URI from environment variables
-  .then(() => console.log("✅ Connected to MongoDB")) // On successful connection, logs confirmation
-  .catch(err => console.error("❌ MongoDB Connection Error:", err)); // Logs error if connection fails
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-app.use("/api/users", userRoutes); // All user routes start with '/api/users'
-app.use("/api/establishments", establishmentRoutes); // Establishment routes start with '/api/establishments'
-app.use("/api/establishments", reviewRoutes); // Review routes also nested under '/api/establishments'
+// Define API routes
+app.use("/api/users", userRoutes); // User-related routes
+app.use("/api/establishments", establishmentRoutes); // Establishment routes
+app.use("/api", reviewRoutes); // Review routes (not nested under establishments)
 
 // Start the server
-const PORT = process.env.PORT; // Uses PORT from environment
-app.listen(PORT, () => console.log(`🚀 Server running on http://127.0.0.1:${PORT}`)); // Starts server and logs URL
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on http://127.0.0.1:${PORT}`));

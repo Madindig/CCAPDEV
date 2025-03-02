@@ -5,10 +5,13 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  profilePic: { type: String },
-  role: { type: String, required: true },
-  accountCreationDate: { type: Date, default: Date.now }
-});
+  role: { 
+    type: String, 
+    required: true, 
+    enum: ["user", "business"],
+    default: "user" 
+  },
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

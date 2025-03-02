@@ -2,13 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Establishment = require("../models/Establishment");
 
-// Helper function to validate establishment data
-const validateEstablishmentData = (data) => {
-  const { name, amenities, location, address, shortDescription, contactNumber, mainPicture } = data;
-  return name && amenities && location && address && shortDescription && contactNumber && mainPicture;
-};
-
-// Get All Establishments
+// Get all establishments
 router.get("/", async (req, res) => {
   try {
     const establishments = await Establishment.find();
@@ -18,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Establishment by ID
+// Get a specific establishment by ID
 router.get("/:id", async (req, res) => {
   try {
     const establishment = await Establishment.findById(req.params.id);
@@ -29,15 +23,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new Establishment
+// Create a new establishment
 router.post("/", async (req, res) => {
   try {
-    const { name, amenities, location, address, shortDescription, contactNumber, mainPicture } = req.body;
-
-    // Ensure all required fields are provided
-    if (!validateEstablishmentData(req.body)) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
+    const { name, amenities, location, address, shortDescription, contactNumber } = req.body;
 
     // Create the new establishment object
     const newEstablishment = new Establishment({
@@ -47,7 +36,6 @@ router.post("/", async (req, res) => {
       address,
       shortDescription,
       contactNumber,
-      mainPicture,
       owner: req.session.user._id, // Save the logged-in user's ID as the owner
     });
 
@@ -60,43 +48,35 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Delete
-router.delete("/:id", async (req, res) => {
+// Update an establishment
+router.put("/:id", async (req, res) => {
   try {
-    // Find the establishment by ID
     const establishment = await Establishment.findById(req.params.id);
 
-    // Check if the establishment exists
     if (!establishment) {
       return res.status(404).json({ message: "Establishment not found" });
     }
 
-    // Proceed with the deletion
-    await Establishment.findByIdAndDelete(req.params.id);
+    const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    // Respond with success
-    res.json({ message: "Establishment deleted successfully" });
+    res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-
-// Update
-router.put("/:id", async (req, res) => {
+// Delete an establishment
+router.delete("/:id", async (req, res) => {
   try {
-    // Find the establishment by ID
     const establishment = await Establishment.findById(req.params.id);
 
-    // Check if the establishment exists
     if (!establishment) {
       return res.status(404).json({ message: "Establishment not found" });
     }
-    // Proceed with the update
-    const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    // Respond with the updated establishment
-    res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
+    await Establishment.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Establishment deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }

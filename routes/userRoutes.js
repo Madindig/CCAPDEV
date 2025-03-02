@@ -1,64 +1,75 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const { body, validationResult } = require("express-validator");
+const { isAuthenticated } = require("../middlewares/authMiddleware");
 
-// Register a User
-router.post(
-  "/register",
-  [
-    // Validate request body
-    body("firstName").notEmpty().withMessage("First name is required"),
-    body("lastName").notEmpty().withMessage("Last name is required"),
-    body("username").notEmpty().withMessage("Username is required"),
-    body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
-  ],
-  async (req, res) => {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+// Register a new user
+router.post("/", async (req, res) => {
+  try {
+    const { firstName, lastName, username, password, role } = req.body;
 
-    try {
-      const { firstName, lastName, username, password, role } = req.body;
+    // Check if user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) return res.status(400).json({ message: "Username already taken" });
 
-      // Check if user already exists
-      const existingUser = await User.findOne({ username });
-      if (existingUser) return res.status(400).json({ message: "Username already taken" });
+    // Create a new user
+    const newUser = new User({ firstName, lastName, username, password, role });
+    await newUser.save();
 
-      // Create a new user
-      const newUser = new User({ firstName, lastName, username, password, role });
-      await newUser.save();
-
-      res.status(201).json({ message: "User registered successfully!" });
-    } catch (err) {
-      res.status(500).json({ message: "Server error", error: err.message });
-    }
+    res.status(201).json({ message: "User registered successfully!" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
   }
-);
+});
 
-// User login route
+// User login
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Check if user exists in the database
+    // Check if user exists
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Compare passwords (Note: No hashing implemented yet, should be added for security)
+    // Compare passwords (No hashing yet)
     if (user.password !== password) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // Set user session (if session-based authentication is used)
-    req.session.user = user;
+    // Save user in session
+    req.session.user = {
+      _id: user._id.toString(),
+      username: user.username,
+      role: user.role
+    };
+    
 
     res.status(200).json({ message: "Login successful!", user });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
+});
+
+// check if a user is logged in
+router.get("/session", (req, res) => {
+  if (req.session.user) {
+    res.json({ isAuthenticated: true, user: req.session.user });
+  } else {
+    res.json({ isAuthenticated: false });
+  }
+});
+
+// clear the session when a user logs out.
+router.post("/logout", (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).json({ message: "No active session. User is already logged out." });
+  }
+
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json({ message: "Logout failed" });
+
+    res.json({ message: "Logged out successfully" });
+  });
 });
 
 // Get all users
@@ -71,10 +82,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get user by id
+// Get a specific user by ID
 router.get("/:id", async (req, res) => {
   try {
-    // Find user by id
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -84,10 +94,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update user
+// Update a user
 router.put("/:id", async (req, res) => {
   try {
-    // Find and update user
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
@@ -97,10 +106,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete user
+// Delete a user
 router.delete("/:id", async (req, res) => {
   try {
-    // Find and delete user
     const deletedUser = await User.findByIdAndDelete(req.params.id);
     if (!deletedUser) return res.status(404).json({ message: "User not found" });
 
@@ -110,5 +118,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Export router
 module.exports = router;
