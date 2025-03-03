@@ -1,75 +1,99 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const { isAuthenticated } = require("../middlewares/authMiddleware");
 
 // Register a new user
 router.post("/", async (req, res) => {
   try {
-    const { firstName, lastName, username, password, role } = req.body;
+    const { firstName, lastName, username, password, shortDescription = "", role } = req.body;
 
-    // Check if user already exists
+    // Validate role to prevent unauthorized roles
+    const validRoles = ["people", "business"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: "Invalid role selected." });
+    }
+
+    // Check if username already exists
     const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).json({ message: "Username already taken" });
+    if (existingUser) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
 
-    // Create a new user
-    const newUser = new User({ firstName, lastName, username, password, role });
+    // Create new user without hashing password
+    const newUser = new User({ firstName, lastName, username, password, role, shortDescription });
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully!" });
+    // Auto-login after successful registration
+    req.session.user = {
+      _id: newUser._id.toString(),
+      username: newUser.username,
+      role: newUser.role
+    };
+
+    res.status(201).json({ message: "Registration successful! You are now logged in.", user: req.session.user });
+
   } catch (err) {
+    console.error("Registration Error:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-// User login
+// Login a user
 router.post("/login", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
 
-    // Check if user exists
-    const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ message: "User not found" });
+    // Ensure role is provided and valid
+    if (!role || !["people", "business"].includes(role)) {
+      return res.status(400).json({ message: "Invalid or missing role." });
+    }
 
-    // Compare passwords (No hashing yet)
+    // Check if user exists with the specified role
+    const user = await User.findOne({ username, role });
+    if (!user) {
+      return res.status(404).json({ message: "User not found or incorrect role" });
+    }
+
     if (user.password !== password) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
-    // Save user in session
     req.session.user = {
       _id: user._id.toString(),
       username: user.username,
       role: user.role
     };
-    
 
-    res.status(200).json({ message: "Login successful!", user });
+    res.json({ message: "Login successful!", user: req.session.user });
+
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-// check if a user is logged in
+// Logout a user
+router.get("/logout", (req, res) => {
+  if (!req.session.user) {
+    // res.status(400).json({ message: "No active session. User is already logged out." });
+    return res.redirect("/");
+  }
+
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed" });
+    }
+    res.clearCookie("connect.sid", { path: "/" });
+    return res.redirect("/"); // Redirect to homepage after logout
+  });
+});
+
+// Check session
 router.get("/session", (req, res) => {
   if (req.session.user) {
     res.json({ isAuthenticated: true, user: req.session.user });
   } else {
     res.json({ isAuthenticated: false });
   }
-});
-
-// clear the session when a user logs out.
-router.post("/logout", (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).json({ message: "No active session. User is already logged out." });
-  }
-
-  req.session.destroy((err) => {
-    if (err) return res.status(500).json({ message: "Logout failed" });
-
-    res.json({ message: "Logged out successfully" });
-  });
 });
 
 // Get all users
@@ -110,7 +134,9 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) return res.status(404).json({ message: "User not found" });
+    if (!deletedUser) { 
+      return res.status(404).json({ message: "User not found" });
+    }
 
     res.json({ message: "User deleted successfully" });
   } catch (err) {

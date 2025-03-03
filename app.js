@@ -9,6 +9,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const path = require("path");
+const { engine } = require("express-handlebars");
+const sessionMiddleware = require("./middlewares/sessionMiddleware");
+
 
 /*
   Import routes:
@@ -19,12 +23,29 @@ const session = require("express-session");
 const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 
 // Load environment variables
 dotenv.config();
 
 // Initialize Express application
 const app = express();
+
+// Set Handlebars as the view engine
+app.engine(
+  "hbs",
+  engine({
+    extname: ".hbs",
+    defaultLayout: "main",
+    layoutsDir: path.join(__dirname, "views/layouts"),
+    partialsDir: path.join(__dirname, "views/partials"),
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+
+// Serve static files (CSS, JS, images)
+app.use(express.static(path.join(__dirname, "public")));
 
 // Parse incoming JSON requests
 app.use(express.json());
@@ -38,11 +59,16 @@ app.use(
   })
 );
 
+app.use(sessionMiddleware); // Makes session data available to Handlebars
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch(err => console.error("❌ MongoDB Connection Error:", err));
+
+// routes
+app.use("/", homeRoutes);
 
 // Define API routes
 app.use("/api/users", userRoutes); // User-related routes

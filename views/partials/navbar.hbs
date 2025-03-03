@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar-container">
+    <div class="container">
+        
+        <!-- Logo -->
+        <div class="logo" style="display: flex;">
+            <a class="navbar-brand" href="">Spotter <img src="/assets/images/logo.svg" alt="" style="width: 40px;"></a>  
+        </div>
+        
+        <!-- Search -->
+        <div class="input-group ml-5">
+            <input type="text" class="form-control border-left-0 border-0" id="searchQueryNavbar" placeholder="Search" aria-describedby="search-addon">
+            <div class="input-group-append">
+                <span class="btn btn-warning border-0" id="search-addon">Search</span>
+            </div>
+        </div>
+
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+        <div class="ml-5"></div>
+
+        {{#if isAuthenticated}}
+            <!-- Navbar when user is logged in -->
+            <a class="nav-link btn btn-navbar" href="" id="profileButton">Profile</a>
+            <a class="nav-link btn btn-navbar ml-3" href="/api/users/logout" id="logoutButton">Logout</a>
+        {{else}}
+            <!-- Navbar when user is logged out -->
+            <a class="nav-link btn btn-navbar" href="" id="peopleButton" data-toggle="modal" data-target="#loginModal">People</a>
+            <a class="nav-link btn btn-navbar ml-3" href="" id="businessButton" data-toggle="modal" data-target="#loginModal">Business</a>
+        {{/if}}
+
+    </div>
+</nav>
