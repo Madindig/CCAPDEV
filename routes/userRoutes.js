@@ -1,36 +1,103 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const User = require("../models/User");
+
+// Set up Multer storage for profile picture uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/profile_pictures/"); // Store images in this folder
+  },
+  filename: (req, file, cb) => {
+    const tempFilename = `temp_${Date.now()}${path.extname(file.originalname)}`;
+    cb(null, tempFilename); // Assign temporary filename
+  }
+});
+
+// Set up Multer middleware
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpg/;
+    const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    if (isValid) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpg files are allowed!"), false);
+    }
+  },
+  limits: { fileSize: 2 * 1024 * 1024 } // 2MB limit
+});
+
+router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, res) => {
+  if (!req.file) {
+    console.error("No file uploaded.");
+    return res.status(400).json({ message: "No file uploaded." });
+  }
+
+  console.log("Image uploaded successfully:", req.file.filename);
+
+  res.json({ message: "Temporary profile picture uploaded.", tempFilename: req.file.filename });
+});
 
 // Register a new user
 router.post("/", async (req, res) => {
   try {
-    const { firstName, lastName, username, password, shortDescription = "", role } = req.body;
+    const { firstName, lastName, username, password, shortDescription = "", role, tempFilename } = req.body;
 
-    // Validate role to prevent unauthorized roles
-    const validRoles = ["people", "business"];
-    if (!validRoles.includes(role)) {
+    if (!["people", "business"].includes(role)) {
       return res.status(400).json({ message: "Invalid role selected." });
     }
 
-    // Check if username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username already taken" });
     }
 
-    // Create new user without hashing password
-    const newUser = new User({ firstName, lastName, username, password, role, shortDescription });
-    await newUser.save();
+    let finalFilename = "default.jpg"; // Default profile picture
 
-    // Auto-login after successful registration
+    if (tempFilename) {
+      const tempFilePath = path.join("public/profile_pictures/", tempFilename);
+      if (fs.existsSync(tempFilePath)) {
+        finalFilename = `${username}_${Date.now()}${path.extname(tempFilename)}`;
+        const newFilePath = path.join("public/profile_pictures/", finalFilename);
+        fs.renameSync(tempFilePath, newFilePath);
+        console.log(`Profile picture renamed: ${tempFilename} → ${finalFilename}`);
+
+        // Delete the old temp file after renaming
+        if (fs.existsSync(tempFilePath)) {
+          fs.unlinkSync(tempFilePath);
+          console.log(`Deleted temporary file: ${tempFilename}`);
+        }
+      } else {
+        console.error(`Temporary profile picture not found: ${tempFilePath}`);
+      }
+    }
+
+    // Create the user AFTER assigning the correct profile picture filename
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      password,
+      role,
+      shortDescription,
+      profilePicture: finalFilename // Assign the correct profile picture
+    });
+
+    await newUser.save();
+    console.log(`Final profile picture saved to database: ${newUser.profilePicture}`);
+
     req.session.user = {
       _id: newUser._id.toString(),
       username: newUser.username,
-      role: newUser.role
+      role: newUser.role,
+      profilePicture: newUser.profilePicture
     };
 
-    res.status(201).json({ message: "Registration successful! You are now logged in.", user: req.session.user });
+    res.status(201).json({ message: "Registration successful!", user: req.session.user });
 
   } catch (err) {
     console.error("Registration Error:", err);

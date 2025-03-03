@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     enum: ["people", "business"],
     default: "people" 
   },
+  profilePicture: { type: String, default: "default.jpg" },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
