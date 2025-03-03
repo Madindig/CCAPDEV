@@ -3,7 +3,7 @@
         
         <!-- Logo -->
         <div class="logo" style="display: flex;">
-            <a class="navbar-brand" href="">Spotter <img src="/assets/images/logo.svg" alt="" style="width: 40px;"></a>  
+            <a class="navbar-brand" href="/">Spotter <img src="/assets/images/logo.svg" alt="" style="width: 40px;"></a>  
         </div>
         
         <!-- Search -->
@@ -24,8 +24,8 @@
 
         {{#if isAuthenticated}}
             <!-- Navbar when user is logged in -->
-            <a class="nav-link btn btn-navbar" href="" id="profileButton">Profile</a>
-            <a class="nav-link btn btn-navbar ml-3" href="/api/users/logout" id="logoutButton">Logout</a>
+            <a class="nav-link btn btn-navbar" href="/users/profile" id="profileButton">Profile</a>
+            <a class="nav-link btn btn-navbar ml-3" href="/users/logout" id="logoutButton">Logout</a>
         {{else}}
             <!-- Navbar when user is logged out -->
             <a class="nav-link btn btn-navbar" href="" id="peopleButton" data-toggle="modal" data-target="#loginModal">People</a>

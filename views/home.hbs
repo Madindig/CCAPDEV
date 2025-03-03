@@ -1,0 +1,268 @@
+    <!-- Search -->
+<div class="blur">
+    <div class="container mt-5">
+        <div class="card text-white search-card">
+            <div class="card-body search-card-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchQuery" placeholder="Enter your search here">
+                    </div>
+
+                    <div id="filter-accordion" class="row accordion-link">
+                        <!-- Amenities -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header" id="amenities-heading">
+                                    <h2 class="m-0 text-center">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#amenities-content" aria-expanded="true" aria-controls="amenities-content">
+                                            Select Amenities <span class="oi oi-chevron-bottom"></span>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="amenities-content" class="collapse" aria-labelledby="amenities-heading" data-parent="#filter-accordion">
+                                    <div class="card-body select-items">
+                                        <div class="amenities-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="lockers" name="amenities[]" value="lockers">
+                                                <label class="form-check-label" for="lockers">Lockers</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="parking" name="amenities[]" value="parking">
+                                                <label class="form-check-label" for="parking">Parking</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="pool" name="amenities[]" value="pool">
+                                                <label class="form-check-label" for="pool">Pool</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="sauna" name="amenities[]" value="sauna">
+                                                <label class="form-check-label" for="sauna">Sauna</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="smoothieBar" name="amenities[]" value="smoothieBar">
+                                                <label class="form-check-label" for="smoothieBar">Smoothie Bar</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="spaServices" name="amenities[]" value="spaServices">
+                                                <label class="form-check-label" for="spaServices">Spa Services</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="shower" name="amenities[]" value="shower">
+                                                <label class="form-check-label" for="shower">Shower</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="wifiAccess" name="amenities[]" value="wifiAccess">
+                                                <label class="form-check-label" for="wifiAccess">Wi-Fi Access</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header" id="region-heading">
+                                    <h2 class="m-0 text-center">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#region-content" aria-expanded="false" aria-controls="region-content">
+                                            Select Locations
+                                            <span class="oi oi-chevron-bottom"></span>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="region-content" class="collapse" aria-labelledby="region-heading" data-parent="#filter-accordion">
+                                    <div class="card-body select-items">
+                                        <div class="region-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="ncr-east" name="regions[]" value="ncr-east">
+                                                <label class="form-check-label" for="ncr-east">NCR-East</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="ncr-north" name="regions[]" value="ncr-north">
+                                                <label class="form-check-label" for="ncr-north">NCR-North</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="ncr-west" name="regions[]" value="ncr-west">
+                                                <label class="form-check-label" for="ncr-west">NCR-West</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="ncr-south" name="regions[]" value="ncr-south">
+                                                <label class="form-check-label" for="ncr-south">NCR-South</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="bulacan" name="regions[]" value="bulacan">
+                                                <label class="form-check-label" for="bulacan">Bulacan</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="cavite" name="regions[]" value="cavite">
+                                                <label class="form-check-label" for="cavite">Cavite</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="laguna" name="regions[]" value="laguna">
+                                                <label class="form-check-label" for="laguna">Laguna</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="rizal" name="regions[]" value="rizal">
+                                                <label class="form-check-label" for="rizal">Rizal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary btn-block search-btn">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+
+    <div class="bg">
+        <div>
+            <div class="review">
+				<div class="gymthumbnail">
+					<img src="https://contents.spin.ph/image/Anytime-Fitness-Gym.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Titan Gym </p>
+						<p> Review: Focuses on lifting and martial arts. A bit rough around the edges. </p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG9-E934dDzEAb_T8OhW6EARKxiZ-pFINhZA&s">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Gold Forge Gym QC </p>
+						<p> Review: Great equipment, but gets crowded during peak hours.</p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://www.usatoday.com/gcdn/presto/2020/04/16/USAT/5b7ef814-a04d-44c8-86ef-1d47c798a1f1-Golds_gym_CharlesTown.jpg?crop=2655,1494,x10,y0&width=2655&height=1494&format=pjpg&auto=webp">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Gold Forge Gym Makati</p>
+						<p> Review: Good machines, but staff could be more helpful. </p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://cdn.phonebooky.com/blog/wp-content/uploads/2018/12/30153027/slimmers.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: FlexSpace Gym </p>
+						<p> Review: Clean, but cramped. 24/7 access is a plus.</p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://cdn.phonebooky.com/blog/wp-content/uploads/2019/01/12172003/BKY-CN-GOLDS-GYM-8465.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Prime Fitness Gym </p>
+						<p> Review: Affordable but often noisy and overcrowded. </p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://www.pinoyfitness.com/wp-content/uploads/2020/07/Fitness-First-1-720x404.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: BodyZone Gym </p>
+						<p> Review: Decent equipment, but outdated and needs a refresh. </p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Rosemount%2C_MN_-_Anytime_Fitness_gym_exterior_%2843460728481%29.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: AnyFit Gym </p>
+						<p> Review: Great classes, but small space and limited equipment. </p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://slimmersworld.com.ph/wp-content/uploads/2018/10/Slimmersworld-Locations-Banner.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: CrunchCore Gym </p>
+						<p> Review: Has a foul smell and terrible equipment.</p>
+					</div>
+				</div>
+			</div>
+			<div class="review">
+				<div class="gymthumbnail">
+					<img src="https://classpass-res.cloudinary.com/image/upload/f_auto/q_auto/mwgobxqyowkjbtd4szpu.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Slimmers Park Gym </p>
+						<p> Review: Average gym for new gym-goers.</p>
+					</div>
+				</div>
+			</div>
+			<div class = "review">
+				<div class="gymthumbnail">
+					<img src="https://assets-metrostyle.abs-cbn.com/prod/metrostyle/attachments/2865813d-74e4-4ea3-8fef-017ab2efae97_sparta.jpg">
+				</div>
+				<div>
+					<div class="stars">
+						<h5><img src="../assets/images/star5.svg" class="star-container"></h5>
+					</div>
+					<div class="reviewtext">
+						<p> Gym Name: Sparta Gym </p>
+						<p> Review: MMA and training gym, highly recommended. </p>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

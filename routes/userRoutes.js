@@ -28,8 +28,27 @@ const upload = multer({
       cb(new Error("Only .jpg files are allowed!"), false);
     }
   },
-  limits: { fileSize: 2 * 1024 * 1024 } // 2MB limit
+  limits: { fileSize: 10 * 1024 * 1024 } // 2MB limit
 });
+
+router.get("/profile", async (req, res) => {
+  if (!req.session.user) {
+      return res.redirect("/users/login");
+  }
+
+  try {
+      const user = await User.findById(req.session.user._id).lean();
+      if (!user) {
+          return res.status(404).send("User not found");
+      }
+
+      res.render("profile", { user });
+  } catch (err) {
+      console.error("Error retrieving profile:", err);
+      res.status(500).send("Server error");
+  }
+});
+
 
 router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, res) => {
   if (!req.file) {
@@ -80,7 +99,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Username already taken" });
     }
 
-    let finalFilename = "default.jpg"; // Default profile picture
+    let finalFilename = "default_avatar.jpg"; // Default profile picture
 
     if (tempFilename) {
       const tempFilePath = path.join("public/profile_pictures/", tempFilename);

@@ -71,9 +71,9 @@ mongoose
 app.use("/", homeRoutes);
 
 // Define API routes
-app.use("/api/users", userRoutes); // User-related routes
-app.use("/api/establishments", establishmentRoutes); // Establishment routes
-app.use("/api", reviewRoutes); // Review routes (not nested under establishments)
+app.use("/users", userRoutes); // User-related routes
+app.use("/establishments", establishmentRoutes); // Establishment routes
+app.use("/", reviewRoutes); // Review routes (not nested under establishments)
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -55,7 +55,8 @@ const establishmentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
     required: true 
-  }
+  },
+  image: { type: String, default: "default_establishment.jpg" },
 }, { timestamps: true });
 
 const Establishment = mongoose.model('Establishment', establishmentSchema);
