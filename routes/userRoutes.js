@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const User = require("../models/User");
+const Establishment = require("../models/Establishment");
 
 // Set up Multer storage for profile picture uploads
 const storage = multer.diskStorage({
@@ -28,7 +29,7 @@ const upload = multer({
       cb(new Error("Only .jpg files are allowed!"), false);
     }
   },
-  limits: { fileSize: 10 * 1024 * 1024 } // 2MB limit
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
 
 router.get("/profile", async (req, res) => {
@@ -42,7 +43,14 @@ router.get("/profile", async (req, res) => {
           return res.status(404).send("User not found");
       }
 
-      res.render("profile", { user });
+      let gyms = [];
+      let userIsBusiness = user.role === "business";
+
+      if (userIsBusiness) {
+          gyms = await Establishment.find({ owner: user._id }).lean();
+      }
+
+      res.render("profile", { user, userIsBusiness, gyms });
   } catch (err) {
       console.error("Error retrieving profile:", err);
       res.status(500).send("Server error");
