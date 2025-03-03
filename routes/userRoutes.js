@@ -63,7 +63,7 @@ router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, 
 
 // Delete temp image if registration is not completed in 10 minutes
 setInterval(() => {
-  const dir = "public/profilePictures/";
+  const dir = "public/profile_pictures/";
   fs.readdir(dir, (err, files) => {
     if (err) return console.error("Error reading profile pictures directory:", err);
 
