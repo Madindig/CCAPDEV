@@ -42,6 +42,30 @@ router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, 
   res.json({ message: "Temporary profile picture uploaded.", tempFilename: req.file.filename });
 });
 
+// Delete temp image if registration is not completed in 10 minutes
+setInterval(() => {
+  const dir = "public/profilePictures/";
+  fs.readdir(dir, (err, files) => {
+    if (err) return console.error("Error reading profile pictures directory:", err);
+
+    files.forEach(file => {
+      if (file.startsWith("temp_")) {
+        const filePath = path.join(dir, file);
+        fs.stat(filePath, (err, stats) => {
+          if (err) return console.error("Error checking file:", err);
+          const now = Date.now();
+          if (now - stats.birthtimeMs > 10 * 60 * 1000) { // 10 minutes
+            fs.unlink(filePath, err => {
+              if (err) console.error("Error deleting temp file:", err);
+              else console.log("Deleted unused temp file:", file);
+            });
+          }
+        });
+      }
+    });
+  });
+}, 5 * 60 * 1000); // Run every 5 minutes
+
 // Register a new user
 router.post("/", async (req, res) => {
   try {

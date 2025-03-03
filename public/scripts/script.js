@@ -5,43 +5,38 @@ $(document).ready(function() {
     });
 });
 
-let tempFilename = ""; // Store temp filename globally
+let selectedFile = null; // Store selected file globally
 
-document.getElementById("profilePictureFile").addEventListener("change", async function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
+document.getElementById("profilePictureFile").addEventListener("change", function (event) {
+    selectedFile = event.target.files[0];
 
-    // Show the image preview
-    const preview = document.getElementById("profileImagePreview"); // Ensure this element exists in your HTML
+    if (!selectedFile) {
+        console.warn("No file selected.");
+        return;
+    }
+
+    console.log("Selected file:", selectedFile.name);
+
+    // Get the preview image element
+    const preview = document.getElementById("profileImagePreview");
+    if (!preview) {
+        console.error("Image preview element not found.");
+        return;
+    }
+
+    // Read the image file and update the preview
     const reader = new FileReader();
-
     reader.onload = function (e) {
         preview.src = e.target.result;
+        preview.style.display = "block"; // Ensure the image is visible
+        console.log("Image preview updated.");
     };
 
-    reader.readAsDataURL(file);
+    reader.onerror = function (error) {
+        console.error("Error reading file:", error);
+    };
 
-    console.log("Uploading profile picture:", file.name); // Debugging
-
-    const formData = new FormData();
-    formData.append("profilePicture", file);
-
-    try {
-        const response = await fetch("/api/users/uploadTempProfilePicture", {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            tempFilename = data.tempFilename;
-            console.log("Uploaded temp filename:", tempFilename);
-        } else {
-            console.error("Upload error:", data.message);
-        }
-    } catch (error) {
-        console.error("Error uploading profile pictureeee:", error);
-    }
+    reader.readAsDataURL(selectedFile); // Convert file to a data URL for preview
 });
 
 // Track the selected role (default to 'people')
@@ -56,11 +51,10 @@ document.getElementById("businessButton").addEventListener("click", function () 
     selectedRole = "business";
 });
 
-// **Ensure `tempFilename` is sent when registering**
 document.getElementById("registerButton").addEventListener("click", async function (event) {
     event.preventDefault();
 
-    console.log("Temp Filename Before Registration:", tempFilename); // Debugging
+    console.log("Registering user...");
 
     const firstName = document.getElementById("registerFirstName").value.trim();
     const lastName = document.getElementById("registerLastName").value.trim();
@@ -80,11 +74,34 @@ document.getElementById("registerButton").addEventListener("click", async functi
         return;
     }
 
-    // ✅ Check if tempFilename is empty
-    if (!tempFilename) {
-        console.warn("⚠ Warning: No profile picture uploaded. Using default.");
+    let tempFilename = ""; // Default to empty
+
+    // Upload the image only when the user clicks "Register"
+    if (selectedFile) {
+        console.log("Uploading profile picture...");
+
+        const formData = new FormData();
+        formData.append("profilePicture", selectedFile);
+
+        try {
+            const response = await fetch("/api/users/uploadTempProfilePicture", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                tempFilename = data.tempFilename;
+                console.log("Uploaded temp filename:", tempFilename);
+            } else {
+                console.error("Upload error:", data.message);
+            }
+        } catch (error) {
+            console.error("Error uploading profile picture:", error);
+        }
     }
 
+    // Send registration request
     try {
         const response = await fetch("/api/users", {
             method: "POST",
