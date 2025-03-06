@@ -159,17 +159,12 @@ router.post("/", async (req, res) => {
 // Login a user
 router.post("/login", async (req, res) => {
   try {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
 
-    // Ensure role is provided and valid
-    if (!role || !["people", "business"].includes(role)) {
-      return res.status(400).json({ message: "Invalid or missing role." });
-    }
-
-    // Check if user exists with the specified role
-    const user = await User.findOne({ username, role });
+    // Find user without requiring a role
+    const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ message: "User not found or incorrect role" });
+      return res.status(404).json({ message: "User not found." });
     }
 
     if (user.password !== password) {
@@ -179,7 +174,7 @@ router.post("/login", async (req, res) => {
     req.session.user = {
       _id: user._id.toString(),
       username: user.username,
-      role: user.role
+      role: user.role, // Now the role is retrieved from the database
     };
 
     res.json({ message: "Login successful!", user: req.session.user });
