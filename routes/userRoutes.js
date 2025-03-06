@@ -107,7 +107,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Username already taken" });
     }
 
-    let finalFilename = "default_avatar.jpg"; // Default profile picture
+    let finalFilename = tempFilename && tempFilename !== "default_avatar.jpg" ? `${username}_${Date.now()}${path.extname(tempFilename)}` : "default_avatar.jpg"; 
 
     if (tempFilename) {
       const tempFilePath = path.join("public/profile_pictures/", tempFilename);
@@ -209,52 +209,52 @@ router.get("/session", (req, res) => {
   }
 });
 
-// Get all users
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+// // Get all users
+// router.get("/", async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-// Get a specific user by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+// // Get a specific user by ID
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const user = await User.findById(req.params.id);
+//     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+//     res.json(user);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-// Update a user
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+// // Update a user
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
-    res.json({ message: "User updated successfully", user: updatedUser });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+//     res.json({ message: "User updated successfully", user: updatedUser });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-// Delete a user
-router.delete("/:id", async (req, res) => {
-  try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) { 
-      return res.status(404).json({ message: "User not found" });
-    }
+// // Delete a user
+// router.delete("/:id", async (req, res) => {
+//   try {
+//     const deletedUser = await User.findByIdAndDelete(req.params.id);
+//     if (!deletedUser) { 
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-    res.json({ message: "User deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+//     res.json({ message: "User deleted successfully" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
 module.exports = router;

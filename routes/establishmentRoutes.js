@@ -4,6 +4,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Establishment = require("../models/Establishment");
+const Review = require("../models/Review");
+const Comment = require("../models/Comment"); // need to load the comments
 
 // Configure Multer for Establishment Images
 const storage = multer.diskStorage({
@@ -34,82 +36,99 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // Limit file size to 5MB
 });
 
-// Get all establishments
-router.get("/", async (req, res) => {
-  try {
-    const establishments = await Establishment.find();
-    res.json(establishments);
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
-
 // Get a specific establishment by ID
 router.get("/:id", async (req, res) => {
   try {
-    const establishment = await Establishment.findById(req.params.id);
+    const establishment = await Establishment.findById(req.params.id).lean();
     if (!establishment) return res.status(404).json({ message: "Establishment not found" });
-    res.json(establishment);
+
+    // Get reviews for this establishment
+    const reviews = await Review.find({ establishmentId: req.params.id }).populate("userId", "username")
+    .lean();
+    // Modify reviews to include likes and dislikes count
+    const modifiedReviews = reviews.map(review => ({
+      ...review,
+      likesCount: review.likes.length, // Count likes
+      dislikesCount: review.dislikes.length // Count dislikes
+    }));
+    res.render("establishment", { establishment, reviews: modifiedReviews });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-// Create a new establishment with image upload
-router.post("/", upload.single("image"), async (req, res) => {
+router.get("/:establishmentId/reviews/:reviewId", async (req, res) => {
   try {
-    const { name, amenities, location, address, shortDescription, contactNumber } = req.body;
+    const review = await Review.findById(req.params.reviewId)
+      .populate({
+        path: "comments",
+        populate: { path: "userId", select: "username" }
+      })
+      .lean();
 
-    const newEstablishment = new Establishment({
-      name,
-      amenities,
-      location,
-      address,
-      shortDescription,
-      contactNumber,
-      owner: req.session.user._id,
-      image: req.file ? req.file.filename : "default_establishment.jpg"
-    });
+    if (!review) return res.status(404).json({ message: "Review not found" });
 
-    await newEstablishment.save();
-    res.status(201).json({ message: "Establishment created successfully!", establishment: newEstablishment });
+    res.json({ comments: review.comments });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-// Update an establishment
-router.put("/:id", async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
+// // Create a new establishment with image upload
+// router.post("/", upload.single("image"), async (req, res) => {
+//   try {
+//     const { name, amenities, location, address, shortDescription, contactNumber } = req.body;
 
-    if (!establishment) {
-      return res.status(404).json({ message: "Establishment not found" });
-    }
+//     const newEstablishment = new Establishment({
+//       name,
+//       amenities,
+//       location,
+//       address,
+//       shortDescription,
+//       contactNumber,
+//       owner: req.session.user._id,
+//       image: req.file ? req.file.filename : "default_establishment.jpg"
+//     });
 
-    const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     await newEstablishment.save();
+//     res.status(201).json({ message: "Establishment created successfully!", establishment: newEstablishment });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-    res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+// // Update an establishment
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const establishment = await Establishment.findById(req.params.id);
 
-// Delete an establishment
-router.delete("/:id", async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
+//     if (!establishment) {
+//       return res.status(404).json({ message: "Establishment not found" });
+//     }
 
-    if (!establishment) {
-      return res.status(404).json({ message: "Establishment not found" });
-    }
+//     const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    await Establishment.findByIdAndDelete(req.params.id);
+//     res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-    res.json({ message: "Establishment deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+// // Delete an establishment
+// router.delete("/:id", async (req, res) => {
+//   try {
+//     const establishment = await Establishment.findById(req.params.id);
+
+//     if (!establishment) {
+//       return res.status(404).json({ message: "Establishment not found" });
+//     }
+
+//     await Establishment.findByIdAndDelete(req.params.id);
+
+//     res.json({ message: "Establishment deleted successfully" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
 module.exports = router;

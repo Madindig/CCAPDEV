@@ -18,6 +18,9 @@ const reviewSchema = new mongoose.Schema({
     ref: 'Establishment', 
     required: true 
   },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 }, { timestamps: true });
 
 const Review = mongoose.model('Review', reviewSchema);

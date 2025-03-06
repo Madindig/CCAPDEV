@@ -1,6 +1,8 @@
-if (typeof selectedFile === "undefined") {
-    let selectedFile = null; // Declare it only once
-}
+// if (typeof selectedFile === "undefined") {
+//     let selectedFile = null; // Declare it only once
+// }
+
+let selectedFile = null;
 
 document.addEventListener("DOMContentLoaded", function () {
     const profilePictureInput = document.getElementById("profilePictureFile");
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            let tempFilename = ""; // Default to empty
+            let tempFilename = "";
 
             // Upload the image only when the user clicks "Register"
             if (selectedFile) {

@@ -22,7 +22,6 @@ const sessionMiddleware = require("./middlewares/sessionMiddleware");
 */
 const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 
 // Load environment variables
@@ -71,9 +70,8 @@ mongoose
 app.use("/", homeRoutes);
 
 // Define API routes
-app.use("/users", userRoutes); // User-related routes
+app.use("/users", userRoutes); // User related routes
 app.use("/establishments", establishmentRoutes); // Establishment routes
-app.use("/", reviewRoutes); // Review routes (not nested under establishments)
 
 // Start the server
 const PORT = process.env.PORT || 3000;
