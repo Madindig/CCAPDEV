@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const User = require("../models/User");
 const Establishment = require("../models/Establishment");
+const Review = require("../models/Review");
 
 // Set up Multer storage for profile picture uploads
 const storage = multer.diskStorage({
@@ -44,13 +45,24 @@ router.get("/profile", async (req, res) => {
       }
 
       let gyms = [];
+	  let reviews = [];
       let userIsBusiness = user.role === "business";
 
       if (userIsBusiness) {
           gyms = await Establishment.find({ owner: user._id }).lean();
-      }
-
-      res.render("profile", { user, userIsBusiness, gyms });
+      } else {
+		  reviews = await Review.find({ userId: user._id }).lean();
+		  for (let review of reviews) {
+              let currentGym = await Establishment.findOne({ _id: review.establishmentId }).lean();
+              if (currentGym) { 
+                  review.image = currentGym.image;
+                  review.name = currentGym.name;
+              }
+          }
+	  }
+	  
+	  res.render("profile", { user, userIsBusiness, gyms, reviews });
+      
   } catch (err) {
       console.error("Error retrieving profile:", err);
       res.status(500).send("Server error");

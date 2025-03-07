@@ -58,9 +58,26 @@
     </div>
 
     <div class="review-container">
+		<h2>My Reviews</h2>
+		{{#each reviews}}
+		<div class="gym-card">
+			<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
+			<div class="gym-details">
+				<h3>{{this.name}}</h3>
+				<p><strong>Rating:</strong> {{this.rating}}</p>
+				<p><strong>Review:</strong> {{this.reviewText}}</p>
+				<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+
+				<!-- Edit & Delete Gym Buttons -->
+				<button class="editGymButton" data-id="{{this._id}}">Edit</button>
+				<button class="deleteGymButton delete-btn" data-id="{{this._id}}">Delete</button>
+			</div>
+		</div>
+		{{/each}}
     </div>
 </div>
 
 {{/if}}
 
 <script src="/scripts/auth.js"></script>
+<script src="/scripts/comment.js"></script>
