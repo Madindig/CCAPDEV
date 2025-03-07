@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "67c98edc0012218f0b4a78db"
+  },
+  "reviewText": "Great gym with good equipment, but can be a bit crowded in the evenings.",
+  "rating": 4,
+  "userId": {
+    "$oid": "67ca4c2d6ade75a318841f5a"
+  },
+  "establishmentId": 
+  {
+    "$oid": "67c5cf4e0012218f0b4a78c2"
+  },
+  "likes": [
+    "67c981b38b40ae4a1f5a7b07",
+    "67c981e48b40ae4a1f5a7b0c",
+    "67c981758b40ae4a1f5a7b01"
+  ],
+  "dislikes": [],
+  "comments": [
+    "67c991050012218f0b4a78dd",
+    "67c9916b0012218f0b4a78de",
+    "67c991c70012218f0b4a78df",
+    "67c992100012218f0b4a78e0"
+  ],
+  "createdAt": "2025-03-06T12:02:36.837Z",
+  "updatedAt": "2025-03-06T12:02:36.837Z"
+}]

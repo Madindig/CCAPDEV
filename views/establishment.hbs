@@ -1,12 +1,18 @@
-<div class="establishment-details">
-    <h1>{{establishment.name}}</h1>
-    <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
-    
-    {{!-- <p><strong>Rating:</strong> {{this.rating}}</p> --}}
-    <p><strong>Location:</strong> {{establishment.location}}</p>
-    <p><strong>Amenities:</strong> {{establishment.amenities}}</p>
-    {{!-- <p><strong>Contact Number:</strong> {{this.contactNumber}}</p> --}}
-    <p>{{establishment.shortDescription}}</p>
+<div class = "bg">
+    <div class="establishment-details">
+        <div class = "left-establishment-details">
+            <h1><strong>{{establishment.name}}</strong></h1>
+            <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
+        </div>
+        <div class = "right-establishment-details">
+            <p><strong>Rating:</strong> {{establishment.rating}}</p>
+            <p><strong>Location:</strong> {{establishment.location}}</p>
+            <p><strong>Amenities:</strong> {{establishment.amenities}}</p>
+            <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
+            <p>{{establishment.shortDescription}}</p>
+        </div>
+        
+    </div>
 </div>
 
 <!-- Reviews Section -->
@@ -16,10 +22,10 @@
     {{#if reviews.length}}
         {{#each reviews}}
         <div class="review-card">
-            <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            <p><strong>Rating:</strong> {{this.rating}}</p>
-            <p><strong>Review:</strong> {{this.reviewText}}</p>
-            <p><strong>Posted at:</strong> {{this.createdAt}}</p>
+            <p><strong>Reviewed by: </strong> {{this.userId.username}}</p>
+            <p><strong>Rating: </strong> {{this.rating}}</p>
+            <p><strong>Review: </strong> {{this.reviewText}}</p>
+            <p><strong>Posted at: </strong> {{this.createdAt}}</p>
             <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
             
             <!-- Comment Button -->
