@@ -17,7 +17,7 @@
         {{#each reviews}}
         <div class="review-card">
             <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            <p><strong>Rating:</strong> {{this.rating}}</p>
+            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}<span></p>
             <p><strong>Review:</strong> {{this.reviewText}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
             <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
