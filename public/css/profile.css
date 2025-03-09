@@ -62,23 +62,28 @@ body {
 /* Gym and Review Sections */
 .gym-container, .review-container {
     margin: 30px auto;
-    width: 90%;
-    max-width: 800px;
+
+}
+
+.establishments-container{
+    display: flex;
+    justify-content: center;
 }
 
 .gym-card, .review-card {
     display: flex;
+    width: 100%;
     background-color: #495e57;
     border-radius: 15px;
-    padding: 10px;
     margin-bottom: 15px;
     color: #fff;
     align-items: center;
+    line-height: 50%;
 }
 
 .gym-card img, .review-card img {
     width: 120px;
-    height: 100px;
+    height: 160px;
     border-radius: 10px;
     object-fit: cover;
     margin-right: 15px;
@@ -86,6 +91,7 @@ body {
 
 .gym-details, .review-details {
     flex-grow: 1;
+    padding:5px;
 }
 
 .gym-details h3, .review-details h3 {
