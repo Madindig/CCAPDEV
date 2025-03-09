@@ -58,6 +58,7 @@ router.get("/profile", async (req, res) => {
                   review.image = currentGym.image;
                   review.name = currentGym.name;
               }
+	      review.stars = '★'.repeat(review.rating);
           }
 	  }
 	  
