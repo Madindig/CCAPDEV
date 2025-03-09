@@ -21,11 +21,11 @@ body {
     border-radius: 25px;
     display: flex;
     align-items: center;
-    width: 65%;
+    width: 650px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-	height: 45%;
+	height: 250px;
     margin-top:5.5%;
-    margin-left:20%;
+    margin-left:100px;
 }
 
 .profile-info {
@@ -62,9 +62,14 @@ body {
 }
 
 /* Gym and Review Sections */
-.gym-container, .review-container {
+.gym-container{
     margin: 30px auto;
-    margin-right:10%;
+    margin-right:400px;
+}
+
+.review-container {
+    margin: 30px auto;
+    margin-right:200px;
 }
 
 .establishments-container{
