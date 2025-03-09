@@ -148,3 +148,7 @@ button {
 .delete-btn:hover {
     background-color: #cc0000;
 }
+
+.rating-stars {
+    color: gold;
+}

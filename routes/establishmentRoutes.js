@@ -49,7 +49,8 @@ router.get("/:id", async (req, res) => {
     const modifiedReviews = reviews.map(review => ({
       ...review,
       likesCount: review.likes.length, // Count likes
-      dislikesCount: review.dislikes.length // Count dislikes
+      dislikesCount: review.dislikes.length, // Count dislikes
+      stars: '★'.repeat(review.rating) //stars for rating
     }));
     res.render("establishment", { establishment, reviews: modifiedReviews });
   } catch (err) {
