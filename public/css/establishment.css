@@ -48,3 +48,9 @@
     width: 50%;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
+
+.commentbox {
+    width:95%;
+    margin-left:2.5%;
+    margin-bottom: 5%;
+}

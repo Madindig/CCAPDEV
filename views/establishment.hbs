@@ -63,8 +63,8 @@
                     <p>No comments yet. Be the first to comment!</p>
                 {{/if}}
             </div>
-
-            <button class="btn btn-primary mt-2">Post Comment</button>
+            <textarea class ="commentbox" id="commentbox" name="commentbox" rows="4" cols="1" placeholder="Leave a comment"></textarea>
+            <button class="btn btn-primary mt-2" onclick="post_comment()">Post Comment</button>
             {{!-- Add a modal --}}
         </div>
     </div>

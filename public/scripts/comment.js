@@ -21,3 +21,8 @@ function loadComments(reviewId, establishmentId) {
         })
         .catch(error => console.error("Error loading comments:", error));
 }
+
+function post_comment(){
+    alert("Posted: " + document.getElementById("commentbox").value);
+    document.getElementById("commentbox").value = ""
+}
