@@ -7,11 +7,11 @@
                 <div class="profile-text">
                     <h2>{{user.firstName}} {{user.lastName}}</h2>
                     <p>{{user.username}}</p>
-                    <textarea id="bio" name="bio" rows="2" cols="50">{{user.shortDescription}}</textarea>
+                    <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50">{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editProfileButton">Edit Profile</button>
-                    <button id="deleteProfileButton" class="delete-btn">Delete Profile</button>
+                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editBusinessProfileModal">Edit Profile</button>
+                    <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
                 </div>
             </div>
         </div>
@@ -29,13 +29,97 @@
                 <p>{{this.shortDescription}}</p>
 
                 <!-- Edit & Delete Gym Buttons -->
-                <button class="editGymButton" data-id="{{this._id}}">Edit</button>
-                <button class="deleteGymButton delete-btn" data-id="{{this._id}}">Delete</button>
+                <button data-id="{{this._id}}">Edit</button>
+                <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal">Delete</button>
             </div>
         </div>
         {{/each}}
     </div>
-</div>
+
+    <div class="modal fade" id="editBusinessProfileModal" tabindex="-1" aria-labelledby="editBusinessProfileModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBusinessProfileModal">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="editBusinessProfileModalBody">
+                    <form id="peopleEditForm">
+                           <div class="row">
+                           <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="registerFirstName">First Name:</label>
+                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="registerLastName">Last Name:</label>
+                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
+                                </div>
+
+                               <div class="form-group">
+                                   <label for="registerPassword">Password:</label>
+                                   <input type="password" class="form-control" id="registerPassword" placeholder={{user.password}}>
+                               </div>
+
+                               <div class="form-group">
+                                   <label for="registerConfirmPassword">Confirm Password:</label>
+                                   <input type="password" class="form-control" id="registerConfirmPassword">
+                               </div>
+
+                                <div class="form-group mt-4">
+                                    <label for="accountType">Account Type:</label>
+                                    <select id="accountType" name="accountType" class="form-control" disabled aria-disabled="true">
+                                        <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
+                                        <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="profilePictureFile">Profile Picture:</label>
+                                <div class="image-upload-container">
+                                    <img id="profileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file mt-2" id="profilePictureFile" name="profilePicture" accept=".jpg">
+                                </div>
+
+                            </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="profileDescription">Short Description:</label>
+                                        <textarea class="form-control short-desc" id="profileDescription" rows="2">{{user.shortDescription}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="privacy-policy">
+                                        By clicking Accept Changes, you agree on our <a href="" class="privacy-link">Privacy Policy</a>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-block mt-3" id="registerButton">Accept Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {{else}}
 
@@ -50,8 +134,8 @@
                     <textarea id="bio" name="bio" rows="2" cols="50">{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editProfileButton">Edit Profile</button>
-                    <button id="deleteProfileButton" class="delete-btn">Delete Profile</button>
+                    <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editPeopleProfileModal">Edit Profile</button>
+                    <button id="deletePeopleProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
                 </div>
             </div>
         </div>
@@ -67,17 +151,167 @@
 				<p><strong>Rating:</strong> {{this.rating}}</p>
 				<p><strong>Review:</strong> {{this.reviewText}}</p>
 				<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
-
-				<!-- Edit & Delete Gym Buttons -->
-				<button class="editGymButton" data-id="{{this._id}}">Edit</button>
-				<button class="deleteGymButton delete-btn" data-id="{{this._id}}">Delete</button>
 			</div>
 		</div>
 		{{/each}}
     </div>
-</div>
+
+    <div class="modal fade" id="editPeopleProfileModal" tabindex="-1" aria-labelledby="editPeopleProfileModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPeopleProfileModal">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="editPeopleProfileModalBody">
+                    <form id="peopleEditForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="registerFirstName">First Name:</label>
+                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="registerLastName">Last Name:</label>
+                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="registerPassword">Password:</label>
+                                    <input type="password" class="form-control" id="registerPassword" placeholder={{user.password}}>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="registerConfirmPassword">Confirm Password:</label>
+                                    <input type="password" class="form-control" id="registerConfirmPassword">
+                                </div>
+
+                                <div class="form-group mt-4">
+                                    <label for="accountType">Account Type:</label>
+                                    <select id="accountType" name="accountType" class="form-control" disabled aria-disabled="true">
+                                        <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
+                                        <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="profilePictureFile">Profile Picture:</label>
+                                <div class="image-upload-container">
+                                    <img id="profileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file mt-2" id="profilePictureFile" name="profilePicture" accept=".jpg">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="profileDescription">Short Description:</label>
+                                    <textarea class="form-control short-desc" id="profileDescription" rows="2">{{user.shortDescription}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="privacy-policy">
+                                    By clicking Accept Changes, you agree on our <a href="" class="privacy-link">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-block mt-3" id="registerButton">Accept Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {{/if}}
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteLabel">Verify Profile Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteForm">
+                        <div class="form-group">
+                            <label for="confirmDeleteUsername">Username:</label>
+                            <input type="text" class="form-control" id="confirmDeleteUsername" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="confirmDeletePassword">Password:</label>
+                            <input type="password" class="form-control" id="confirmDeletePassword" placeholder="Enter Password" required>
+                        </div>
+
+                        <div>
+                            <label>
+                                <input type = "checkbox"> I fully understand that the following action cannot be undone.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="deleteButton">Confirm Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteGymModal" tabindex="-1" aria-labelledby="deleteGymLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteGymLabel">Delete Gym Establishment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteForm">
+                        <div class="form-group">
+                            <label for="confirmDeleteUsername">Username:</label>
+                            <input type="text" class="form-control" id="confirmDeleteUsername" placeholder="Enter Username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmDeleteGymName">Gym Name:</label>
+                            <input type="text" class="form-control" id="confirmGymName" placeholder="Enter Gym Name" required>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <label for="confirmDeletePassword">Password:</label>
+                            <input type="password" class="form-control" id="confirmDeletePassword" placeholder="Enter Password" required>
+                        </div>
+
+                        <div>
+                            <label>
+                                <input type = "checkbox"> I fully understand that the following action cannot be undone.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="deleteButton">Confirm Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="/scripts/auth.js"></script>
 <script src="/scripts/comment.js"></script>

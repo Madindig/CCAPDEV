@@ -255,18 +255,20 @@ router.get("/session", (req, res) => {
 //   }
 // });
 
-// // Delete a user
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const deletedUser = await User.findByIdAndDelete(req.params.id);
-//     if (!deletedUser) { 
-//       return res.status(404).json({ message: "User not found" });
-//     }
 
-//     res.json({ message: "User deleted successfully" });
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+/*
+router.delete("/:id", async (req, res) => {
+try {
+  const deletedUser = await User.findByIdAndDelete(req.params.id);
+      if (!deletedUser) {
+       return res.status(404).json({ message: "User not found" });
+     }
+
+     res.json({ message: "User deleted successfully" });
+   } catch (err) {
+     res.status(500).json({ message: "Server error", error: err.message });
+   }
+ });
+  */
 
 module.exports = router;

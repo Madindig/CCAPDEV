@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerButton = document.getElementById("registerButton");
     const loginButton = document.getElementById("loginButton");
 
+    const editProfileButton = document.getElementById("confirmEditProfileButton");
+    const deleteProfileButton = document.getElementById("deleteProfileButton");
+
     if (profilePictureInput) {
         profilePictureInput.addEventListener("change", function (event) {
             selectedFile = event.target.files[0];
@@ -146,15 +149,57 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-});
+
+    if(editProfileButton){
+        editProfileButton.addEventListener("click", async function (event){
+            event.preventDefault();
+
+            /*
+            MCO3
+             */
+        })
+
+    }
+
+    if(deleteProfileButton) {
+        deleteProfileButton.addEventListener("click", async function () {
+            /* don't know if its suppose to be here, MCO3, nonfunctional
+            const confirmation = confirm("Confirm to Delete Profile? This action cannot be undone.");
+            if (!confirmation)
+                return;
+
+            try{
+                const response = await fetch("/users/delete",{
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                    body: JSON.stringify({id})
+                });
+
+                const data = await response.json();
+                if(response.ok){
+                    alert("Profile Deleted");
+                    window.location.href = "/";
+                }
+                else{
+                    alert(`Error in Delete Profile: ${data.message}`);
+                }
+            }
+            catch (error){
+                console.error("Error in Delete Profile:", error);
+                alert("An error occurred while deleting your profile.");
+            }
+        })
+        }*/
+        });
+    }
 
 // Auto-login after successful registration
 async function loginUser(username, password) {
     try {
         const response = await fetch("/users/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({username, password})
         });
 
         const data = await response.json();
@@ -167,4 +212,7 @@ async function loginUser(username, password) {
         console.error("Auto-login error:", error);
         alert("Auto-login failed. Please log in manually.");
     }
-}
+    }
+})
+
+

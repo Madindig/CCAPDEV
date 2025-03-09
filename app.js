@@ -38,6 +38,12 @@ app.engine(
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
+      //Denzel's equality temp solution
+      helpers: {
+          equal: function(a, b) {
+              return a === b;
+          }
+      }
   })
 );
 app.set("view engine", "hbs");
