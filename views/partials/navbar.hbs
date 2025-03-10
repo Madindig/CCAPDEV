@@ -19,18 +19,51 @@
         <div class="ml-5"></div>
         <div class="ml-5"></div>
         <div class="ml-5"></div>
-        <div class="ml-5"></div>
-        <div class="ml-5"></div>
 
+        <a class="nav-link btn btn-navbar mr-3" id="aboutUsButton" data-toggle="modal" data-target="#aboutUsModal">About</a>
         {{#if isAuthenticated}}
             <!-- Navbar when user is logged in -->
-            <a class="nav-link btn btn-navbar" href="/users/profile" id="profileButton">Profile</a>
+            <a class="nav-link btn btn-navbar ml-3" href="/users/profile" id="profileButton">Profile</a>
             <a class="nav-link btn btn-navbar ml-3" href="/users/logout" id="logoutButton">Logout</a>
         {{else}}
             <!-- Navbar when user is logged out -->
             <a class="nav-link btn btn-navbar" href="" id="loginModalButton" data-toggle="modal" data-target="#loginModal">Login</a>
             <a class="nav-link btn btn-navbar ml-3" href="" id="registerModalButton" data-toggle="modal" data-target="#registerModal">Register</a>
         {{/if}}
+
+        <div class="modal fade" id="aboutUsModal" tabindex="-1" aria-labelledby="aboutUsModal" aria-hidden="true" style="color: #333333">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBusinessProfileModal">About Us</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="aboutUsBody">
+                        <div class = "row-auto">
+                            <h2> Adrian Denzel Macayan </h2>
+                        </div>
+                        <div class = "row-auto">
+                            <h2> Luis Andrew Madridijo </h2>
+                        </div>
+                        <div class = "row-auto">
+                            <h2> Lance Andrei Reyes </h2>
+                        </div>
+                        <div class = "row-auto">
+                            <h2> Elisha Jeremy Ong</h2>
+                        </div>
+                        <div class = "row-auto">
+                            <h4> Reference: https://getbootstrap.com/docs/4.5/getting-started/introduction/ </h4>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     </div>
 </nav>
