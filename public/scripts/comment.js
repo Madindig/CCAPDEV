@@ -26,3 +26,8 @@ function post_comment(){
     alert("Posted: " + document.getElementById("commentbox").value);
     document.getElementById("commentbox").value = ""
 }
+
+function post_review(){
+    alert("Posted: " + document.getElementById("reviewbox").value);
+    document.getElementById("reviewbox").value = ""
+}

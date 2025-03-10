@@ -10,9 +10,12 @@
             <p><strong>Amenities:</strong> {{establishment.amenities}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
             <p>{{establishment.shortDescription}}</p>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+                Post Review
+            </button>
         </div>
-        
     </div>
+
 </div>
 
 <!-- Reviews Section -->
@@ -23,7 +26,7 @@
         {{#each reviews}}
         <div class="review-card">
             <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}<span></p>
+            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
             <p><strong>Review:</strong> {{this.reviewText}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
             <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
@@ -69,5 +72,38 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Create a Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="reviewModalBody">
+                <!-- Rating Dropdown -->
+                <label for="reviewRating" class="form-label">Rating:</label>
+                <select class="form-select" id="reviewRating" name="reviewRating">
+                    <option value="0">0 - Worst</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Best</option>
+                </select>
+
+                <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="post_review()">Post Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="/scripts/comment.js"></script>
