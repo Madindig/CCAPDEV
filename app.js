@@ -13,7 +13,6 @@ const path = require("path");
 const { engine } = require("express-handlebars");
 const sessionMiddleware = require("./middlewares/sessionMiddleware");
 
-
 /*
   Import routes:
   1. User routes (login, registration, etc.)
@@ -42,6 +41,9 @@ app.engine(
       helpers: {
           equal: function(a, b) {
               return a === b;
+          },
+          includes: function(a, b){
+              return Array.isArray(a) && a.includes(b)
           }
       }
   })
