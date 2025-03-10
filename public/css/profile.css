@@ -10,9 +10,10 @@ body {
 
 /* Profile Container */
 .profile-container {
-    display: flex;
-    justify-content: space-around;
+    display: flex; 
+    flex-direction: column; 
     margin-top: 30px;
+    margin-right:5%;    
 }
 
 .profile-card {
@@ -21,12 +22,11 @@ body {
     border-radius: 25px;
     display: flex;
     align-items: center;
-    width: 650px;
+    width: 550px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 	height: 250px;
-    margin-top:5.5%;
-    margin-left:100px;
-}
+    margin-top:3%;
+    margin-left:10%;}
 
 .profile-info {
     display: flex;
@@ -63,13 +63,14 @@ body {
 
 /* Gym and Review Sections */
 .gym-container{
-    margin: 30px auto;
-    margin-right:400px;
+    margin-right:5%;
+    margin-left:5%;
+    /*overflow:scroll;*/
 }
 
 .review-container {
-    margin: 30px auto;
-    margin-right:200px;
+    margin-right:5%;
+    margin-left:5%;
 }
 
 .establishments-container{
@@ -85,12 +86,12 @@ body {
     margin-bottom: 15px;
     color: #fff;
     align-items: center;
-    line-height: 50%;
+    line-height: 70%;
 }
 
 .gym-card img, .review-card img {
     width: 120px;
-    height: 160px;
+    height: 180px;
     border-radius: 10px;
     object-fit: cover;
     margin-right: 15px;
