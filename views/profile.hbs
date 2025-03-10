@@ -7,7 +7,7 @@
                 <div class="profile-text">
                     <h2>{{user.firstName}} {{user.lastName}}</h2>
                     <p>{{user.username}}</p>
-                    <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50">{{user.shortDescription}}</textarea>
+                    <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
                     <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editBusinessProfileModal">Edit Profile</button>
@@ -337,7 +337,7 @@
                 <div class="profile-text">
                     <h2>{{user.firstName}} {{user.lastName}}</h2>
                     <p>{{user.reviewCount}} Reviews Made</p>
-                    <textarea id="bio" name="bio" rows="2" cols="50">{{user.shortDescription}}</textarea>
+                    <textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
                     <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editPeopleProfileModal">Edit Profile</button>
