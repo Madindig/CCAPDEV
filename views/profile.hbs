@@ -151,9 +151,78 @@
 				<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}<span></p>
 				<p><strong>Review:</strong> {{this.reviewText}}</p>
 				<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+                <button id="editReviewButton" data-toggle="modal" data-target="#editReviewModal">Edit Review</button>
+                <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal">Delete</button>
 			</div>
 		</div>
-		{{/each}}
+
+        <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editReviewModalLabel">Edit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="reviewModalBody">
+                        <!-- Rating Dropdown -->
+                        <label for="reviewRating" class="form-label">Rating:</label>
+                        <select class="form-select" id="reviewRating" name="reviewRating">
+                            <option value="0" {{#if (equal this.rating 0)}}selected{{/if}}>0 - Worst</option>
+                            <option value="1" {{#if (equal this.rating 1)}}selected{{/if}}>1</option>
+                            <option value="2" {{#if (equal this.rating 2)}}selected{{/if}}>2</option>
+                            <option value="3" {{#if (equal this.rating 3)}}selected{{/if}}>3</option>
+                            <option value="4" {{#if (equal this.rating 4)}}selected{{/if}}>4</option>
+                            <option value="5" {{#if (equal this.rating 5)}}selected{{/if}}>5 - Best</option>
+                        </select>
+
+                        <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review">{{this.reviewText}}</textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="post_review()">Accept Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteLabel">Delete Review</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteForm">
+                            <label for="reviewRating" class="form-label">Rating:</label>
+                            <select class="form-select" id="reviewRating" name="reviewRating" disabled aria-disabled="true">
+                                <option value="0" {{#if (equal this.rating 0)}}selected{{/if}}>0 - Worst</option>
+                                <option value="1" {{#if (equal this.rating 1)}}selected{{/if}}>1</option>
+                                <option value="2" {{#if (equal this.rating 2)}}selected{{/if}}>2</option>
+                                <option value="3" {{#if (equal this.rating 3)}}selected{{/if}}>3</option>
+                                <option value="4" {{#if (equal this.rating 4)}}selected{{/if}}>4</option>
+                                <option value="5" {{#if (equal this.rating 5)}}selected{{/if}}>5 - Best</option>
+                            </select>
+
+                            <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review" readonly aria-readonly="true">{{this.reviewText}}</textarea>
+                            <div class="form-group">
+                                <label>
+                                    <input type = "checkbox"> I fully understand that the following action cannot be undone.
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="deleteButton">Confirm Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
     </div>
 
     <div class="modal fade" id="editPeopleProfileModal" tabindex="-1" aria-labelledby="editPeopleProfileModal" aria-hidden="true">
