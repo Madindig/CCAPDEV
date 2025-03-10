@@ -33,6 +33,40 @@
                 <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal">Delete</button>
             </div>
         </div>
+
+        <div class="modal fade" id="deleteGymModal" tabindex="-1" aria-labelledby="deleteGymLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteGymLabel">Delete {{this.name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteForm">
+                            <div class="form-group">
+                                <label for="confirmDeleteUsername">Username:</label>
+                                <input type="text" class="form-control" id="confirmDeleteUsername" placeholder="Enter Username" required>
+                            </div>
+
+                            <div class="form-group mb-5">
+                                <label for="confirmDeletePassword">Password:</label>
+                                <input type="password" class="form-control" id="confirmDeletePassword" placeholder="Enter Password" required>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <input type = "checkbox"> I fully understand that the following action cannot be undone.
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="deleteButton">Confirm Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{/each}}
     </div>
 
@@ -120,7 +154,6 @@
         </div>
     </div>
 
-
 {{else}}
 
 <div class="bg">
@@ -148,7 +181,7 @@
 			<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
 			<div class="gym-details">
 				<h3>{{this.name}}</h3>
-				<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}<span></p>
+				<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
 				<p><strong>Review:</strong> {{this.reviewText}}</p>
 				<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
                 <button id="editReviewButton" data-toggle="modal" data-target="#editReviewModal">Edit Review</button>
@@ -325,45 +358,6 @@
                             <label for="confirmDeleteUsername">Username:</label>
                             <input type="text" class="form-control" id="confirmDeleteUsername" placeholder="Enter Username" required>
                         </div>
-                        <div class="form-group mb-5">
-                            <label for="confirmDeletePassword">Password:</label>
-                            <input type="password" class="form-control" id="confirmDeletePassword" placeholder="Enter Password" required>
-                        </div>
-
-                        <div>
-                            <label>
-                                <input type = "checkbox"> I fully understand that the following action cannot be undone.
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="deleteButton">Confirm Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteGymModal" tabindex="-1" aria-labelledby="deleteGymLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteGymLabel">Delete Gym Establishment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="deleteForm">
-                        <div class="form-group">
-                            <label for="confirmDeleteUsername">Username:</label>
-                            <input type="text" class="form-control" id="confirmDeleteUsername" placeholder="Enter Username" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="confirmDeleteGymName">Gym Name:</label>
-                            <input type="text" class="form-control" id="confirmGymName" placeholder="Enter Gym Name" required>
-                        </div>
-
                         <div class="form-group mb-5">
                             <label for="confirmDeletePassword">Password:</label>
                             <input type="password" class="form-control" id="confirmDeletePassword" placeholder="Enter Password" required>
