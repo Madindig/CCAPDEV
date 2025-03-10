@@ -38,28 +38,28 @@
                 <p>{{this.shortDescription}}</p>
 
                 <!-- Edit & Delete Gym Buttons -->
-                <button data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal">Edit</button>
-                <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal">Delete</button>
+                <button data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
+                <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal-{{this._id}}">Delete</button>
             </div>
         </div>
 
-            <div class="modal fade" id="editGymModal" tabindex="-1" aria-labelledby="editGymModal" aria-hidden="true">
+            <div class="modal fade" id="editGymModal-{{this._id}}" tabindex="-1" aria-labelledby="editGymModal-{{this._id}}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editGymModal">{{this.name}}</h5>
+                            <h5 class="modal-title" id="editGymModal-{{this._id}}">{{this.name}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
 
-                        <div class="modal-body" id="editGymModalBody">
-                            <form id="peopleEditForm">
+                        <div class="modal-body" id="editGymModalBody-{{this._id}}">
+                            <form id="peopleEditForm-{{this._id}}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="registerFirstName">Gym Name:</label>
-                                            <input type="text" class="form-control" id="registerFirstName" placeholder="Enter Gym Name" value= "{{this.name}}">
+                                            <label for="gymName-{{this._id}}">Gym Name:</label>
+                                            <input type="text" class="form-control" id="gymName-{{this._id}}" placeholder="Enter Gym Name" value= "{{this.name}}">
                                         </div>
                                     </div>
                                 </div>
@@ -67,8 +67,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="profileDescription">Short Description:</label>
-                                            <textarea class="form-control short-desc" id="profileDescription" rows="2">{{this.shortDescription}}</textarea>
+                                            <label for="gymDescription-{{this._id}}">Short Description:</label>
+                                            <textarea class="form-control short-desc" id="gymDescription-{{this._id}}" rows="2">{{this.shortDescription}}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -196,11 +196,11 @@
                 </div>
             </div>
 
-        <div class="modal fade" id="deleteGymModal" tabindex="-1" aria-labelledby="deleteGymLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteGymModal-{{this._id}}" tabindex="-1" aria-labelledby="deleteGymLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteGymLabel">Delete {{this.name}}</h5>
+                        <h5 class="modal-title" id="deleteGymLabel-{{this._id}}">Delete {{this.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
