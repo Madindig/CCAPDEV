@@ -1,1 +1,0 @@
-{ "_id": "67c5cc61bb8cbb0623f38b95", "firstName": "Lance", "lastName": "Reyes", "username": "lance", "password": "password", "shortDescription": "Mr. CEO", "role": "business", "profilePicture": "lance_1741016161932.jpg", "createdAt": "2025-03-03T15:36:01.938Z", "updatedAt": "2025-03-03T15:36:01.938Z", "__v": 0 }

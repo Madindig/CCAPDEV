@@ -11,11 +11,9 @@
     <link rel="stylesheet" href="/assets/asset_styles.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/establishment.css">
-    
 </head>
 <body>
     {{> navbar}}
-
     {{{body}}}
 
     <!-- Login Modal -->
@@ -23,7 +21,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="peopleModalLabel">Login</h5>
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -38,13 +36,11 @@
                             <label for="loginPassword">Password:</label>
                             <input type="password" class="form-control" id="loginPassword" placeholder="Enter Password" required>
                         </div>
-
                         <div>
                             <label>
-                                <input type = "checkbox"> Remember Me!
+                                <input type="checkbox"> Remember Me!
                             </label>
                         </div>
-
                         <button type="submit" class="btn btn-block btn-primary login-btn mt-3" id="loginButton">Log In</button>
                     </form>
                 </div>
@@ -74,22 +70,18 @@
                                     <label for="registerLastName">Last Name:</label>
                                     <input type="text" class="form-control" id="registerLastName" placeholder="Enter Last Name">
                                 </div>
-
                                 <div class="form-group">
                                     <label for="registerUsername">Username:</label>
                                     <input type="text" class="form-control" id="registerUsername" placeholder="Enter Username">
                                 </div>
-
                                 <div class="form-group">
                                     <label for="registerPassword">Password:</label>
                                     <input type="password" class="form-control" id="registerPassword" placeholder="Enter Password">
                                 </div>
-
                                 <div class="form-group">
                                     <label for="registerConfirmPassword">Confirm Password:</label>
                                     <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Confirm Password">
                                 </div>
-
                                 <div class="form-group mt-4">
                                     <label for="accountType">Account Type:</label>
                                     <select id="accountType" name="accountType" class="form-control">
@@ -98,22 +90,16 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="col-md-6">  
-
                                 <label for="profilePictureFile">Profile Picture:</label>
                                 <div class="image-upload-container">  
                                     <img id="profileImagePreview" src="/profile_pictures/default_avatar.jpg" alt="Profile Preview" class="profile-image">
                                 </div>
-
                                 <div class="form-group">
                                     <input type="file" class="form-control-file mt-2" id="profilePictureFile" name="profilePicture" accept=".jpg">
                                 </div>
-
                             </div>
                         </div>  
-
-                        
                         <div class="row"> 
                             <div class="col-md-12">  
                                 <div class="form-group">
@@ -122,14 +108,12 @@
                                 </div>
                             </div>
                         </div>  
-
                         <div class="row">  
                             <div class="col-md-12">  
                                 <label class="privacy-policy">
                                     By clicking Submit, you agree on our <a href="" class="privacy-link">Privacy Policy</a>
                                 </label>
                             </div>
-
                             <div class="col-md-12">  
                                 <button type="submit" class="btn btn-primary btn-block mt-3" id="registerButton">Register</button>
                             </div>

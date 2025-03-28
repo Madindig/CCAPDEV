@@ -24,39 +24,14 @@ const allowedLocations = [
 
 const establishmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  amenities: { 
-    type: [String], 
-    enum: allowedAmenities, 
-    required: true 
-  },
-  location: { 
-    type: String, 
-    enum: allowedLocations, // Restrict to predefined locations
-    required: true 
-  },
+  amenities: { type: [String], enum: allowedAmenities, required: true },
+  location: { type: String, enum: allowedLocations, required: true },
   address: { type: String, required: true },
   shortDescription: { type: String },
-  contactNumber: { 
-    type: String,
-    required: true,
-    validate: {
-      validator: function(value) {
-        return /^09\d{9}$/.test(value); // Philippine mobile number format
-      },
-      message: 'Invalid Philippine mobile number format. It should start with "09" followed by 9 digits.'
-    }
-  },
-  rating: { 
-    type: Number, 
-    min: 1, 
-    max: 5 
-  },
-  owner: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
-  },
-  image: { type: String, default: "default_establishment.jpg" },
+  contactNumber: { type: String, required: true },
+  rating: { type: Number, min: 1, max: 5 },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  image: { type: String }
 }, { timestamps: true });
 
 const Establishment = mongoose.model('Establishment', establishmentSchema);

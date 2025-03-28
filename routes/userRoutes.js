@@ -6,6 +6,8 @@ const fs = require("fs");
 const User = require("../models/User");
 const Establishment = require("../models/Establishment");
 const Review = require("../models/Review");
+const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 
 // Set up Multer storage for profile picture uploads
 const storage = multer.diskStorage({
@@ -13,8 +15,8 @@ const storage = multer.diskStorage({
     cb(null, "public/profile_pictures/"); // Store images in this folder
   },
   filename: (req, file, cb) => {
-    const tempFilename = `temp_${Date.now()}${path.extname(file.originalname)}`;
-    cb(null, tempFilename); // Assign temporary filename
+    const uniqueFilename = `${uuidv4()}${path.extname(file.originalname)}`;
+    cb(null, uniqueFilename); // Assign unique filename
   }
 });
 
@@ -33,6 +35,31 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
 
+const fetchUserDetails = async (user) => {
+  let establishments = [];
+  let userReviews = [];
+  const isBusiness = user.role === "business";
+
+  switch (isBusiness) {
+    case true:
+      establishments = await Establishment.find({ owner: user._id }).lean();
+      break;
+    case false:
+      userReviews = await Review.find({ userId: user._id }).lean();
+      for (let review of userReviews) {
+        let currentEstablishment = await Establishment.findOne({ _id: review.establishmentId }).lean();
+        if (currentEstablishment) { 
+          review.image = currentEstablishment.image;
+          review.name = currentEstablishment.name;
+        }
+        review.stars = '★'.repeat(review.rating);
+      }
+      break;
+  }
+
+  return { establishments, userReviews, isBusiness };
+};
+
 router.get("/profile", async (req, res) => {
   if (!req.session.user) {
       return res.redirect("/users/login");
@@ -44,25 +71,9 @@ router.get("/profile", async (req, res) => {
           return res.status(404).send("User not found");
       }
 
-      let gyms = [];
-	  let reviews = [];
-      let userIsBusiness = user.role === "business";
-
-      if (userIsBusiness) {
-          gyms = await Establishment.find({ owner: user._id }).lean();
-      } else {
-		  reviews = await Review.find({ userId: user._id }).lean();
-		  for (let review of reviews) {
-              let currentGym = await Establishment.findOne({ _id: review.establishmentId }).lean();
-              if (currentGym) { 
-                  review.image = currentGym.image;
-                  review.name = currentGym.name;
-              }
-	      review.stars = '★'.repeat(review.rating);
-          }
-	  }
-	  
-	  res.render("profile", { user, userIsBusiness, gyms, reviews });
+      const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
+      
+      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews });
       
   } catch (err) {
       console.error("Error retrieving profile:", err);
@@ -70,6 +81,24 @@ router.get("/profile", async (req, res) => {
   }
 });
 
+router.get("/users/:userId/profile", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+      const user = await User.findById(userId).lean();
+      if (!user) {
+          return res.status(404).send("User not found");
+      }
+
+      const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
+
+      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews });
+
+  } catch (err) {
+      console.error("Error retrieving user profile:", err);
+      res.status(500).send("Server error");
+  }
+});
 
 router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, res) => {
   if (!req.file) {
@@ -79,35 +108,11 @@ router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, 
 
   console.log("Image uploaded successfully:", req.file.filename);
 
-  res.json({ message: "Temporary profile picture uploaded.", tempFilename: req.file.filename });
+  res.json({ message: "Profile picture uploaded.", filename: req.file.filename });
 });
 
-// Delete temp image if registration is not completed in 10 minutes
-setInterval(() => {
-  const dir = "public/profile_pictures/";
-  fs.readdir(dir, (err, files) => {
-    if (err) return console.error("Error reading profile pictures directory:", err);
-
-    files.forEach(file => {
-      if (file.startsWith("temp_")) {
-        const filePath = path.join(dir, file);
-        fs.stat(filePath, (err, stats) => {
-          if (err) return console.error("Error checking file:", err);
-          const now = Date.now();
-          if (now - stats.birthtimeMs > 10 * 60 * 1000) { // 10 minutes
-            fs.unlink(filePath, err => {
-              if (err) console.error("Error deleting temp file:", err);
-              else console.log("Deleted unused temp file:", file);
-            });
-          }
-        });
-      }
-    });
-  });
-}, 5 * 60 * 1000); // Run every 5 minutes
-
 // Register a new user
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { firstName, lastName, username, password, shortDescription = "", role, tempFilename } = req.body;
 
@@ -120,35 +125,19 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Username already taken" });
     }
 
-    let finalFilename = tempFilename && tempFilename !== "default_avatar.jpg" ? `${username}_${Date.now()}${path.extname(tempFilename)}` : "default_avatar.jpg"; 
+    const profilePictureFilename = tempFilename || "default_avatar.jpg"; 
 
-    if (tempFilename) {
-      const tempFilePath = path.join("public/profile_pictures/", tempFilename);
-      if (fs.existsSync(tempFilePath)) {
-        finalFilename = `${username}_${Date.now()}${path.extname(tempFilename)}`;
-        const newFilePath = path.join("public/profile_pictures/", finalFilename);
-        fs.renameSync(tempFilePath, newFilePath);
-        console.log(`Profile picture renamed: ${tempFilename} → ${finalFilename}`);
-
-        // Delete the old temp file after renaming
-        if (fs.existsSync(tempFilePath)) {
-          fs.unlinkSync(tempFilePath);
-          console.log(`Deleted temporary file: ${tempFilename}`);
-        }
-      } else {
-        console.error(`Temporary profile picture not found: ${tempFilePath}`);
-      }
-    }
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
 
     // Create the user AFTER assigning the correct profile picture filename
     const newUser = new User({
       firstName,
       lastName,
       username,
-      password,
+      password: hashedPassword, // Store the hashed password
       role,
       shortDescription,
-      profilePicture: finalFilename // Assign the correct profile picture
+      profilePicture: profilePictureFilename // Assign the correct profile picture
     });
 
     await newUser.save();
@@ -180,7 +169,8 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    if (user.password !== password) {
+    const isMatch = await bcrypt.compare(password, user.password); // Compare hashed password
+    if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password" });
     }
 
@@ -200,7 +190,6 @@ router.post("/login", async (req, res) => {
 // Logout a user
 router.get("/logout", (req, res) => {
   if (!req.session.user) {
-    // res.status(400).json({ message: "No active session. User is already logged out." });
     return res.redirect("/");
   }
 
@@ -213,7 +202,7 @@ router.get("/logout", (req, res) => {
   });
 });
 
-// Check session
+// GET /session - Check if a user session exists and return authentication status
 router.get("/session", (req, res) => {
   if (req.session.user) {
     res.json({ isAuthenticated: true, user: req.session.user });
@@ -222,54 +211,46 @@ router.get("/session", (req, res) => {
   }
 });
 
-// // Get all users
-// router.get("/", async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     res.json(users);
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+// Update a user
+router.put("/users/:userId", upload.single("profilePicture"), async (req, res) => {
+  const userId = req.params.userId;
 
-// // Get a specific user by ID
-// router.get("/:id", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     if (!user) return res.status(404).json({ message: "User not found" });
+  if (req.session.user._id !== userId) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
 
-//     res.json(user);
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+  try {
+    const updates = {};
+    const { firstName, lastName, shortDescription } = req.body;
 
-// // Update a user
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//     if (!updatedUser) return res.status(404).json({ message: "User not found" });
+    if (firstName) updates.firstName = firstName;
+    if (lastName) updates.lastName = lastName;
+    if (shortDescription) updates.shortDescription = shortDescription;
+    if (req.file) updates.profilePicture = req.file.filename;
 
-//     res.json({ message: "User updated successfully", user: updatedUser });
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+    await User.findByIdAndUpdate(userId, updates);
+    res.json({ message: "User updated successfully." });
+  } catch (err) {
+    console.error("Update Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
+// Delete a user
+router.delete("/users/:userId", async (req, res) => {
+  const userId = req.params.userId;
 
-/*
-router.delete("/:id", async (req, res) => {
-try {
-  const deletedUser = await User.findByIdAndDelete(req.params.id);
-      if (!deletedUser) {
-       return res.status(404).json({ message: "User not found" });
-     }
+  if (req.session.user._id !== userId) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
 
-     res.json({ message: "User deleted successfully" });
-   } catch (err) {
-     res.status(500).json({ message: "Server error", error: err.message });
-   }
- });
-  */
+  try {
+    await User.findByIdAndDelete(userId);
+    res.json({ message: "User deleted successfully." });
+  } catch (err) {
+    console.error("Delete Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
 module.exports = router;
