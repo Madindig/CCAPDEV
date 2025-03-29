@@ -7,6 +7,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const editProfileButton = document.getElementById("confirmEditProfileButton");
     const deleteProfileButton = document.getElementById("deleteProfileButton");
+    const registerModal = document.getElementById("registerModal");
+
+    function resetModal() {
+        selectedFile = null;
+        profilePictureInput.value = "";
+        const preview = document.getElementById("profileImagePreview");
+        if (preview) {
+            preview.src = "/profile_pictures/default_avatar.jpg";
+            preview.style.display = "block";
+        }
+    }
+
+    if (registerModal) {
+        registerModal.addEventListener("hidden.bs.modal", resetModal);
+        const closeButton = registerModal.querySelector(".close"); // Assuming the close button has a class "close"
+        if (closeButton) {
+            closeButton.addEventListener("click", resetModal);
+        }
+    }
 
     if (profilePictureInput) {
         profilePictureInput.addEventListener("change", function (event) {
