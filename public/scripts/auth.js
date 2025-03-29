@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const preview = document.getElementById("profileImagePreview");
         if (preview) {
             preview.src = "/profile_pictures/default_avatar.jpg";
-            preview.style.display = "block";
         }
     }
 
