@@ -127,21 +127,22 @@ router.post("/register", async (req, res) => {
 
     const profilePictureFilename = tempFilename || "default_avatar.jpg"; 
 
-    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+    // console.log("Password received on registration:", password);
+    // const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+    // console.log("Hashed password being saved:", hashedPassword);
 
     // Create the user AFTER assigning the correct profile picture filename
     const newUser = new User({
       firstName,
       lastName,
       username,
-      password: hashedPassword, // Store the hashed password
+      password,
       role,
       shortDescription,
       profilePicture: profilePictureFilename // Assign the correct profile picture
     });
 
     await newUser.save();
-    console.log(`Final profile picture saved to database: ${newUser.profilePicture}`);
 
     req.session.user = {
       _id: newUser._id.toString(),

@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const username = document.getElementById("loginUsername").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
+            console.log("Password field value before login:", document.getElementById("loginPassword").value);
 
             if (!username || !password) {
                 alert("Please enter both username and password.");

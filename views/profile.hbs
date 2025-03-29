@@ -10,7 +10,7 @@
                     <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editBusinessProfileModal">Edit Profile</button>
+                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                     <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
                 </div>
             </div>
@@ -243,11 +243,11 @@
         {{/each}}
     </div>
 
-    <div class="modal fade" id="editBusinessProfileModal" tabindex="-1" aria-labelledby="editBusinessProfileModal" aria-hidden="true">
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editBusinessProfileModal">Edit Profile</h5>
+                    <h5 class="modal-title" id="editProfileModal">Edit Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -340,7 +340,7 @@
                     <textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editPeopleProfileModal">Edit Profile</button>
+                    <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                     <button id="deletePeopleProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
                 </div>
             </div>
@@ -358,12 +358,12 @@
 			<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
 			<p><strong>Review:</strong> {{this.reviewText}}</p>
 			<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
-			<button id="editReviewButton" data-toggle="modal" data-target="#editReviewModal">Edit Review</button>
-                	<button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal">Delete</button>
+			<button id="editReviewButton" data-toggle="modal" data-target="#editReviewModal-{{this._id}}">Edit Review</button>
+                	<button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
 		</div>
 	</div>
 
-        <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -395,19 +395,19 @@
             </div>
         </div>
 
-        <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+<div class="modal fade" id="deleteReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="deleteLabel-{{this._id}}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteLabel">Delete Review</h5>
+                        <h5 class="modal-title" id="deleteLabel-{{this._id}}">Delete Review</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form id="deleteForm">
-                            <label for="reviewRating" class="form-label">Rating:</label>
-                            <select class="form-select" id="reviewRating" name="reviewRating" disabled aria-disabled="true">
+                            <label for="reviewRating-{{this._id}}" class="form-label">Rating:</label>
+                            <select class="form-select" id="reviewRating-{{this._id}}" name="reviewRating" disabled aria-disabled="true">
                                 <option value="0" {{#if (equal this.rating 0)}}selected{{/if}}>0 - Worst</option>
                                 <option value="1" {{#if (equal this.rating 1)}}selected{{/if}}>1</option>
                                 <option value="2" {{#if (equal this.rating 2)}}selected{{/if}}>2</option>
@@ -416,7 +416,7 @@
                                 <option value="5" {{#if (equal this.rating 5)}}selected{{/if}}>5 - Best</option>
                             </select>
 
-                            <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review" readonly aria-readonly="true">{{this.reviewText}}</textarea>
+                            <textarea class="commentbox form-control mt-3" id="reviewbox-{{this._id}}" name="reviewbox" rows="4" placeholder="Leave a review" readonly aria-readonly="true">{{this.reviewText}}</textarea>
                             <div class="form-group">
                                 <label>
                                     <input type = "checkbox"> I fully understand that the following action cannot be undone.
@@ -435,87 +435,6 @@
 	{{/if}}
     </div>
 
-    <div class="modal fade" id="editPeopleProfileModal" tabindex="-1" aria-labelledby="editPeopleProfileModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPeopleProfileModal">Edit Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body" id="editPeopleProfileModalBody">
-                    <form id="peopleEditForm">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="registerFirstName">First Name:</label>
-                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
-                                </div>
-                                <div class="form-group">
-                                    <label for="registerLastName">Last Name:</label>
-                                    <input type="text" class="form-control" id="registerFirstName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="registerPassword">Password:</label>
-                                    <input type="password" class="form-control" id="registerPassword">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="registerConfirmPassword">Confirm Password:</label>
-                                    <input type="password" class="form-control" id="registerConfirmPassword">
-                                </div>
-
-                                <div class="form-group mt-4">
-                                    <label for="accountType">Account Type:</label>
-                                    <select id="accountType" name="accountType" class="form-control" disabled aria-disabled="true">
-                                        <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
-                                        <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <label for="profilePictureFile">Profile Picture:</label>
-                                <div class="image-upload-container">
-                                    <img id="profileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="file" class="form-control-file mt-2" id="profilePictureFile" name="profilePicture" accept=".jpg">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="profileDescription">Short Description:</label>
-                                    <textarea class="form-control short-desc" id="profileDescription" rows="2">{{user.shortDescription}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="privacy-policy">
-                                    By clicking Accept Changes, you agree on our <a href="" class="privacy-link">Privacy Policy</a>
-                                </label>
-                            </div>
-
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary btn-block mt-3" id="registerButton">Accept Changes</button>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 {{/if}}
