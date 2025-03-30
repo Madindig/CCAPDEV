@@ -222,11 +222,10 @@ router.put("/users/:userId", upload.single("profilePicture"), async (req, res) =
 
   try {
     const updates = {};
-    const { firstName, lastName, shortDescription } = req.body;
+    const { shortDescription, password } = req.body;
 
-    if (firstName) updates.firstName = firstName;
-    if (lastName) updates.lastName = lastName;
     if (shortDescription) updates.shortDescription = shortDescription;
+    if (password) updates.password = await bcrypt.hash(password, 10);
     if (req.file) updates.profilePicture = req.file.filename;
 
     await User.findByIdAndUpdate(userId, updates);
@@ -238,16 +237,48 @@ router.put("/users/:userId", upload.single("profilePicture"), async (req, res) =
 });
 
 // Delete a user
-router.delete("/users/:userId", async (req, res) => {
+router.delete("/:userId", async (req, res) => {
   const userId = req.params.userId;
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required." });
+  }
 
   if (req.session.user._id !== userId) {
     return res.status(403).json({ message: "Forbidden" });
   }
 
   try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect password." });
+    }
+
+    // Remove custom profile picture
+    if (user.profilePicture !== "default_avatar.jpg") {
+        const filePath = path.join(__dirname, "../public/profile_pictures", user.profilePicture);
+        fs.unlink(filePath, (err) => {
+            if (err) console.error("Failed to delete image:", err);
+        });
+    }
+
     await User.findByIdAndDelete(userId);
+
+    // Destroy session after deletion
+    req.session.destroy((err) => {
+      if (err) console.error("Session destroy error:", err);
+    });
+
     res.json({ message: "User deleted successfully." });
+
   } catch (err) {
     console.error("Delete Error:", err);
     res.status(500).json({ message: "Server error", error: err.message });

@@ -4,25 +4,64 @@ document.addEventListener("DOMContentLoaded", function () {
     const profilePictureInput = document.getElementById("profilePictureFile");
     const registerButton = document.getElementById("registerButton");
     const loginButton = document.getElementById("loginButton");
-
-    const editProfileButton = document.getElementById("confirmEditProfileButton");
-    const deleteProfileButton = document.getElementById("deleteProfileButton");
     const registerModal = document.getElementById("registerModal");
 
-    function resetModal() {
+    const loginModal = document.getElementById("loginModal");
+
+    function resetLoginModal() {
+        const username = document.getElementById("loginUsername");
+        const password = document.getElementById("loginPassword");
+        const rememberMe = document.getElementById("rememberMe");
+
+        if (username) username.value = "";
+        if (password) password.value = "";
+        if (rememberMe) rememberMe.checked = false;
+    }
+
+    function resetRegisterModal() {
         selectedFile = null;
         profilePictureInput.value = "";
         const preview = document.getElementById("profileImagePreview");
         if (preview) {
             preview.src = "/profile_pictures/default_avatar.jpg";
         }
+
+        // Reset all text inputs and selects inside the modal
+        const fieldsToReset = [
+            "registerFirstName",
+            "registerLastName",
+            "registerUsername",
+            "registerPassword",
+            "registerConfirmPassword",
+            "profileDescription",
+            "accountType"
+        ];
+
+        fieldsToReset.forEach(id => {
+            const field = document.getElementById(id);
+            if (field) {
+                if (field.tagName === "SELECT") {
+                    field.selectedIndex = 0; // Reset dropdown
+                } else {
+                    field.value = ""; // Clear text inputs
+                }
+            }
+        });
+    }
+
+    if (loginModal) {
+        loginModal.addEventListener("hidden.bs.modal", resetLoginModal);
+        const closeButton = loginModal.querySelector(".close");
+        if (closeButton) {
+            closeButton.addEventListener("click", resetLoginModal);
+        }
     }
 
     if (registerModal) {
-        registerModal.addEventListener("hidden.bs.modal", resetModal);
-        const closeButton = registerModal.querySelector(".close"); // Assuming the close button has a class "close"
+        registerModal.addEventListener("hidden.bs.modal", resetRegisterModal);
+        const closeButton = registerModal.querySelector(".close");
         if (closeButton) {
-            closeButton.addEventListener("click", resetModal);
+            closeButton.addEventListener("click", resetRegisterModal);
         }
     }
 
@@ -158,12 +197,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error logging in:", error);
                 alert("Error logging in. Please try again.");
             }
-        });
-    }
-
-    if(editProfileButton){
-        editProfileButton.addEventListener("click", async function (event){
-            event.preventDefault();
         });
     }
 
