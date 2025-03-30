@@ -22,6 +22,7 @@ const sessionMiddleware = require("./middlewares/sessionMiddleware");
 const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const homeRoutes = require("./routes/homeRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 // Load environment variables
 dotenv.config();
@@ -81,6 +82,7 @@ app.use("/", homeRoutes);
 // Define API routes
 app.use("/users", userRoutes); // User related routes
 app.use("/establishments", establishmentRoutes); // Establishment routes
+app.use("/reviews", reviewRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -93,12 +93,11 @@
                 <!-- Rating Dropdown -->
                 <label for="reviewRating" class="form-label">Rating:</label>
                 <select class="form-select" id="reviewRating" name="reviewRating">
-                    <option value="0">0 - Worst</option>
-                    <option value="1">1</option>
+                    <option value="1">1 - Worst</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-                    <option value="5">5 - Best</option>
+                    <option value="5" selected>5 - Best</option>
                 </select>
 
                 <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review"></textarea>
@@ -111,5 +110,5 @@
     </div>
 </div>
 
-
+<script src="/scripts/createReview.js"></script>
 <script src="/scripts/comment.js"></script>
