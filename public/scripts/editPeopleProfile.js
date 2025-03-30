@@ -4,6 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreview = document.getElementById('editPeopleProfileImagePreview');
     const profilePictureInput = document.getElementById('editPeopleProfilePictureFile');
 
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener("change", () => {
+            const file = profilePictureInput.files[0];
+            if (!file) return;
+
+            const imagePreview = document.getElementById("editPeopleProfileImagePreview");
+            if (imagePreview) {
+                imagePreview.src = URL.createObjectURL(file);
+            }
+        });
+    }
+
     clearButton.addEventListener('click', (event) => {
         event.preventDefault();
         imagePreview.src = '/profile_pictures/default_avatar.jpg';
@@ -48,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const resetProfilePicture = form.querySelector('input[name="resetProfilePicture"]');
         if (resetProfilePicture) {
             formData.append('resetProfilePicture', resetProfilePicture.value);
+        }
+
+        const tempFilenameInput = document.getElementById("profilePictureFilenameInput");
+        if (tempFilenameInput) {
+            formData.append("profilePictureFilename", tempFilenameInput.value);
         }
 
         try {
