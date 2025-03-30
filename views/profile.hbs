@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="modal-body" id="editPeopleProfileModalBody">
-                    <form id="peopleEditForm">
+                    <form id="editPeopleProfileForm" data-user-id="{{user._id}}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -221,6 +221,7 @@
     </div>
 </div>
 
+<script src="/scripts/editProfile.js"></script>
 <script src="/scripts/deleteProfile.js"></script>
 <script src="/scripts/auth.js"></script>
 <script src="/scripts/comment.js"></script>

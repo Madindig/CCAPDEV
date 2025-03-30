@@ -213,7 +213,7 @@ router.get("/session", (req, res) => {
 });
 
 // Update a user
-router.put("/users/:userId", upload.single("profilePicture"), async (req, res) => {
+router.put("/:userId", upload.single("profilePicture"), async (req, res) => {
   const userId = req.params.userId;
 
   if (req.session.user._id !== userId) {
