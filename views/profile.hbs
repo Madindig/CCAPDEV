@@ -1,5 +1,5 @@
-{{#if userIsBusiness}}
-{{!-- <div class="bg">
+{{#if isBusiness}}
+<div class="bg">
     <div class="profile-container">
         <div class="profile-card">
             <div class="profile-info">
@@ -10,12 +10,12 @@
                     <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editBusinessProfileModal">Edit Profile</button>
-                    <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
+                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                    <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     {{!-- <div class="gym-container">
         <div class = "row align-items-center">
@@ -318,7 +318,87 @@
                     </div>
                 </div>
     </div> --}}
-{{!-- </div> --}}
+
+    {{!-- <div class="modal fade" id="editBusinessProfileModal" tabindex="-1" aria-labelledby="editBusinessProfileModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBusinessProfileModal">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="editBusinessProfileModalBody">
+                    <form id="editBusinessProfileForm" data-user-id="{{user._id}}" data-original-profile-picture="{{user.profilePicture}}" data-original-description="{{user.shortDescription}}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editBusinessFirstName">First Name:</label>
+                                    <input type="text" class="form-control" id="editBusinessFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editBusinessLastName">Last Name:</label>
+                                    <input type="text" class="form-control" id="editBusinessLastName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="editBusinessPassword">Password:</label>
+                                    <input type="password" class="form-control" id="editBusinessPassword">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="editBusinessConfirmPassword">Confirm Password:</label>
+                                    <input type="password" class="form-control" id="editBusinessConfirmPassword">
+                                </div>
+
+                                <div class="form-group mt-4">
+                                    <label for="accountTypeEdit">Account Type:</label>
+                                    <select id="accountTypeEdit" name="accountTypeEdit" class="form-control" disabled aria-disabled="true">
+                                        <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
+                                        <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label for="businessProfilePictureFile">Profile Picture:</label>
+                                <div class="image-upload-container">
+                                    <img id="editBusinessProfileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file mt-2" id="editBusinessProfilePictureFile" name="businessProfilePicture" accept=".jpg">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-secondary" id="clearBusinessProfilePicture">Clear Profile Picture</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="editBusinessProfileDescription">Short Description:</label>
+                                    <textarea class="form-control short-desc" id="editBusinessProfileDescription" rows="2">{{user.shortDescription}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-block mt-3" id="editBusinessButton">Accept Changes</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+    </div> --}}
+</div>
 
 
 {{!-- <div class="modal fade" id="createGymModal" tabindex="-1" aria-labelledby="createGymModal" aria-hidden="true">
@@ -500,7 +580,7 @@
                     <textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
-                    <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editPeopleProfileModal">Edit Profile</button>
+                    <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                     <button id="deletePeopleProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
                 </div>
             </div>
@@ -595,89 +675,89 @@
 	{{/if}}
     </div>
 
-    <div class="modal fade" id="editPeopleProfileModal" tabindex="-1" aria-labelledby="editPeopleProfileModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPeopleProfileModal">Edit Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body" id="editPeopleProfileModalBody">
-                    <form id="editPeopleProfileForm" data-user-id="{{user._id}}" data-original-profile-picture="{{user.profilePicture}}" data-original-description="{{user.shortDescription}}">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="editPeopleFirstName">First Name:</label>
-                                    <input type="text" class="form-control" id="editPeopleFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
-                                </div>
-                                <div class="form-group">
-                                    <label for="editPeopleLastName">Last Name:</label>
-                                    <input type="text" class="form-control" id="editPeopleLastName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="editPeoplePassword">Password:</label>
-                                    <input type="password" class="form-control" id="editPeoplePassword">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="editPeopleConfirmPassword">Confirm Password:</label>
-                                    <input type="password" class="form-control" id="editPeopleConfirmPassword">
-                                </div>
-
-                                <div class="form-group mt-4">
-                                    <label for="accountTypeEdit">Account Type:</label>
-                                    <select id="accountTypeEdit" name="accountTypeEdit" class="form-control" disabled aria-disabled="true">
-                                        <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
-                                        <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <label for="peopleProfilePictureFile">Profile Picture:</label>
-                                <div class="image-upload-container">
-                                    <img id="editPeopleProfileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="file" class="form-control-file mt-2" id="editPeopleProfilePictureFile" name="peopleProfilePicture" accept=".jpg">
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-secondary" id="clearPeopleProfilePicture">Clear Profile Picture</button>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="editPeopleProfileDescription">Short Description:</label>
-                                    <textarea class="form-control short-desc" id="editPeopleProfileDescription" rows="2">{{user.shortDescription}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary btn-block mt-3" id="editPeopleButton">Accept Changes</button>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-    </div>
 </div>
 
 {{/if}}
 
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModal">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="editProfileModalBody">
+                <form id="editProfileForm" data-user-id="{{user._id}}" data-original-profile-picture="{{user.profilePicture}}" data-original-description="{{user.shortDescription}}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editFirstName">First Name:</label>
+                                <input type="text" class="form-control" id="editFirstName" placeholder="{{user.firstName}}" readonly aria-readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="editLastName">Last Name:</label>
+                                <input type="text" class="form-control" id="editLastName" placeholder="{{user.lastName}}" readonly aria-readonly="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPassword">Password:</label>
+                                <input type="password" class="form-control" id="editPassword">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editConfirmPassword">Confirm Password:</label>
+                                <input type="password" class="form-control" id="editConfirmPassword">
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <label for="accountTypeEdit">Account Type:</label>
+                                <select id="accountTypeEdit" name="accountTypeEdit" class="form-control" disabled aria-disabled="true">
+                                    <option value="people" {{#if (equal user.role "people")}}selected{{/if}}>Regular User</option>
+                                    <option value="business" {{#if (equal user.role "business")}}selected{{/if}}>Business Owner</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label for="profilePictureFile">Profile Picture:</label>
+                            <div class="image-upload-container">
+                                <img id="editProfileImagePreview" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Preview" class="profile-image">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="file" class="form-control-file mt-2" id="editProfilePictureFile" name="profilePicture" accept=".jpg">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-secondary" id="clearProfilePicture">Clear Profile Picture</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="editProfileDescription">Short Description:</label>
+                                <textarea class="form-control short-desc" id="editProfileDescription" rows="2">{{user.shortDescription}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-block mt-3" id="editButton">Accept Changes</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+</div>
 <div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -711,7 +791,7 @@
     </div>
 </div>
 
-<script src="/scripts/editPeopleProfile.js"></script>
+<script src="/scripts/editProfile.js"></script>
 <script src="/scripts/deleteProfile.js"></script>
 <script src="/scripts/auth.js"></script>
 <script src="/scripts/comment.js"></script>
