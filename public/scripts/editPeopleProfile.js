@@ -4,6 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreview = document.getElementById('editPeopleProfileImagePreview');
     const profilePictureInput = document.getElementById('editPeopleProfilePictureFile');
 
+    const editModal = document.getElementById('editPeopleProfileModal');
+
+    if (editModal) {
+        $('#editPeopleProfileModal').on('hidden.bs.modal', () => {
+            // Clear password fields
+            document.getElementById('editPeoplePassword').value = '';
+            document.getElementById('editPeopleConfirmPassword').value = '';
+    
+            // Reset description
+            document.getElementById('editPeopleProfileDescription').value = form.dataset.originalDescription;
+    
+            // Reset file input
+            profilePictureInput.value = '';
+    
+            // Reset image preview
+            const originalPicture = form.dataset.originalProfilePicture;
+            if (originalPicture && imagePreview) {
+                imagePreview.src = `/profile_pictures/${originalPicture}`;
+            }
+    
+            // Remove hidden inputs (if they exist)
+            const resetInput = document.getElementById('resetProfilePictureInput');
+            if (resetInput) resetInput.remove();
+    
+            const tempFilenameInput = document.getElementById('profilePictureFilenameInput');
+            if (tempFilenameInput) tempFilenameInput.remove();
+        });
+    }
+
     if (profilePictureInput) {
         profilePictureInput.addEventListener("change", () => {
             const file = profilePictureInput.files[0];
