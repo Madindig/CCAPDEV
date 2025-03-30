@@ -222,11 +222,25 @@ router.put("/:userId", upload.single("profilePicture"), async (req, res) => {
 
   try {
     const updates = {};
-    const { shortDescription, password } = req.body;
+    const { shortDescription, password, resetProfilePicture } = req.body;
 
     if (shortDescription) updates.shortDescription = shortDescription;
     if (password) updates.password = await bcrypt.hash(password, 10);
     if (req.file) updates.profilePicture = req.file.filename;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found." });
+    
+    if (resetProfilePicture === 'true') {
+      if (user.profilePicture && user.profilePicture !== 'default_avatar.jpg') {
+        const oldPath = path.join(__dirname, "../public/profile_pictures", user.profilePicture);
+        fs.unlink(oldPath, (err) => {
+          if (err) console.error("Error deleting old profile picture:", err);
+        });
+      }
+    
+      updates.profilePicture = 'default_avatar.jpg';
+    }
 
     await User.findByIdAndUpdate(userId, updates);
     res.json({ message: "User updated successfully." });
