@@ -9,10 +9,16 @@
             <p><strong>Location:</strong> {{establishment.location}}</p>
             <p><strong>Amenities:</strong> {{establishment.amenities}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
+            <p><strong>Address:</strong> {{establishment.address}}</p> 
             <p>{{establishment.shortDescription}}</p>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
-                Post Review
-            </button>
+
+            {{#if isBusiness}}
+                
+            {{else}}
+                <button class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+                    Post Review
+                </button>
+            {{/if}}
         </div>
     </div>
 

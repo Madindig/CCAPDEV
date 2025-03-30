@@ -56,7 +56,14 @@ router.get("/:id", async (req, res) => {
     }));
 
     // Render the establishment page with data
-    res.render("establishment", { establishment, reviews: modifiedReviews });
+    // res.render("establishment", { establishment, reviews: modifiedReviews });
+
+    res.render("establishment", {
+      establishment,
+      reviews: modifiedReviews,
+      user: req.session.user,
+      isBusiness: req.session.user && req.session.user.role === "business"
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -83,9 +90,15 @@ router.get("/:establishmentId/reviews/:reviewId", async (req, res) => {
 });
 
 // Create a new establishment with image upload
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/create", upload.single("image"), async (req, res) => {
   try {
     const { name, amenities, location, address, shortDescription, contactNumber } = req.body;
+
+    // Check for existing gyms for the same user
+    const existingEstablishment = await Establishment.findOne({ name, owner: req.session.user._id });
+    if (existingEstablishment) {
+      return res.status(400).json({ message: "You already have a gym with this name." });
+    }
 
     const newEstablishment = new Establishment({
       name,
@@ -105,50 +118,50 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// Update an establishment
-router.put("/:id", async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
+// // Update an establishment
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const establishment = await Establishment.findById(req.params.id);
 
-    // Check if establishment exists
-    if (!establishment) {
-      return res.status(404).json({ message: "Establishment not found" });
-    }
+//     // Check if establishment exists
+//     if (!establishment) {
+//       return res.status(404).json({ message: "Establishment not found" });
+//     }
 
-    // Check if the logged-in user is the owner
-    if (establishment.owner.toString() !== req.session.user._id.toString()) {
-      return res.status(403).json({ message: "You are not authorized to modify this establishment" });
-    }
+//     // Check if the logged-in user is the owner
+//     if (establishment.owner.toString() !== req.session.user._id.toString()) {
+//       return res.status(403).json({ message: "You are not authorized to modify this establishment" });
+//     }
 
-    const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-    res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+//     res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
-// Delete an establishment
-router.delete("/:id", async (req, res) => {
-  try {
-    const establishment = await Establishment.findById(req.params.id);
+// // Delete an establishment
+// router.delete("/:id", async (req, res) => {
+//   try {
+//     const establishment = await Establishment.findById(req.params.id);
 
-    // Check if establishment exists
-    if (!establishment) {
-      return res.status(404).json({ message: "Establishment not found" });
-    }
+//     // Check if establishment exists
+//     if (!establishment) {
+//       return res.status(404).json({ message: "Establishment not found" });
+//     }
 
-    // Check if the logged-in user is the owner
-    if (establishment.owner.toString() !== req.session.user._id.toString()) {
-      return res.status(403).json({ message: "You are not authorized to delete this establishment" });
-    }
+//     // Check if the logged-in user is the owner
+//     if (establishment.owner.toString() !== req.session.user._id.toString()) {
+//       return res.status(403).json({ message: "You are not authorized to delete this establishment" });
+//     }
 
-    await Establishment.findByIdAndDelete(req.params.id);
+//     await Establishment.findByIdAndDelete(req.params.id);
 
-    res.json({ message: "Establishment deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
+//     res.json({ message: "Establishment deleted successfully" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
 
 module.exports = router;
