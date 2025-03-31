@@ -6,6 +6,7 @@ const fs = require("fs");
 const User = require("../models/User");
 const Establishment = require("../models/Establishment");
 const Review = require("../models/Review");
+const Comment = require('../models/Comment');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 
@@ -72,8 +73,15 @@ router.get("/profile", async (req, res) => {
       }
 
       const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
+
+      const userComments = await Comment.find({ userId: user._id })
+      .populate({
+        path: 'reviewId',
+        populate: { path: 'establishmentId' }
+      })
+      .lean();
       
-      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews });
+      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments });
       
   } catch (err) {
       console.error("Error retrieving profile:", err);

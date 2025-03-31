@@ -23,6 +23,7 @@ const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const commentRoutes = require('./routes/commentRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -83,6 +84,7 @@ app.use("/", homeRoutes);
 app.use("/users", userRoutes); // User related routes
 app.use("/establishments", establishmentRoutes); // Establishment routes
 app.use("/reviews", reviewRoutes);
+app.use('/comments', commentRoutes.router);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

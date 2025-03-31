@@ -47,8 +47,11 @@
             </div>
             
             <!-- Comment Button -->
-            <button class="btn btn-primary" onclick="loadComments('{{this._id}}', '{{../establishment._id}}')" data-toggle="modal" data-target="#commentModal">
-            See Comments
+            <button class="btn btn-link"
+                    onclick="openCommentModal('{{_id}}', '{{../establishment._id}}')"
+                    data-toggle="modal"
+                    data-target="#commentModal">
+            View Comments
             </button>
 
         </div>
@@ -58,7 +61,7 @@
     {{/if}}
 </div>
 
-<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+{{!-- <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,11 +84,42 @@
                     <p>No comments yet. Be the first to comment!</p>
                 {{/if}}
             </div>
+
+            <input type="hidden" id="currentReviewId">
+            <input type="hidden" id="currentEstablishmentId">
             <textarea class ="commentbox" id="commentbox" name="commentbox" rows="4" cols="1" placeholder="Leave a comment"></textarea>
             <button class="btn btn-primary mt-2" onclick="post_comment()">Post Comment</button>
             {{!-- Add a modal --}}
         </div>
     </div>
+</div> --}}
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentModalLabel">Comments</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" id="commentModalBody">
+        <p>Loading comments...</p>
+        {{!-- JS will replace this with actual comment list --}}
+      </div>
+
+      <input type="hidden" id="currentReviewId">
+      <input type="hidden" id="currentEstablishmentId">
+
+      <div class="modal-footer flex-column">
+        <textarea class="form-control mb-2" id="commentbox" name="commentbox" rows="3" placeholder="Leave a comment"></textarea>
+        <button class="btn btn-primary btn-block" onclick="post_comment()">Post Comment</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
