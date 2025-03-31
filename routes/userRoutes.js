@@ -8,7 +8,7 @@ const Establishment = require("../models/Establishment");
 const Review = require("../models/Review");
 const Comment = require('../models/Comment');
 const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Set up Multer storage for profile picture uploads
 const storage = multer.diskStorage({
