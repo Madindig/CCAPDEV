@@ -1,6 +1,6 @@
-// Navbar gym search script
+// Navbar establishment search script
 document.getElementById("search-addon").addEventListener("click", function() {
-    window.location.href = "/results?nameSearch="+document.getElementById("searchQueryNavbar").value;
+    window.location.href = "/results?search="+document.getElementById("searchQueryNavbar").value;
   });
 
 // Establishment review script

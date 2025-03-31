@@ -89,6 +89,10 @@ body {
     line-height: 70%;
 }
 
+.gym-card{
+    cursor: pointer;
+}
+
 .gym-card img, .review-card img {
     width: 120px;
     height: 180px;
