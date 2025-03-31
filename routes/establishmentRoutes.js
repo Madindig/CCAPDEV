@@ -124,45 +124,6 @@ router.get("/:establishmentId/reviews/:reviewId", async (req, res) => {
   }
 });
 
-// Create a new establishment with image upload
-router.post("/createGym", upload.single("gymProfilePicture"), async (req, res) => {
-  try {
-    const { gymName, gymDesc,address, contactNumber, amenities, regions } = req.body;
-
-    const profilePictureFilename = req.file ? req.file.filename : "default_avatar.jpg";
-
-    if (!req.session.user) {
-      return res.status(401).json({ message: "Unauthorized. Please log in." });
-    }
-
-    const existingEstablishment = await Establishment.findOne({ gymName, owner: req.session.user._id });
-    if (existingEstablishment) {
-      return res.status(400).json({ message: "You already have a gym with this name." });
-    }
-
-    //error check
-    console.log(req.body);
-    console.log(req.file);
-
-    const newEstablishment = new Establishment({
-      name: gymName,
-      shortDescription: gymDesc,
-      location: regions,
-      address,
-      contactNumber,
-      amenities,
-      rating: 0,
-      owner: req.session.user._id,
-      image: profilePictureFilename
-    });
-
-    await newEstablishment.save();
-    res.status(201).json({ message: "Establishment created successfully!", establishment: newEstablishment });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
-
 //create Establishment
 /*
 router.post("/:id", async (req, res) => {

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const createGymForm = document.getElementById("createGymForm");
 
-    console.log("this should be here");
     if (createGymForm) {
         createGymForm.addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -11,13 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 gymDesc: document.getElementById("gymProfileDescription").value,
                 address: document.getElementById("gymAddress").value,
                 contactNumber: document.getElementById("gymContact").value,
-                amenities: Array.from(document.querySelectorAll("input[name='amenities[]']:checked"))
-                    .map(input => input.value),
-                regions: document.querySelector("input[name='regions']:checked")?.value || ""
+                amenities: Array.from(document.querySelectorAll("input[name='amenities[]']:checked")).map(input => input.value),
+                regions: document.querySelector("input[name='regions']:checked")?.value || null
             };
 
             try {
-                const response = await fetch("/createGym", {
+                const response = await fetch("users/createGym", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -29,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const result = await response.json();
                     alert("Establishment created successfully!");
                     console.log(result);
-
                     $("#createGymModal").modal("hide");
                     createGymForm.reset();
                 } else {
