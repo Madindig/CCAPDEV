@@ -29,7 +29,7 @@ router.get("/results", async (req, res) => {
             ...(searchDesc != '' && { shortDescription : { $regex : searchDesc, $options : 'i' } }), // case insensitive substrings
             ...(selectedAmenities.length > 0 && { amenities: { $all: selectedAmenities } }), // Use $all for AND instead of OR
             ...(selectedLocations.length > 0 && { location: { $in: selectedLocations } }),
-            ...(selectedRatings.length > 0 && { $expr: { $in: [{ $floor: ["$rating"] }, selectedRatings]} }) // Round the rating first to nearest integer then check if its in the ratings array
+            ...(selectedRatings.length > 0 && { $expr: { $in: [{ $floor: ["$rating"] }, selectedRatings]} }) // Floor the rating first to nearest integer then check if its in the ratings array
         };
 
         const establishments = await Establishment.find(searchFilter).lean();

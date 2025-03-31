@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="card text-white search-card">
         <div class="card-body search-card-body">
-            <form>
+            <form action="/results" method="GET">
                 <div class="form-group">
                     <input type="text" class="form-control" id="searchNameQuery" name="nameSearch" placeholder="Enter gym name" value="{{searchName}}">
                 </div>
@@ -24,36 +24,44 @@
                                 <div class="card-body select-items">
                                     <div class="amenities-group">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="lockers" name="amenities[]" value="lockers">
+                                            <input class="form-check-input" type="checkbox" id="lockers" name="amenities[]" value="Lockers">
                                             <label class="form-check-label" for="lockers">Lockers</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="parking" name="amenities[]" value="parking">
+                                            <input class="form-check-input" type="checkbox" id="parking" name="amenities[]" value="Parking">
                                             <label class="form-check-label" for="parking">Parking</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="pool" name="amenities[]" value="pool">
-                                            <label class="form-check-label" for="pool">Pool</label>
+                                            <input class="form-check-input" type="checkbox" id="pool" name="amenities[]" value="Swimming Pool">
+                                            <label class="form-check-label" for="pool">Swimming Pool</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="sauna" name="amenities[]" value="sauna">
+                                            <input class="form-check-input" type="checkbox" id="sauna" name="amenities[]" value="Sauna">
                                             <label class="form-check-label" for="sauna">Sauna</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="smoothieBar" name="amenities[]" value="smoothieBar">
+                                            <input class="form-check-input" type="checkbox" id="smoothieBar" name="amenities[]" value="Nutrition Bar">
                                             <label class="form-check-label" for="smoothieBar">Smoothie Bar</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="spaServices" name="amenities[]" value="spaServices">
+                                            <input class="form-check-input" type="checkbox" id="spaServices" name="amenities[]" value="Spa Services">
                                             <label class="form-check-label" for="spaServices">Spa Services</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="shower" name="amenities[]" value="shower">
-                                            <label class="form-check-label" for="shower">Shower</label>
+                                            <input class="form-check-input" type="checkbox" id="shower" name="amenities[]" value="Showers">
+                                            <label class="form-check-label" for="shower">Showers</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="wifiAccess" name="amenities[]" value="wifiAccess">
-                                            <label class="form-check-label" for="wifiAccess">Wi-Fi Access</label>
+                                            <input class="form-check-input" type="checkbox" id="wifiAccess" name="amenities[]" value="Free WiFi Access">
+                                            <label class="form-check-label" for="wifiAccess">Free WiFi Access</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="basketballCourt" name="amenities[]" value="Basketball Court">
+                                            <label class="form-check-label" for="basketballCourt">Basketball Court</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="tv" name="amenities[]" value="TV Screens on Equipment">
+                                            <label class="form-check-label" for="tv">TV Screens on Equipment</label>
                                         </div>
                                     </div>
                                 </div>
@@ -76,35 +84,35 @@
                                 <div class="card-body select-items">
                                     <div class="region-group">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="ncr-east" name="regions[]" value="ncr-east">
+                                            <input class="form-check-input" type="checkbox" id="ncr-east" name="regions[]" value="NCR East">
                                             <label class="form-check-label" for="ncr-east">NCR-East</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="ncr-north" name="regions[]" value="ncr-north">
+                                            <input class="form-check-input" type="checkbox" id="ncr-north" name="regions[]" value="NCR North">
                                             <label class="form-check-label" for="ncr-north">NCR-North</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="ncr-west" name="regions[]" value="ncr-west">
+                                            <input class="form-check-input" type="checkbox" id="ncr-west" name="regions[]" value="NCR West">
                                             <label class="form-check-label" for="ncr-west">NCR-West</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="ncr-south" name="regions[]" value="ncr-south">
+                                            <input class="form-check-input" type="checkbox" id="ncr-south" name="regions[]" value="NCR South">
                                             <label class="form-check-label" for="ncr-south">NCR-South</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="bulacan" name="regions[]" value="bulacan">
+                                            <input class="form-check-input" type="checkbox" id="bulacan" name="regions[]" value="Bulacan">
                                             <label class="form-check-label" for="bulacan">Bulacan</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="cavite" name="regions[]" value="cavite">
+                                            <input class="form-check-input" type="checkbox" id="cavite" name="regions[]" value="Cavite">
                                             <label class="form-check-label" for="cavite">Cavite</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="laguna" name="regions[]" value="laguna">
+                                            <input class="form-check-input" type="checkbox" id="laguna" name="regions[]" value="Laguna">
                                             <label class="form-check-label" for="laguna">Laguna</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rizal" name="regions[]" value="rizal">
+                                            <input class="form-check-input" type="checkbox" id="rizal" name="regions[]" value="Rizal">
                                             <label class="form-check-label" for="rizal">Rizal</label>
                                         </div>
                                     </div>
@@ -129,7 +137,7 @@
                                     <div class="region-group">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="zero" name="ratings[]" value="0">
-                                            <label class="form-check-label" for="zero">0</label>
+                                            <label class="form-check-label" for="zero">Unrated</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="one" name="ratings[]" value="1">

@@ -7,7 +7,7 @@
         <div class = "right-establishment-details">
             <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
             <p><strong>Location:</strong> {{establishment.location}}</p>
-            <p><strong>Amenities:</strong> {{establishment.amenities}}</p>
+            <p><strong>Amenities:</strong> {{#each establishment.amenities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
             <p><strong>Address:</strong> {{establishment.address}}</p> 
             <p>{{establishment.shortDescription}}</p>
