@@ -60,3 +60,22 @@ function post_comment() {
     })
     .catch(error => console.error("Error posting comment:", error));
 }
+
+function deleteComment(commentId) {
+    fetch(`/comments/${commentId}/delete`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === "Comment deleted successfully") {
+        alert("Comment deleted.");
+        location.reload(); // 🔁 Refresh to reflect changes
+      } else {
+        alert("Failed to delete comment.");
+      }
+    })
+    .catch(err => {
+      console.error("Error deleting comment:", err);
+      alert("Something went wrong.");
+    });
+  }

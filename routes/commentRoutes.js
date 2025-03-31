@@ -36,6 +36,33 @@ router.post('/:reviewId/create', ensureLoggedIn, async (req, res) => {
   }
 });
 
+// DELETE /comments/:commentId/delete
+router.delete('/:commentId/delete', ensureLoggedIn, async (req, res) => {
+  const { commentId } = req.params;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) return res.status(404).json({ message: 'Comment not found' });
+
+    // Only allow the user who posted the comment to delete it
+    if (comment.userId.toString() !== req.session.user._id) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    // Remove comment from Review.comments[]
+    await Review.findByIdAndUpdate(comment.reviewId, {
+      $pull: { comments: comment._id }
+    });
+
+    await Comment.findByIdAndDelete(commentId);
+
+    res.status(200).json({ message: 'Comment deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete comment' });
+  }
+});
+
 // ✅ Export both the router and the middleware properly
 module.exports = {
   router,

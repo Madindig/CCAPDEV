@@ -1,54 +1,54 @@
 {{#if isBusiness}}
-<div class="bg">
-    <div class="profile-container">
-        <div class="profile-card">
-            <div class="profile-info">
-                <img class="profile-pic" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Picture">
-                <div class="profile-text">
-                    <h2>{{user.firstName}} {{user.lastName}}</h2>
-                    <p>{{user.username}}</p>
-                    <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
-                    
-                    <!-- Edit & Delete Profile Buttons -->
-                    <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-                    <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
+    <div class="bg">
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="profile-info">
+                    <img class="profile-pic" src="/profile_pictures/{{user.profilePicture}}" alt="Profile Picture">
+                    <div class="profile-text">
+                        <h2>{{user.firstName}} {{user.lastName}}</h2>
+                        <p>{{user.username}}</p>
+                        <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
+                        
+                        <!-- Edit & Delete Profile Buttons -->
+                        <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                        <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="gym-container">
-        <div class = "row align-items-center">
-            <div class = "col">
-                <h2>Establishments</h2>
-            </div>
-
-            {{!-- <div class = "col-auto mb-3">
-                <button id="createGymButton"  data-toggle="modal" data-target="#createGymModal">New Establishment</button>
-            </div> --}}
-        </div>
-
-        {{#each gyms}}
-        <a href="/establishments/{{this._id}}" class="gym-card-link">
-            <div class="gym-card">
-                <img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
-                <div class="gym-details">
-                    <h3>{{this.name}}</h3>
-                    <p><strong>Rating:</strong> {{this.rating}}</p>
-                    <p><strong>Location:</strong> {{this.location}}</p>
-                    <p><strong>Amenities:</strong> {{this.amenities}}</p>
-
-                    <!-- Edit & Delete Gym Buttons -->
-                    <button data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
-                    <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal-{{this._id}}">Delete</button>
+        <div class="gym-container">
+            <div class = "row align-items-center">
+                <div class = "col">
+                    <h2>Establishments</h2>
                 </div>
-            </div>
-        </a>
 
-        {{!-- edit and delete gym modal --}}
-        {{/each}}
+                {{!-- <div class = "col-auto mb-3">
+                    <button id="createGymButton"  data-toggle="modal" data-target="#createGymModal">New Establishment</button>
+                </div> --}}
+            </div>
+
+            {{#each gyms}}
+            <a href="/establishments/{{this._id}}" class="gym-card-link">
+                <div class="gym-card">
+                    <img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
+                    <div class="gym-details">
+                        <h3>{{this.name}}</h3>
+                        <p><strong>Rating:</strong> {{this.rating}}</p>
+                        <p><strong>Location:</strong> {{this.location}}</p>
+                        <p><strong>Amenities:</strong> {{this.amenities}}</p>
+
+                        <!-- Edit & Delete Gym Buttons -->
+                        <button data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
+                        <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal-{{this._id}}">Delete</button>
+                    </div>
+                </div>
+            </a>
+
+            {{!-- edit and delete gym modal --}}
+            {{/each}}
+        </div>
     </div>
-</div>
 
 {{else}}
 
@@ -71,48 +71,49 @@
     </div>
 
     <div class="review-container">
-	<h2>Reviews</h2>
-	{{#if reviews.length}}
-	{{#each reviews}}
-	<div class="gym-card">
-		<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
-		<div class="gym-details">
-			<h3>{{this.name}}</h3>
-			{{!-- <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p> --}}
-            <p><strong>Rating:</strong> {{this.rating}}</span></p>
-			<p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
-			<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
-			<button class="editReviewButton"
-                    data-toggle="modal"
-                    data-target="#editReviewModal-{{this._id}}"
-                    data-review-id="{{this._id}}"
-                    data-review-text="{{this.reviewText}}"
-                    data-review-rating="{{this.rating}}">Edit
-            </button>
-            <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
-		</div>
-	</div>
-
-    <div class="comment-container">
-    <h2>Comments</h2>
-
-    {{#if comments.length}}
-        {{#each comments}}
-        <div class="gym-card">
-            <div class="gym-details">
-                <h3>{{this.reviewId.establishmentId.name}}</h3>
-                <p><strong>Comment:</strong> {{this.commentText}}</p>
-                <p><strong>Review:</strong> {{this.reviewId.reviewText}}</p>
-                <p><strong>Establishment:</strong> {{this.reviewId.establishmentId.name}}</p>
-                <p>Posted: {{this.createdAt}}</p>
+        <h2>Reviews</h2>
+        {{#if reviews.length}}
+            {{#each reviews}}
+            <div class="gym-card">
+                <img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
+                <div class="gym-details">
+                <h3>{{this.name}}</h3>
+                <p><strong>Rating:</strong> {{this.rating}}</p>
+                <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
+                <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+                <button class="editReviewButton"
+                        data-toggle="modal"
+                        data-target="#editReviewModal-{{this._id}}"
+                        data-review-id="{{this._id}}"
+                        data-review-text="{{this.reviewText}}"
+                        data-review-rating="{{this.rating}}">Edit
+                </button>
+                <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
+                </div>
             </div>
-        </div>
-        {{/each}}
-    {{else}}
-        <p>You haven't posted any comments yet.</p>
-    {{/if}}
-    </div>
+            {{/each}}
+        {{else}}
+            <p>No reviews yet.</p>
+        {{/if}}
 
+        <h2>Comments</h2>
+        {{#if comments.length}}
+            {{#each comments}}
+            <div class="gym-card">
+                <div class="gym-details">
+                <p><strong>Your Comment:</strong> {{this.commentText}}</p>
+                <p><strong>Review Snippet:</strong> {{#if this.reviewId}}{{this.reviewId.reviewText}}{{else}}(Review not found){{/if}}</p>
+                <p><strong>Rating:</strong> {{this.reviewId.rating}}</p>
+                <p><strong>Establishment:</strong> {{this.reviewId.establishmentId.name}}</p>
+                <p class="text-muted">Posted: {{this.createdAt}}</p>
+                <button class="delete-btn" onclick="deleteComment('{{this._id}}')">Delete</button>
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+            <p>You haven't posted any comments yet.</p>
+        {{/if}}
+    </div>
 
     <div class="modal fade" id="editReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="editReviewModalLabel-{{this._id}}" aria-hidden="true">
         <div class="modal-dialog">
@@ -178,13 +179,6 @@
             </div>
         </div>
     </div>
-
-    {{/each}}
-	{{else}}
-	    <p>No reviews yet.</p>
-	{{/if}}
-    </div>
-
 </div>
 
 {{/if}}

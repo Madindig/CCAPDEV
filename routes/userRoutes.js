@@ -77,10 +77,12 @@ router.get("/profile", async (req, res) => {
       const userComments = await Comment.find({ userId: user._id })
       .populate({
         path: 'reviewId',
-        populate: { path: 'establishmentId' }
+        model: 'Review',
+        populate: { path: 'establishmentId', model: 'Establishment' }
       })
       .lean();
       
+      console.log("User comments:", userComments);
       res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments });
       
   } catch (err) {

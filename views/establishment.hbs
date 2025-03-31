@@ -61,39 +61,6 @@
     {{/if}}
 </div>
 
-{{!-- <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="commentModalLabel">Comments</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body" id="commentModalBody">
-                {{#if comments.length}}
-                    {{#each comments}}
-                        <div class="comment">
-                            <p><strong>{{this.userId.username}}:</strong> {{this.commentText}}</p>
-                            <p class="text-muted">{{this.createdAt}}</p>
-                            <hr>
-                        </div>
-                    {{/each}}
-                {{else}}
-                    <p>No comments yet. Be the first to comment!</p>
-                {{/if}}
-            </div>
-
-            <input type="hidden" id="currentReviewId">
-            <input type="hidden" id="currentEstablishmentId">
-            <textarea class ="commentbox" id="commentbox" name="commentbox" rows="4" cols="1" placeholder="Leave a comment"></textarea>
-            <button class="btn btn-primary mt-2" onclick="post_comment()">Post Comment</button>
-            {{!-- Add a modal --}}
-        </div>
-    </div>
-</div> --}}
-
 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
