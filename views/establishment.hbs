@@ -33,7 +33,18 @@
             <p><strong>Rating:</strong> {{this.rating}}</span></p>
             <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
-            <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+
+            <div class="btn-group mt-2" role="group">
+                <button class="btn btn-outline-success like-btn" 
+                        onclick="voteReview('{{this._id}}', 'like')">
+                    Like ({{this.likes.length}})
+                </button>
+                
+                <button class="btn btn-outline-danger dislike-btn" 
+                        onclick="voteReview('{{this._id}}', 'dislike')">
+                    Dislike ({{this.dislikes.length}})
+                </button>
+            </div>
             
             <!-- Comment Button -->
             <button class="btn btn-primary" onclick="loadComments('{{this._id}}', '{{../establishment._id}}')" data-toggle="modal" data-target="#commentModal">
@@ -111,5 +122,6 @@
     </div>
 </div>
 
+<script src="/scripts/voteReview.js"></script>
 <script src="/scripts/createReview.js"></script>
 <script src="/scripts/comment.js"></script>
