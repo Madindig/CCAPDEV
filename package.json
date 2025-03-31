@@ -1,15 +1,24 @@
 {
   "name": "gym_review",
   "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/Madindig/CCAPDEV#readme",
+  "bugs": {
+    "url": "https://github.com/Madindig/CCAPDEV/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madindig/CCAPDEV.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",

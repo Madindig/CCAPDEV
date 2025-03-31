@@ -1,6 +1,6 @@
 <!-- Search -->
 <div class="blur">
-    {{> searchBar }}
+    {{> searchBar searchQuery=searchQuery amenities=amenities locations=locations ratings=ratings}}
 
 	<div class="establishments-container mt-5">
 		<div class="gym-list">
@@ -12,7 +12,7 @@
 						<h3>{{this.name}}</h3>
 						<p><strong>Rating:</strong> {{this.rating}}</p>
 						<p><strong>Location:</strong> {{this.location}}</p>
-						<p><strong>Amenities:</strong> {{this.amenities}}</p>
+						<p><strong>Amenities:</strong> {{#each this.amenities}}{{this}}{{#unless @last}}, {{/unless}} {{/each}}</p>
 						<p><strong>Contact Number:</strong> {{this.contactNumber}}</p>
 						<p>{{this.shortDescription}}</p>
 					</div>
