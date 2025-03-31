@@ -2,9 +2,11 @@ const mongoose = require('mongoose');
 
 const allowedAmenities = [
   "Showers",
+  "Parking",
+  "Swimming Pool",
   "Lockers",
   "Sauna",
-  "Swimming Pool",
+  "Spa Services",
   "Free WiFi Access",
   "Nutrition Bar",
   "Basketball Court",

@@ -144,14 +144,14 @@ router.post("/createGym", upload.single("gymProfilePicture"), async (req, res) =
     console.log(req.file); // Log uploaded file
 
     const newEstablishment = new Establishment({
-      gymName,
-      amenities,
-      regions,
+      name: gymName,
+      shortDescription: gymDesc,
+      location: regions,
       address,
-      gymDesc,
       contactNumber,
-      rating : 0,
-      owner: req.session.user._id, // Attach to logged-in user
+      amenities,
+      rating: 0,
+      owner: req.session.user._id,
       image: profilePictureFilename
     });
 
