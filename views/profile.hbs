@@ -20,7 +20,7 @@
     <div class="gym-container">
         <div class = "row align-items-center">
             <div class = "col">
-                <h2>My Establishments</h2>
+                <h2>Establishments</h2>
             </div>
 
             {{!-- <div class = "col-auto mb-3">
@@ -71,7 +71,7 @@
     </div>
 
     <div class="review-container">
-	<h2>My Reviews</h2>
+	<h2>Reviews</h2>
 	{{#if reviews.length}}
 	{{#each reviews}}
 	<div class="gym-card">
@@ -92,6 +92,26 @@
             <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
 		</div>
 	</div>
+
+    <div class="comment-container">
+    <h2>Comments</h2>
+
+    {{#if comments.length}}
+        {{#each comments}}
+        <div class="gym-card">
+            <div class="gym-details">
+                <h3>{{this.reviewId.establishmentId.name}}</h3>
+                <p><strong>Comment:</strong> {{this.commentText}}</p>
+                <p><strong>Review:</strong> {{this.reviewId.reviewText}}</p>
+                <p><strong>Establishment:</strong> {{this.reviewId.establishmentId.name}}</p>
+                <p>Posted: {{this.createdAt}}</p>
+            </div>
+        </div>
+        {{/each}}
+    {{else}}
+        <p>You haven't posted any comments yet.</p>
+    {{/if}}
+    </div>
 
 
     <div class="modal fade" id="editReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="editReviewModalLabel-{{this._id}}" aria-hidden="true">
