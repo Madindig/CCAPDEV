@@ -488,7 +488,7 @@
             </div>
 
             <div class="modal-body" id="createGymModalBody">
-                <form id="createGymForm" enctype="multipart/form-data">
+                <form id="createGymForm">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -552,20 +552,16 @@
                                     <div class="card-body select-items">
                                         <div class="amenities-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="lockers" name="amenities[]" value="Showers" {{#if (includes this.amenities "Lockers")}}checked{{/if}}>
-                                                <label class="form-check-label" for="lockers">Lockers</label>
-                                            </div>
-                                            <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="showers" name="amenities[]" value="Showers" {{#if (includes this.amenities "Showers")}}checked{{/if}}>
                                                 <label class="form-check-label" for="showers">Showers</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="showers" name="amenities[]" value="Showers" {{#if (includes this.amenities "Showers")}}checked{{/if}}>
-                                                <label class="form-check-label" for="showers">Showers</label>
+                                                <input class="form-check-input" type="checkbox" id="parking" name="amenities[]" value="Parking" {{#if (includes this.amenities "Parking")}}checked{{/if}}>
+                                                <label class="form-check-label" for="parking">Parking</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="nutritionBar" name="amenities[]" value="Nutrition Bar" {{#if (includes this.amenities "Nutrition Bar")}}checked{{/if}}>
-                                                <label class="form-check-label" for="nutritionBar">Nutrition Bar</label>
+                                                <input class="form-check-input" type="checkbox" id="swimmingPool" name="amenities[]" value="Swimming Pool" {{#if (includes this.amenities "Swimming Pool")}}checked{{/if}}>
+                                                <label class="form-check-label" for="swimmingPool">Swimming Pool</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="lockers" name="amenities[]" value="Lockers" {{#if (includes this.amenities "Lockers")}}checked{{/if}}>
@@ -576,12 +572,16 @@
                                                 <label class="form-check-label" for="sauna">Sauna</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="swimmingPool" name="amenities[]" value="Swimming Pool" {{#if (includes this.amenities "Swimming Pool")}}checked{{/if}}>
-                                                <label class="form-check-label" for="swimmingPool">Swimming Pool</label>
+                                                <input class="form-check-input" type="checkbox" id="spaServices" name="amenities[]" value="Spa Services" {{#if (includes this.amenities "Spa Services")}}checked{{/if}}>
+                                                <label class="form-check-label" for="spaServices">Spa Services</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="wifi" name="amenities[]" value="Free WiFi Access" {{#if (includes this.amenities "Free WiFi Access")}}checked{{/if}}>
                                                 <label class="form-check-label" for="wifi">Free WiFi Access</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="nutritionBar" name="amenities[]" value="Nutrition Bar" {{#if (includes this.amenities "Nutrition Bar")}}checked{{/if}}>
+                                                <label class="form-check-label" for="nutritionBar">Nutrition Bar</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="basketball" name="amenities[]" value="Basketball Court" {{#if (includes this.amenities "Basketball Court")}}checked{{/if}}>

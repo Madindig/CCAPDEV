@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const createGymForm = document.getElementById("createGymForm");
 
+    console.log("this should be here");
     if (createGymForm) {
         createGymForm.addEventListener("submit", async function (event) {
             event.preventDefault();

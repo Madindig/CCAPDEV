@@ -140,8 +140,9 @@ router.post("/createGym", upload.single("gymProfilePicture"), async (req, res) =
       return res.status(400).json({ message: "You already have a gym with this name." });
     }
 
-    console.log(req.body); // Log form data
-    console.log(req.file); // Log uploaded file
+    //error check
+    console.log(req.body);
+    console.log(req.file);
 
     const newEstablishment = new Establishment({
       name: gymName,
