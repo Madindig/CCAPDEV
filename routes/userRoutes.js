@@ -82,7 +82,6 @@ router.get("/profile", async (req, res) => {
       })
       .lean();
       
-      console.log("User comments:", userComments);
       res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments });
       
   } catch (err) {
