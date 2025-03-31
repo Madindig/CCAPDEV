@@ -12,7 +12,7 @@ const session = require("express-session");
 const path = require("path");
 const { engine } = require("express-handlebars");
 const sessionMiddleware = require("./middlewares/sessionMiddleware");
-
+``
 /*
   Import routes:
   1. User routes (login, registration, etc.)
