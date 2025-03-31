@@ -6,7 +6,7 @@ const Establishment = require("../models/Establishment");
 router.get("/", async (req, res) => {
     try {
         const establishments = await Establishment.find().lean();
-        res.render("home", { establishments, user: req.session.user || null, searchQuery : "", amenities : [], locations : [], ratings : [] });
+        res.render("home", { establishments, user: req.session.user || null, searchName : "", searchDesc : "", amenities : [], locations : [], ratings : [] });
     } catch (error) {
         res.status(500).send("Internal Server Error");
     }
@@ -14,7 +14,8 @@ router.get("/", async (req, res) => {
 
 // Search results
 router.get("/results", async (req, res) => {
-    const searchString = req.query.search || '';
+    const searchName = req.query.nameSearch || '';
+    const searchDesc= req.query.descSearch || '';
     // Hope you like ternary operators
     // Ensures that selectedAmenities and selectedLocations is always an array
     const selectedAmenities = Array.isArray(req.query.amenities) ? req.query.amenities : req.query.amenities ? [req.query.amenities] : [];
@@ -24,15 +25,16 @@ router.get("/results", async (req, res) => {
     try {
         const searchFilter = {
             // Used ...(condition && filter) so that filter that
-            ...(searchString != '' && { name : { $regex : searchString, $options : 'i' } }), // case insensitive substrings
+            ...(searchName != '' && { name : { $regex : searchName, $options : 'i' } }), // case insensitive substrings
+            ...(searchDesc != '' && { shortDescription : { $regex : searchDesc, $options : 'i' } }), // case insensitive substrings
             ...(selectedAmenities.length > 0 && { amenities: { $all: selectedAmenities } }), // Use $all for AND instead of OR
             ...(selectedLocations.length > 0 && { location: { $in: selectedLocations } }),
-            ...(selectedRatings.length > 0 && { $expr: { $in: [{ $round: ["$rating"] }, selectedRatings]} }) // Round the rating first to nearest integer then check if its in the ratings array
+            ...(selectedRatings.length > 0 && { $expr: { $in: [{ $floor: ["$rating"] }, selectedRatings]} }) // Round the rating first to nearest integer then check if its in the ratings array
         };
 
         const establishments = await Establishment.find(searchFilter).lean();
         
-        res.render("home", { establishments, user: req.session.user || null, searchQuery : searchString, amenities : selectedAmenities, locations : selectedLocations, ratings : selectedRatings });
+        res.render("home", { establishments, user: req.session.user || null, searchName, searchDesc, amenities : selectedAmenities, locations : selectedLocations, ratings : selectedRatings });
     } catch (error) {
         res.status(500).send("Internal Server Error");
     }

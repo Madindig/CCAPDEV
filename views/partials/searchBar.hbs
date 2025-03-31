@@ -3,7 +3,10 @@
         <div class="card-body search-card-body">
             <form action="/results" method="GET">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="searchQuery" name="search" placeholder="Enter your search here" value="{{searchQuery}}">
+                    <input type="text" class="form-control" id="searchNameQuery" name="nameSearch" placeholder="Enter gym name" value="{{searchName}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchDescQuery" name="descSearch" placeholder="Enter gym description" value="{{searchDesc}}">
                 </div>
 
                 <div id="filter-accordion" class="row accordion-link">
@@ -134,7 +137,7 @@
                                     <div class="region-group">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="zero" name="ratings[]" value="0">
-                                            <label class="form-check-label" for="zero">0</label>
+                                            <label class="form-check-label" for="zero">Unrated</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="one" name="ratings[]" value="1">

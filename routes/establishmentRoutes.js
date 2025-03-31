@@ -69,6 +69,41 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// GET Reviews based on a search query
+router.get("/:id/results", async (req, res) => {
+  try {
+    const establishment = await Establishment.findById(req.params.id).lean();
+    if (!establishment) return res.status(404).json({ message: "Establishment not found" });
+
+    const searchString = req.query.reviewSearch || '';
+
+    const queryFilter = {
+      ...(searchString != '' && { reviewText : { $regex : searchString, $options : 'i' } }),
+      establishmentId: req.params.id
+    };
+
+    const reviews = await Review.find(queryFilter).populate("userId", "username").lean();
+    
+    const modifiedReviews = reviews.map(review => ({
+      ...review,
+      likesCount: review.likes.length, // Count likes
+      dislikesCount: review.dislikes.length, // Count dislikes
+      stars: '★'.repeat(review.rating) // Stars for rating
+    }));
+
+    res.render("establishment", {
+      establishment,
+      reviews: modifiedReviews,
+      user: req.session.user,
+      isBusiness: req.session.user && req.session.user.role === "business",
+      searchReview : searchString,
+      isSearching : true
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 // GET Comments for a Review
 router.get("/:establishmentId/reviews/:reviewId", async (req, res) => {
   try {

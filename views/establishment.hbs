@@ -5,7 +5,7 @@
             <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
         </div>
         <div class = "right-establishment-details">
-            <p><strong>Rating:</strong> {{establishment.rating}}</p>
+            <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
             <p><strong>Location:</strong> {{establishment.location}}</p>
             <p><strong>Amenities:</strong> {{#each establishment.amenities}}{{this}}{{#unless @last}}, {{/unless}} {{/each}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
@@ -24,6 +24,12 @@
 <!-- Reviews Section -->
 <div class="reviews-section">
     <h2>Reviews</h2>
+    <div class="input-group col-md-4 mt-3 mb-3">
+        <input type="text" class="form-control border-left-0 border-0" id="searchQueryReview" placeholder="Enter review keywords" aria-describedby="search-addon" name="review-search" value="{{searchReview}}">
+        <div class="input-group-append">
+            <span class="btn btn-primary border-0" id="search-review" data-establishment-id="{{establishment._id}}">Search</span>
+        </div>
+    </div>
 
     {{#if reviews.length}}
         {{#each reviews}}
@@ -57,7 +63,11 @@
         </div>
         {{/each}}
     {{else}}
-        <p>No reviews yet. Be the first to review!</p>
+        {{#if isSearching}}
+            <p>No reviews with this keyword.</p>
+        {{else}}
+            <p>No reviews yet. Be the first to review!</p>
+        {{/if}}
     {{/if}}
 </div>
 
