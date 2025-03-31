@@ -29,7 +29,7 @@ const establishmentSchema = new mongoose.Schema({
   address: { type: String, required: true },
   shortDescription: { type: String },
   contactNumber: { type: String, required: true },
-  rating: { type: Number, min: 1, max: 5 },
+  rating: { type: Number, min: 0, max: 5 },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   image: { type: String }
 }, { timestamps: true });
