@@ -22,27 +22,14 @@ function loadComments(reviewId, establishmentId) {
         .catch(error => console.error("Error loading comments:", error));
 }
 
-function openCommentModal(reviewId, establishmentId) {
-    console.log("Modal opened with reviewId:", reviewId); // DEBUG
-    document.getElementById("currentReviewId").value = reviewId;
-    document.getElementById("currentEstablishmentId").value = establishmentId;
-    loadComments(reviewId, establishmentId);
-    document.getElementById("commentbox").value = "";
-}
-
 function post_comment() {
     const commentText = document.getElementById("commentbox").value;
-    const reviewId = document.getElementById("currentReviewId").value;
-    const establishmentId = document.getElementById("currentEstablishmentId").value;
-
-    console.log("Posting comment to:", reviewId, establishmentId);
-
     if (commentText.trim() === "") {
         alert("Comment cannot be empty.");
         return;
     }
 
-    fetch(`/comments/${reviewId}/create`, {
+    fetch('/comments', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -50,32 +37,38 @@ function post_comment() {
         body: JSON.stringify({ commentText })
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.comment) {
-            loadComments(reviewId, establishmentId);
-            document.getElementById("commentbox").value = "";
-        } else {
-            alert("Failed to post comment.");
-        }
+    .then(newComment => {
+        const commentSection = document.getElementById("commentModalBody");
+        commentSection.innerHTML += `
+            <div class="comment">
+                <p><strong>${newComment.userId.username}</strong>: ${newComment.commentText}</p>
+                <p><small>Posted at: ${new Date(newComment.createdAt).toLocaleString()}</small></p>
+                <hr>
+            </div>
+        `;
+        document.getElementById("commentbox").value = "";
     })
     .catch(error => console.error("Error posting comment:", error));
 }
 
-function deleteComment(commentId) {
-    fetch(`/comments/${commentId}/delete`, {
-      method: 'DELETE'
+function post_review() {
+    const reviewText = document.getElementById("reviewbox").value;
+    if (reviewText.trim() === "") {
+        alert("Review cannot be empty.");
+        return;
+    }
+
+    fetch('/reviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reviewText })
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.message === "Comment deleted successfully") {
-        alert("Comment deleted.");
-        location.reload(); // 🔁 Refresh to reflect changes
-      } else {
-        alert("Failed to delete comment.");
-      }
+    .then(response => response.json())
+    .then(newReview => {
+        alert("Review posted successfully.");
+        document.getElementById("reviewbox").value = "";
     })
-    .catch(err => {
-      console.error("Error deleting comment:", err);
-      alert("Something went wrong.");
-    });
-  }
+    .catch(error => console.error("Error posting review:", error));
+}

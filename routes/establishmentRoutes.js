@@ -90,25 +90,34 @@ router.get("/:establishmentId/reviews/:reviewId", async (req, res) => {
 });
 
 // Create a new establishment with image upload
-router.post("/create", upload.single("image"), async (req, res) => {
+router.post("/createGym", upload.single("gymProfilePicture"), async (req, res) => {
   try {
-    const { name, amenities, location, address, shortDescription, contactNumber } = req.body;
+    const { gymName, gymDesc,address, contactNumber, amenities, regions } = req.body;
 
-    // Check for existing gyms for the same user
-    const existingEstablishment = await Establishment.findOne({ name, owner: req.session.user._id });
+    const profilePictureFilename = req.file ? req.file.filename : "default_avatar.jpg";
+
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+
+    const existingEstablishment = await Establishment.findOne({ gymName, owner: req.session.user._id });
     if (existingEstablishment) {
       return res.status(400).json({ message: "You already have a gym with this name." });
     }
 
+    console.log(req.body); // Log form data
+    console.log(req.file); // Log uploaded file
+
     const newEstablishment = new Establishment({
-      name,
+      gymName,
       amenities,
-      location,
+      regions,
       address,
-      shortDescription,
+      gymDesc,
       contactNumber,
-      owner: req.session.user._id, // Set owner to the logged-in user
-      image: req.file ? req.file.filename : "default_establishment.jpg" // Use uploaded image or default
+      rating : 0,
+      owner: req.session.user._id, // Attach to logged-in user
+      image: profilePictureFilename
     });
 
     await newEstablishment.save();
@@ -118,50 +127,65 @@ router.post("/create", upload.single("image"), async (req, res) => {
   }
 });
 
-// // Update an establishment
-// router.put("/:id", async (req, res) => {
-//   try {
-//     const establishment = await Establishment.findById(req.params.id);
+//create Establishment
+/*
+router.post("/:id", async (req, res) => {
+});
 
-//     // Check if establishment exists
-//     if (!establishment) {
-//       return res.status(404).json({ message: "Establishment not found" });
-//     }
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.session?.user?._id;
 
-//     // Check if the logged-in user is the owner
-//     if (establishment.owner.toString() !== req.session.user._id.toString()) {
-//       return res.status(403).json({ message: "You are not authorized to modify this establishment" });
-//     }
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
 
-//     const updatedEstablishment = await Establishment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const establishment = await Establishment.findById(id);
 
-//     res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+    if (!establishment) {
+      return res.status(404).json({ message: "Establishment not found" });
+    }
 
-// // Delete an establishment
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const establishment = await Establishment.findById(req.params.id);
+    if (establishment.owner.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "You are not authorized to modify this establishment" });
+    }
 
-//     // Check if establishment exists
-//     if (!establishment) {
-//       return res.status(404).json({ message: "Establishment not found" });
-//     }
+    const updatedEstablishment = await Establishment.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
 
-//     // Check if the logged-in user is the owner
-//     if (establishment.owner.toString() !== req.session.user._id.toString()) {
-//       return res.status(403).json({ message: "You are not authorized to delete this establishment" });
-//     }
+    res.json({ message: "Establishment updated successfully", establishment: updatedEstablishment });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
-//     await Establishment.findByIdAndDelete(req.params.id);
 
-//     res.json({ message: "Establishment deleted successfully" });
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// });
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.session?.user?._id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+
+    const establishment = await Establishment.findById(id);
+
+    if (!establishment) {
+      return res.status(404).json({ message: "Establishment not found" });
+    }
+
+    if (establishment.owner.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "You are not authorized to delete this establishment" });
+    }
+
+    await establishment.deleteOne();
+
+    res.json({ message: "Establishment deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+ */
 
 module.exports = router;
