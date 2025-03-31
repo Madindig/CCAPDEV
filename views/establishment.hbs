@@ -13,11 +13,8 @@
             <p>{{establishment.shortDescription}}</p>
 
             {{#if isBusiness}}
-                
             {{else}}
-                <button class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
-                    Post Review
-                </button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#createReviewModal">Post Review</button>
             {{/if}}
         </div>
     </div>
@@ -32,8 +29,9 @@
         {{#each reviews}}
         <div class="review-card">
             <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
-            <p><strong>Review:</strong> {{this.reviewText}}</p>
+            {{!-- <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p> --}}
+            <p><strong>Rating:</strong> {{this.rating}}</span></p>
+            <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
             <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
             
@@ -79,7 +77,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+<div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -89,7 +87,9 @@
                 </button>
             </div>
 
-            <div class="modal-body" id="reviewModalBody">
+            <form id="createReviewForm">
+              <div class="modal-body" id="reviewModalBody">
+                <input type="hidden" id="establishmentId" value="{{establishment._id}}">
                 <!-- Rating Dropdown -->
                 <label for="reviewRating" class="form-label">Rating:</label>
                 <select class="form-select" id="reviewRating" name="reviewRating">
@@ -101,11 +101,12 @@
                 </select>
 
                 <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review"></textarea>
-            </div>
+              </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="post_review()">Post Review</button>
-            </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
