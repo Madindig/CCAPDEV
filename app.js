@@ -74,8 +74,8 @@ app.use(sessionMiddleware); // Makes session data available to Handlebars
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error("❌ MongoDB Connection Error:", err));
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("MongoDB Connection Error:", err));
 
 // routes
 app.use("/", homeRoutes);
@@ -88,4 +88,4 @@ app.use('/comments', commentRoutes.router);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://127.0.0.1:${PORT}`));
+app.listen(PORT, () => console.log(`Server running on http://127.0.0.1:${PORT}`));
