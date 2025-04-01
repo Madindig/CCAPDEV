@@ -103,16 +103,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log("Registering user...");
 
-            const firstName = document.getElementById("registerFirstName").value.trim();
-            const lastName = document.getElementById("registerLastName").value.trim();
             const username = document.getElementById("registerUsername").value.trim();
+            const email = document.getElementById("registerEmail").value.trim();
             const password = document.getElementById("registerPassword").value.trim();
             const confirmPassword = document.getElementById("registerConfirmPassword").value.trim();
             const shortDescription = document.getElementById("profileDescription").value.trim() || "";
             const role = document.getElementById("accountType").value;
 
-            if (!firstName || !lastName || !username || !password || !confirmPassword) {
+            if (!username || !email || !password || !confirmPassword) {
                 alert("Please fill in all required fields.");
+                return;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (emailPattern.test(username)){
+                alert('Please do not use an email address as a Username')    ;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address.');
                 return;
             }
 
@@ -151,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch("/users/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ firstName, lastName, username, password, shortDescription, role, tempFilename })
+                    body: JSON.stringify({ username, email, password, shortDescription, role, tempFilename })
                 });
 
                 const data = await response.json();

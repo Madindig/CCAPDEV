@@ -123,7 +123,7 @@ router.post("/uploadTempProfilePicture", upload.single("profilePicture"), (req, 
 // Register a new user
 router.post("/register", async (req, res) => {
   try {
-    const { firstName, lastName, username, password, shortDescription = "", role, tempFilename } = req.body;
+    const { username, email, password, shortDescription = "", role, tempFilename } = req.body;
 
     if (!["people", "business"].includes(role)) {
       return res.status(400).json({ message: "Invalid role selected." });
@@ -142,9 +142,8 @@ router.post("/register", async (req, res) => {
 
     // Create the user AFTER assigning the correct profile picture filename
     const newUser = new User({
-      firstName,
-      lastName,
       username,
+      email,
       password,
       role,
       shortDescription,
@@ -174,7 +173,13 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     // Find user without requiring a role
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ username });
+
+// Checks the email list
+    if (!user) {
+      user = await User.findOne({ email: username });
+    }
+
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
