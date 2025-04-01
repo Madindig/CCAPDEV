@@ -35,7 +35,7 @@
                         <img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
                         <div class="gym-details">
                             <h3>{{this.name}}</h3>
-                            <p><strong>Rating:</strong> {{this.rating}}</p>
+                            <p><strong>Rating:</strong> {{#if (equal this.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
                             <p><strong>Location:</strong> {{this.location}}</p>
                             <p><strong>Amenities:</strong> {{this.amenities}}</p>
                             <button class="edit-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
@@ -303,8 +303,7 @@
 		<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
 		<div class="gym-details">
 			<h3>{{this.name}}</h3>
-			{{!-- <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p> --}}
-            <p><strong>Rating:</strong> {{this.rating}}</span></p>
+			<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
 			<p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
 			<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
 			<button class="editReviewButton"
@@ -317,6 +316,40 @@
             <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
 		</div>
 	</div>
+
+    <div class="modal fade" id="editReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="editReviewModalLabel-{{this._id}}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel-{{this._id}}">Create a Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="editReviewForm-{{this._id}}" data-original-review="{{this.reviewText}}">
+                    <div class="modal-body" id="reviewModalBody">
+                        <input type="hidden" id="establishmentId-{{this._id}}" value="{{establishment._id}}">
+                        <!-- Rating Dropdown -->
+                        <label for="reviewRating-{{this._id}}" class="form-label">Rating:</label>
+                        <select class="form-select" id="editReviewRating-{{this._id}}" name="editReviewRating">
+                            <option value="1" {{#if (equal this.rating 1)}}selected{{/if}}>1 - Worst</option>
+                            <option value="2" {{#if (equal this.rating 2)}}selected{{/if}}>2</option>
+                            <option value="3" {{#if (equal this.rating 3)}}selected{{/if}}>3</option>
+                            <option value="4" {{#if (equal this.rating 4)}}selected{{/if}}>4</option>
+                            <option value="5" {{#if (equal this.rating 5)}}selected{{/if}}>5 - Best</option>
+                        </select>
+
+                        <textarea class="commentbox form-control mt-3" id="editReviewbox-{{this._id}}" name="editReviewbox" rows="4" placeholder="Leave a review">{{this.reviewText}}</textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="deleteReviewModal-{{this._id}}" tabindex="-1" aria-labelledby="deleteLabel-{{this._id}}" aria-hidden="true">
         <div class="modal-dialog">

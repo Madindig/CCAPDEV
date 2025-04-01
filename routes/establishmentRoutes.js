@@ -55,6 +55,19 @@ router.get("/:id", async (req, res) => {
       stars: '★'.repeat(review.rating) // Stars for rating
     }));
 
+    modifiedReviews.sort((A, B) => {
+      const scoreA = A.likesCount - A.dislikesCount;
+      const scoreB = B.likesCount - B.dislikesCount;
+
+      if (scoreA != scoreB) {
+        return scoreB - scoreA;
+      }
+
+      return B.likesCount - A.likesCount;
+    });
+
+    console.log(JSON.stringify(modifiedReviews));
+
     // Render the establishment page with data
     // res.render("establishment", { establishment, reviews: modifiedReviews });
 
@@ -90,6 +103,17 @@ router.get("/:id/results", async (req, res) => {
       dislikesCount: review.dislikes.length, // Count dislikes
       stars: '★'.repeat(review.rating) // Stars for rating
     }));
+
+    modifiedReviews.sort((A, B) => {
+      const scoreA = A.likesCount - A.dislikesCount;
+      const scoreB = B.likesCount - B.dislikesCount;
+
+      if (scoreA != scoreB) {
+        return scoreB - scoreA;
+      }
+
+      return B.likesCount - A.likesCount;
+    });
 
     res.render("establishment", {
       establishment,

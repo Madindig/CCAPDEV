@@ -5,7 +5,7 @@
             <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
         </div>
         <div class = "right-establishment-details">
-            <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
+            <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{establishment.rating}}{{/if}}</p>
             <p><strong>Location:</strong> {{establishment.location}}</p>
             <p><strong>Amenities:</strong> {{#each establishment.amenities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
@@ -35,8 +35,7 @@
         {{#each reviews}}
         <div class="review-card">
             <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            {{!-- <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p> --}}
-            <p><strong>Rating:</strong> {{this.rating}}</span></p>
+            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
             <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
             
