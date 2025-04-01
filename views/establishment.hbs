@@ -5,7 +5,7 @@
             <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
         </div>
         <div class = "right-establishment-details">
-            <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
+            <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{establishment.rating}}{{/if}}</p>
             <p><strong>Location:</strong> {{establishment.location}}</p>
             <p><strong>Amenities:</strong> {{#each establishment.amenities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
             <p><strong>Contact Number:</strong> {{establishment.contactNumber}}</p> 
@@ -35,15 +35,28 @@
         {{#each reviews}}
         <div class="review-card">
             <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
-            {{!-- <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p> --}}
-            <p><strong>Rating:</strong> {{this.rating}}</span></p>
+            <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
             <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
-            <p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+            
+            <div class="btn-group mt-2" role="group">
+                <button class="btn btn-outline-success like-btn" 
+                        onclick="voteReview('{{this._id}}', 'like')">
+                    Like ({{this.likes.length}})
+                </button>
+                
+                <button class="btn btn-outline-danger dislike-btn" 
+                        onclick="voteReview('{{this._id}}', 'dislike')">
+                    Dislike ({{this.dislikes.length}})
+                </button>
+            </div>
             
             <!-- Comment Button -->
-            <button class="btn btn-primary" onclick="loadComments('{{this._id}}', '{{../establishment._id}}')" data-toggle="modal" data-target="#commentModal">
-            See Comments
+            <button class="btn btn-link"
+                    onclick="openCommentModal('{{_id}}', '{{../establishment._id}}')"
+                    data-toggle="modal"
+                    data-target="#commentModal">
+            View Comments
             </button>
 
         </div>
@@ -57,34 +70,32 @@
     {{/if}}
 </div>
 
-<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="commentModalLabel">Comments</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
 
-            <div class="modal-body" id="commentModalBody">
-                {{#if comments.length}}
-                    {{#each comments}}
-                        <div class="comment">
-                            <p><strong>{{this.userId.username}}:</strong> {{this.commentText}}</p>
-                            <p class="text-muted">{{this.createdAt}}</p>
-                            <hr>
-                        </div>
-                    {{/each}}
-                {{else}}
-                    <p>No comments yet. Be the first to comment!</p>
-                {{/if}}
-            </div>
-            <textarea class ="commentbox" id="commentbox" name="commentbox" rows="4" cols="1" placeholder="Leave a comment"></textarea>
-            <button class="btn btn-primary mt-2" onclick="post_comment()">Post Comment</button>
-            {{!-- Add a modal --}}
-        </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentModalLabel">Comments</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" id="commentModalBody">
+        <p>Loading comments...</p>
+        {{!-- JS will replace this with actual comment list --}}
+      </div>
+
+      <input type="hidden" id="currentReviewId">
+      <input type="hidden" id="currentEstablishmentId">
+
+      <div class="modal-footer flex-column">
+        <textarea class="form-control mb-2" id="commentbox" name="commentbox" rows="3" placeholder="Leave a comment"></textarea>
+        <button class="btn btn-primary btn-block" onclick="post_comment()">Post Comment</button>
+      </div>
+
     </div>
+  </div>
 </div>
 
 <div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
@@ -121,5 +132,6 @@
     </div>
 </div>
 
+<script src="/scripts/voteReview.js"></script>
 <script src="/scripts/createReview.js"></script>
 <script src="/scripts/comment.js"></script>
