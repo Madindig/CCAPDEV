@@ -45,30 +45,24 @@ const fetchUserDetails = async (user) => {
   let userReviews = [];
   const isBusiness = user.role === "business";
 
-  if (isBusiness) {
-    establishments = await Establishment.find({ owner: user._id })
-        .populate("owner", "name")
-        .lean();
-  } else {
-    userReviews = await Review.find({userId: user._id})
-        .populate({
-          path: "establishmentId",
-          model: "Establishment",
-          populate: {path: "owner", model: "User", select: "name"},
-        })
-        .lean();
-
-    userReviews.forEach((review) => {
-      if (review.establishmentId) {
-        review.image = review.establishmentId.image;
-        review.name = review.establishmentId.name;
-        review.ownerName = review.establishmentId.owner?.name || "N/A";
+  switch (isBusiness) {
+    case true:
+      establishments = await Establishment.find({ owner: user._id }).lean();
+      break;
+    case false:
+      userReviews = await Review.find({ userId: user._id }).lean();
+      for (let review of userReviews) {
+        let currentEstablishment = await Establishment.findOne({ _id: review.establishmentId }).lean();
+        if (currentEstablishment) {
+          review.image = currentEstablishment.image;
+          review.name = currentEstablishment.name;
+        }
+        review.stars = '★'.repeat(review.rating);
       }
-      review.stars = "★".repeat(review.rating);
-    });
-
-    return {establishments, userReviews, isBusiness};
+      break;
   }
+
+  return { establishments, userReviews, isBusiness };
 };
 
 router.get("/profile", async (req, res) => {
