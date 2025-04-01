@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Review = require("../models/Review");
+const User = require("../models/User");
 const Establishment = require("../models/Establishment");
+const nodemailer = require('nodemailer');
+
+const sourceEmail = 'spotter.website@gmail.com';
+const sourceEmailPassword = 'secure1234!';
 
 async function updateEstablishmentRating(establishmentId) {
   const reviews = await Review.find({ establishmentId });
@@ -18,6 +23,45 @@ async function updateEstablishmentRating(establishmentId) {
   });
 }
 
+async function sendReviewNotificationToUserSubscribers(userId, review, establishment) {
+  // Fetch the user (owner of the establishment) and their subscribers
+  const user = await User.findById(userId).populate('subscribers'); // Fetch user and their subscribers
+
+  if (!user || !user.subscribers.length) {
+    return; // No subscribers to notify
+  }
+
+  // Set up Nodemailer transport
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: sourceEmail,
+      pass: sourceEmailPassword,
+    },
+  });
+
+  // Send email to each subscriber
+  for (let subscriber of user.subscribers) {
+    const mailOptions = {
+      from: sourceEmail,
+      to: subscriber.email,
+      subject: `New Review for ${establishment.name}`,
+      html: `<p>Dear ${subscriber.username},</p>
+             <p>A new review has been posted for the gym ${establishment.name} by ${review.userId.username}.</p>
+             <p><strong>Review:</strong> ${review.reviewText}</p>
+             <p><strong>Rating:</strong> ${review.rating} stars</p>
+             <p>Thank you for following ${user.username}'s establishments!</p>`
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`Email sent to ${subscriber.email}`);
+    } catch (error) {
+      console.error(`Error sending email to ${subscriber.email}: ${error.message}`);
+    }
+  }
+}
+
 function ensureLoggedIn(req, res, next) {
   if (req.session && req.session.user) return next();
   return res.status(401).json({ message: "You must be logged in to post a review." });
@@ -27,6 +71,11 @@ router.post("/:establishmentId/create", ensureLoggedIn, async (req, res) => {
   try {
     const { reviewText, rating } = req.body;
     const { establishmentId } = req.params;
+
+    const establishment = await Establishment.findById(establishmentId);
+    if (!establishment) return res.status(404).json({ message: "Establishment not found" });
+
+    const userId = establishment.userId;
 
     const newReview = new Review({
       userId: req.session.user._id,
@@ -39,7 +88,10 @@ router.post("/:establishmentId/create", ensureLoggedIn, async (req, res) => {
     });
 
     await newReview.save();
+
     await updateEstablishmentRating(establishmentId);
+
+    await sendReviewNotificationToUserSubscribers(userId, newReview, establishment);
 
     res.status(201).json({ message: "Review posted successfully!", review: newReview });
   } catch (err) {

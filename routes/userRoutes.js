@@ -9,6 +9,10 @@ const Review = require("../models/Review");
 const Comment = require('../models/Comment');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+
+const sourceEmail = 'spotter.website@gmail.com';
+const sourceEmailPassword = 'secure1234!';
 
 // Set up Multer storage for profile picture uploads
 const storage = multer.diskStorage({
@@ -320,6 +324,45 @@ router.delete("/:userId", async (req, res) => {
   }
 });
 
+async function sendGymCreationNotification(userId, establishment) {
+  // Fetch the user (gym owner) and their subscribers
+  const user = await User.findById(userId).populate('subscribers'); // Fetch user and their subscribers
+
+  if (!user || !user.subscribers.length) {
+    return; // No subscribers to notify
+  }
+
+  // Set up Nodemailer transport
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: sourceEmail,
+      pass: sourceEmailPassword,
+    },
+  });
+
+  // Send email to each subscriber
+  for (let subscriber of user.subscribers) {
+    const mailOptions = {
+      from: 'your-email@gmail.com',
+      to: subscriber.email,
+      subject: `New Gym Created by ${user.username}`,
+      html: `<p>Dear ${subscriber.username},</p>
+             <p>${user.username} has just created a new gym called <strong>${establishment.name}</strong>.</p>
+             <p><strong>Description:</strong> ${establishment.shortDescription}</p>
+             <p><strong>Location:</strong> ${establishment.location.join(", ")}</p>
+             <p>Check it out and visit the gym!</p>`
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`Email sent to ${subscriber.email}`);
+    } catch (error) {
+      console.error(`Error sending email to ${subscriber.email}: ${error.message}`);
+    }
+  }
+}
+
 router.post("/createGym", async (req, res) => {
   try {
     if (!req.session.user) {
@@ -357,6 +400,9 @@ router.post("/createGym", async (req, res) => {
     });
 
     await newEstablishment.save();
+
+    // Send notification to subscribers after the gym is created
+    await sendGymCreationNotification(req.session.user._id, newEstablishment);
 
     res.status(201).json({ message: "Establishment created successfully!", establishment: newEstablishment });
   } catch (err) {

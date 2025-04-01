@@ -12,6 +12,7 @@ const session = require("express-session");
 const path = require("path");
 const { engine } = require("express-handlebars");
 const sessionMiddleware = require("./middlewares/sessionMiddleware");
+const nodemailer = require('nodemailer');
 
 /*
   Import routes:

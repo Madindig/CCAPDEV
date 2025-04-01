@@ -9,8 +9,10 @@
                         <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
 
                         <!-- Edit & Delete Profile Buttons -->
+                        {{#if isOwner}}
                         <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                         <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
+                        {{/if}}
                     </div>
                 </div>
             </div>

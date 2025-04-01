@@ -33,7 +33,7 @@ const establishmentSchema = new mongoose.Schema({
   contactNumber: { type: String, required: true },
   rating: { type: Number, min: 0, max: 5 },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  image: { type: String }
+  image: { type: String },
 }, { timestamps: true });
 
 const Establishment = mongoose.model('Establishment', establishmentSchema);
