@@ -66,8 +66,6 @@ router.get("/:id", async (req, res) => {
       return B.likesCount - A.likesCount;
     });
 
-    console.log(JSON.stringify(modifiedReviews));
-
     // Render the establishment page with data
     // res.render("establishment", { establishment, reviews: modifiedReviews });
 

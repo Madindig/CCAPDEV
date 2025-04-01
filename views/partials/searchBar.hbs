@@ -85,19 +85,19 @@
                                     <div class="region-group">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ncr-east" name="regions[]" value="NCR East">
-                                            <label class="form-check-label" for="ncr-east">NCR-East</label>
+                                            <label class="form-check-label" for="ncr-east">NCR East</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ncr-north" name="regions[]" value="NCR North">
-                                            <label class="form-check-label" for="ncr-north">NCR-North</label>
+                                            <label class="form-check-label" for="ncr-north">NCR North</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ncr-west" name="regions[]" value="NCR West">
-                                            <label class="form-check-label" for="ncr-west">NCR-West</label>
+                                            <label class="form-check-label" for="ncr-west">NCR West</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="ncr-south" name="regions[]" value="NCR South">
-                                            <label class="form-check-label" for="ncr-south">NCR-South</label>
+                                            <label class="form-check-label" for="ncr-south">NCR South</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="bulacan" name="regions[]" value="Bulacan">
@@ -120,9 +120,10 @@
                             </div>
                         </div>
                     </div>
-                    
+                </div>
+                <div id="filter-accordion" class="row accordion-link">
                     <!-- Rating -->
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-header" id="rating-heading">
                                 <h2 class="m-0 text-center">
@@ -141,23 +142,62 @@
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="one" name="ratings[]" value="1">
-                                            <label class="form-check-label" for="one">1</label>
+                                            <label class="form-check-label" for="one">1.0 - 1.9</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="two" name="ratings[]" value="2">
-                                            <label class="form-check-label" for="two">2</label>
+                                            <label class="form-check-label" for="two">2.0 - 2.9</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="three" name="ratings[]" value="3">
-                                            <label class="form-check-label" for="three">3</label>
+                                            <label class="form-check-label" for="three">3.0 - 3.9</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="four" name="ratings[]" value="4">
-                                            <label class="form-check-label" for="four">4</label>
+                                            <label class="form-check-label" for="four">4.0 - 4.9</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="five" name="ratings[]" value="5">
                                             <label class="form-check-label" for="five">5</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sort by -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header" id="rating-heading">
+                                <h2 class="m-0 text-center">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#sortby-content" aria-expanded="false" aria-controls="sortby-content">
+                                        Sort by
+                                        <span class="oi oi-chevron-bottom"></span>
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="sortby-content" class="collapse" aria-labelledby="sortby-heading" data-parent="#filter-accordion">
+                                <div class="card-body select-items">
+                                    <div class="region-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="alphabetically" name="sortby" value="1">
+                                            <label class="form-check-label" for="alphabetically">Alphabetically</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="highest-rating" name="sortby" value="2">
+                                            <label class="form-check-label" for="highest-rating">Highest Rating</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="lowest-rating" name="sortby" value="3">
+                                            <label class="form-check-label" for="lowest-rating">Lowest Rating</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="most-reviews" name="sortby" value="4">
+                                            <label class="form-check-label" for="most-reviews">Most Reviews</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="least-reviews" name="sortby" value="5">
+                                            <label class="form-check-label" for="least-reviews">Least Reviews</label>
                                         </div>
                                     </div>
                                 </div>
