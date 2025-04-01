@@ -5,8 +5,8 @@
             <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
         </div>
         <div class = "right-establishment-details">
-            <a href="http://localhost:8080/users/profile/{{establishment.ownerId}}">
-                <strong>Owner:</strong> {{establishment.owner}}
+            <a href="http://127.0.0.1:3000/users/{{establishment.owner}}/profile">
+                <strong>Owner:</strong> {{establishment.owner.username}}
             </a>
             <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{establishment.rating}}{{/if}}</p>
             <p><strong>Location:</strong> {{establishment.location}}</p>
