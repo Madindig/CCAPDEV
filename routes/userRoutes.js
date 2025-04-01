@@ -398,7 +398,7 @@ router.put("/updateGym/:gymId", async (req, res) => {
   }
 });
 
-router.delete("/users/deleteGym/:gymId", async (req, res) => {
+router.delete("/deleteGym/:gymId", async (req, res) => {
   const { username, password } = req.body;
   const { gymId } = req.params;
 
