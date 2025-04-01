@@ -23,6 +23,7 @@ const userRoutes = require("./routes/userRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const commentRoutes = require('./routes/commentRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -73,8 +74,8 @@ app.use(sessionMiddleware); // Makes session data available to Handlebars
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("MongoDB Connection Error:", err));
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // routes
 app.use("/", homeRoutes);
@@ -83,7 +84,8 @@ app.use("/", homeRoutes);
 app.use("/users", userRoutes); // User related routes
 app.use("/establishments", establishmentRoutes); // Establishment routes
 app.use("/reviews", reviewRoutes);
+app.use('/comments', commentRoutes.router);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://127.0.0.1:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on http://127.0.0.1:${PORT}`));
