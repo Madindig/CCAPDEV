@@ -10,7 +10,7 @@
 					<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}" class="gym-image">
 					<div class="gym-details">
 						<h3>{{this.name}}</h3>
-						<p><strong>Rating:</strong> {{#if (equal this.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
+						<p><strong>Rating:</strong> {{#if (equal this.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}} ({{this.reviewsCount}} {{#if (equal this.reviewsCount 1)}}review{{else}}reviews{{/if}})</p>
 						<p><strong>Location:</strong> {{this.location}}</p>
 						<p><strong>Amenities:</strong> {{#each this.amenities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
 						<p><strong>Contact Number:</strong> {{this.contactNumber}}</p>
