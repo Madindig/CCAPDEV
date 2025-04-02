@@ -9,9 +9,10 @@
                         <label for="bio"></label><textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
 
                         <!-- Edit & Delete Profile Buttons -->
+                        {{#if isCurrentUser}}
                         <button id="editBusinessProfileButton"  data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                         <button id="deleteBusinessProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
-                        <button id="subscribeBusinessProfileButton">Subscribe</button>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -24,7 +25,7 @@
                 </div>
 
                 <div class="col-auto mb-3">
-                    <button id="createGymButton" data-toggle="modal" data-target="#createGymModal">New Establishment</button>
+                    {{#if isCurrentUser}}<button id="createGymButton" data-toggle="modal" data-target="#createGymModal">New Establishment</button>{{/if}}
                 </div>
             </div>
 
@@ -38,8 +39,10 @@
                             <p><strong>Rating:</strong> {{#if (equal this.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
                             <p><strong>Location:</strong> {{this.location}}</p>
                             <p><strong>Amenities:</strong> {{this.amenities}}</p>
+                            {{#if this.isUser}}
                             <button class="edit-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
                             <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal-{{this._id}}">Delete</button>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
@@ -289,9 +292,10 @@
                     <textarea id="bio" name="bio" rows="2" cols="50" readonly>{{user.shortDescription}}</textarea>
                     
                     <!-- Edit & Delete Profile Buttons -->
+                    {{#if isCurrentUser}}
                     <button id="editPeopleProfileButton" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                     <button id="deletePeopleProfileButton" class="delete-btn" data-toggle="modal" data-target="#deleteProfileModal">Delete Profile</button>
-                    <button id="subscribeUserProfileButton">Subscribe</button>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -308,6 +312,7 @@
 			<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
 			<p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
 			<p>Like {{this.likes.length}} | Dislike {{this.dislikes.length}}</p>
+            {{#if this.isUser}}
 			<button class="editReviewButton"
                     data-toggle="modal"
                     data-target="#editReviewModal-{{this._id}}"
@@ -316,6 +321,7 @@
                     data-review-rating="{{this.rating}}">Edit
             </button>
             <button id="deleteReviewButton" class="delete-btn" data-toggle="modal" data-target="#deleteReviewModal-{{this._id}}">Delete</button>
+            {{/if}}
 		</div>
 	</div>
 
@@ -399,7 +405,7 @@
             <p><strong>Rating:</strong> {{this.reviewId.rating}}</p>
             <p><strong>Establishment:</strong> {{this.reviewId.establishmentId.name}}</p>
             <p class="text-muted">Posted: {{this.createdAt}}</p>
-            <button class="delete-btn" onclick="deleteComment('{{this._id}}')">Delete</button>
+            {{#if this.isUser}}<button class="delete-btn" onclick="deleteComment('{{this._id}}')">Delete</button>{{/if}}
             </div>
         </div>
         {{/each}}

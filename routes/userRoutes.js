@@ -104,6 +104,16 @@ router.get("/profile", async (req, res) => {
 
       const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
 
+      if(isBusiness) {
+        for(const gym of establishments) {
+          gym.isUser = true;
+        }
+      } else {
+        for(const review of userReviews) {
+          review.isUser = true;
+        }
+      }
+
       const userComments = await Comment.find({ userId: user._id })
       .populate({
         path: 'reviewId',
@@ -112,7 +122,7 @@ router.get("/profile", async (req, res) => {
       })
       .lean();
       
-      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments });
+      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments, isCurrentUser : true });
       
   } catch (err) {
       console.error("Error retrieving profile:", err);
@@ -131,7 +141,35 @@ router.get("/:userId/profile", async (req, res) => {
 
       const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
 
-      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews });
+      const userComments = await Comment.find({ userId: user._id })
+      .populate({
+        path: 'reviewId',
+        model: 'Review',
+        populate: { path: 'establishmentId', model: 'Establishment' }
+      })
+      .lean();
+
+      let isCurrentUser = false;
+      if(!req.session.user) {
+        isCurrentUser = false;
+      } else {
+        isCurrentUser = userId === req.session.user._id;
+      }
+
+      if(isBusiness) {
+        for(const gym of establishments) {
+          gym.isUser = isCurrentUser;
+        }
+      } else {
+        for(const review of userReviews) {
+          review.isUser = isCurrentUser;
+        }
+        for(const comment of userComments) {
+          comment.isUser = isCurrentUser;
+        }
+      }
+
+      res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments, isCurrentUser : isCurrentUser });
 
   } catch (err) {
       console.error("Error retrieving user profile:", err);
