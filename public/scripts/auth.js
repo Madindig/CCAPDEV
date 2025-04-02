@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     setCookie('authToken', data.token, 30);
                     window.location.reload();
                 } else {
-                    console.error("Error:", data.message);
+                    alert("Error: " + (data.message || "Unknown error"));
                 }
             } catch (error) {
                 console.error("Error registering user:", error);

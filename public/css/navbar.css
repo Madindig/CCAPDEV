@@ -12,3 +12,8 @@
     color: #333a3f;
     background-color: #e2e6ec;
 }
+
+.about-us-image img {
+    width : 100%;
+    height : auto;
+}

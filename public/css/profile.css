@@ -90,7 +90,7 @@ body {
     line-height: 100%;
 }
 
-.gym-card-home {
+.gym-card-home, .review-card-profile {
     display: flex;
     flex-direction: column;
     width: 600px;
@@ -122,6 +122,21 @@ body {
     border-radius: 10px;
 }
 
+.review-card-profile img {
+    object-fit: cover;
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.review-card-profile img {
+    object-fit: cover;
+    width: 600px;
+    height: 120px;
+    border-radius: 10px;
+    margin-left : 20px;
+}
+
 .review-card img {
     object-fit: cover;
     width: 120px;
@@ -146,17 +161,21 @@ body {
 
 .gym-details, .review-details {
     flex-grow: 1;
-    padding:10px;
+    padding: 10px;
+    padding-left : 30px;
 }
 
 .gym-details h3, .review-details h3 {
     margin: 5px 0;
     font-size: 18px;
+    padding-left : 10px;
 }
 
 .gym-details p, .review-details p {
     font-size: 14px;
     color: #ddd;
+    width: 600px;
+    padding-left : 10px;
 }
 
 /* Scrollbar Fix */
