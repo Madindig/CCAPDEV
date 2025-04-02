@@ -112,6 +112,10 @@ router.get("/profile", async (req, res) => {
       } else {
         for(const review of userReviews) {
           review.isUser = true;
+          review.images = review.images.map(image => ({
+            src: image,
+            reviewId: review._id
+          }));
         }
       }
 
@@ -164,6 +168,10 @@ router.get("/:userId/profile", async (req, res) => {
       } else {
         for(const review of userReviews) {
           review.isUser = isCurrentUser;
+          review.images = review.images.map(image => ({
+            src: image,
+            reviewId: review._id
+          }));
         }
         for(const comment of userComments) {
           comment.isUser = isCurrentUser;
