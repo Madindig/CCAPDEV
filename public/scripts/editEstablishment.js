@@ -127,11 +127,15 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("gymDesc", form.querySelector("[id^='eGymDescription-']").value);
             formData.append("address", form.querySelector("[id^='eGymAddress-']").value);
 
-            const phoneRegex = /\b(?:\+63-\d{3}-\d{3}-\d{4}|09\d{2}-\d{3}-\d{4})\b/g;
+            const phoneRegex = /\b(\+63\s?)?\d{3}-\d{3}-\d{4}\b/g;
 
-            const contactNumber = form.querySelector("[id^='eGymContact-']").value.trim();
+            const contactInput = form.querySelector("[id^='eGymContact-']");
+            let contactNumber = contactInput.value.trim();
 
-            if (contactNumber === "" || contactNumber.match(phoneRegex)) {
+            if (contactNumber === "" || contactNumber.match(phoneRegex) || contactNumber.startsWith("+63")) {
+                if (!contactNumber.startsWith("+63") && contactNumber !== "") {
+                    contactNumber = '+63 ' + contactNumber;
+                }
                 formData.append("contactNumber", contactNumber);
             } else {
                 alert("Invalid phone number. Please enter a valid contact number.");

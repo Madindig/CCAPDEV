@@ -26,11 +26,11 @@ const allowedLocations = [
 
 const establishmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  amenities: { type: [String], enum: allowedAmenities, required: true },
-  location: { type: String, enum: allowedLocations, required: true },
-  address: { type: String, required: true },
+  amenities: { type: [String], enum: allowedAmenities},
+  location: { type: String, enum: allowedLocations },
+  address: { type: String},
   shortDescription: { type: String },
-  contactNumber: { type: String, required: true },
+  contactNumber: { type: String},
   rating: { type: Number, min: 0, max: 5 },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   image: { type: String },

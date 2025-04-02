@@ -78,12 +78,23 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("gymDesc", document.getElementById("gymProfileDescription").value);
             formData.append("address", document.getElementById("gymAddress").value);
 
-            const phoneRegex = /\b(?:\+63-\d{3}-\d{3}-\d{4}|09\d{2}-\d{3}-\d{4})\b/g;
+            const phoneRegex = /\b\d{3}-\d{3}-\d{4}\b/g;
 
-            const contactNumber = document.getElementById("gymContact").value.trim();
+            const formatPhoneNumber = (number) => {
+                if (/^\d{10}$/.test(number)) {
+                    return `${number.slice(0, 3)}-${number.slice(3, 6)}-${number.slice(6)}`;
+                }
+                return number;
+            };
+
+            const contactInput = document.getElementById("gymContact");
+            let contactNumber = contactInput.value.trim();
+            contactNumber = formatPhoneNumber(contactNumber);
 
             if (contactNumber === "" || contactNumber.match(phoneRegex)) {
+                contactNumber = '+63 ' + contactNumber;
                 formData.append("contactNumber", contactNumber);
+
             } else {
                 alert("Invalid phone number. Please enter a valid contact number.");
                 return;
