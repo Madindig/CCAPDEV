@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       for (let i = 0; i < reviewImages.length && i < 5; i++) {
         formData.append("reviewImages", reviewImages[i]);
-        alert('image uploaded');
       }
 
       try {
