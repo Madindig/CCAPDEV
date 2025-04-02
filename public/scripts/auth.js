@@ -1,5 +1,22 @@
 let selectedFile = null;
 
+window.onload = function() {
+    const username = getCookie("username");
+    const password = getCookie("password");
+    
+    
+
+    if (username) {
+        document.getElementById("loginUsername").value = username;
+    }
+    if (password) {
+        document.getElementById("loginPassword").value = password;
+    }
+}
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const profilePictureInput = document.getElementById("profilePictureFile");
     const registerButton = document.getElementById("registerButton");
@@ -178,11 +195,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (loginButton) {
+
+    window.onload = function() {
+        const username = getCookie("username");
+        const password = getCookie("password");
+        if (username) {
+            document.getElementById("loginUsername").value = username;
+        }
+        if (password) {
+            document.getElementById("loginPassword").value = password;
+        }
+    }
+
         loginButton.addEventListener("click", async function (event) {
             event.preventDefault();
 
             const username = document.getElementById("loginUsername").value.trim();
             const password = document.getElementById("loginPassword").value.trim();
+            const rememberMe = document.getElementById("rememberMe").checked;
             console.log("Password field value before login:", document.getElementById("loginPassword").value);
 
             if (!username || !password) {
@@ -196,9 +226,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username, password })
                 });
-
+                
                 const data = await response.json();
                 if (response.ok) {
+                    window.location.reload();
+                    if(rememberMe){
+                        setCookie("username", username, 30);
+                        setCookie("password", password, 30);
+                    }else{
+                        setCookie("username", username, -1);
+                        setCookie("password", password, -1);
+                    }
                     window.location.reload();
                 } else {
                     alert(`Error: ${data.message}`);
@@ -217,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username, password})
             });
-
+    
             const data = await response.json();
             if (response.ok) {
                 window.location.reload();
@@ -229,4 +267,31 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Auto-login failed. Please log in manually.");
         }
     }
+
+
 })
+
+
+
+function setCookie(cname,cvalue,exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
