@@ -5,7 +5,7 @@
             <img src="/establishment_pictures/{{establishment.image}}" alt="{{establishment.name}}" class="establishment-image">
         </div>
         <div class = "right-establishment-details">
-            <a href="http://127.0.0.1:3000/users/{{establishment.owner._id}}/profile">
+            <a href="https://spotter-gym-reviews.onrender.com/users/{{establishment.owner._id}}/profile">
                 <strong>Owner:</strong> {{establishment.owner.username}}
             </a>
             <p><strong>Rating:</strong> {{#if (equal establishment.rating 0)}}Unrated{{else}}{{establishment.rating}}{{/if}}</p>
@@ -38,7 +38,7 @@
     {{#if reviews.length}}
         {{#each reviews}}
         <div class="review-card">
-            <a href="http://127.0.0.1:3000/users/{{this.userId._id}}/profile">
+            <a href="https://spotter-gym-reviews.onrender.com/users/{{this.userId._id}}/profile">
                 {{!-- <strong>Owner:</strong> {{establishment.owner.username}} --}}
                 <p><strong>Reviewed by:</strong> {{this.userId.username}}</p>
             </a>
