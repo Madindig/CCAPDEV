@@ -350,7 +350,6 @@ router.put("/:userId", upload.single("profilePicture"), async (req, res) => {
   }
 });
 
-// Delete a user
 router.delete("/:userId", async (req, res) => {
   const userId = req.params.userId;
   const { password } = req.body;
@@ -381,6 +380,48 @@ router.delete("/:userId", async (req, res) => {
             if (err) console.error("Failed to delete image:", err);
         });
     }
+
+    const userReviews = await Review.find({ userId });
+    for (const review of userReviews) {
+      review.images.forEach((img) => {
+        const filePath = path.join("public/review_pictures", img);
+        fs.unlink(filePath, (err) => {
+          if (err) console.error("Failed to delete review image:", err);
+        });
+      });
+
+      await Comment.deleteMany({ _id: { $in: review.comments } });
+    }
+    await Review.deleteMany({ userId });
+
+    await Comment.deleteMany({ userId });
+
+    await Review.updateMany({}, {
+      $pull: { likes: userId, dislikes: userId }
+    });
+
+    const userGyms = await Establishment.find({ owner: userId });
+    for (const gym of userGyms) {
+      const gymReviews = await Review.find({ establishmentId: gym._id });
+      for (const review of gymReviews) {
+        review.images.forEach((img) => {
+          const filePath = path.join("public/review_pictures", img);
+          fs.unlink(filePath, (err) => {
+            if (err) console.error("Failed to delete review image:", err);
+          });
+        });
+        await Comment.deleteMany({ _id: { $in: review.comments } });
+      }
+      await Review.deleteMany({ establishmentId: gym._id });
+
+      if (gym.image && gym.image !== "default_establishment.jpg") {
+        const gymImagePath = path.join(__dirname, "../public/establishment_pictures", gym.image);
+        fs.unlink(gymImagePath, (err) => {
+          if (err) console.error("Failed to delete gym image:", err);
+        });
+      }
+    }
+    await Establishment.deleteMany({ owner: userId });
 
     await User.findByIdAndDelete(userId);
 
@@ -657,6 +698,19 @@ router.delete("/deleteGym/:gymId", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid username or password." });
     }
+
+    const gymReviews = await Review.find({ establishmentId: gymId });
+    for (const review of gymReviews) {
+      review.images.forEach((img) => {
+        const filePath = path.join("public/review_pictures", img);
+        fs.unlink(filePath, (err) => {
+          if (err) console.error("Failed to delete review image:", err);
+        });
+      });
+
+      await Comment.deleteMany({ _id: { $in: review.comments } });
+    }
+    await Review.deleteMany({ establishmentId: gymId });
 
     const deletedGym = await Establishment.findByIdAndDelete(gymId);
     if (!deletedGym) {

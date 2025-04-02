@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
+const Comment = require('../models/Comment');
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -139,6 +140,7 @@ router.delete("/:reviewId", ensureLoggedIn, async (req, res) => {
       fs.unlinkSync(filePath);
     });
 
+    await Comment.deleteMany({ _id: { $in: review.comments } });
     await Review.findByIdAndDelete(reviewId);
     await updateEstablishmentRating(review.establishmentId);
     res.status(200).json({ message: "Review deleted successfully!" });
