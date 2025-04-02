@@ -26,21 +26,20 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Prepare FormData to handle both text and file uploads
       const formData = new FormData();
       formData.append("reviewText", reviewText);
       formData.append("rating", rating);
       formData.append("establishmentId", establishmentId);
 
-      // Append each selected image to FormData
-      for (let i = 0; i < reviewImages && 5; i++) {
+      for (let i = 0; i < reviewImages.length && i < 5; i++) {
         formData.append("reviewImages", reviewImages[i]);
+        alert('image uploaded');
       }
 
       try {
         const response = await fetch(`/reviews/${establishmentId}/create`, {
           method: "POST",
-          body: formData  // Send FormData directly without JSON headers
+          body: formData
         });
 
         const data = await response.json();

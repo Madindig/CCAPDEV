@@ -23,7 +23,7 @@ const reviewStorage = multer.diskStorage({
 const uploadReviewImages = multer({
   storage: reviewStorage,
   fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpg/; // Allow jpg, jpeg, and png files
+    const allowedTypes = /jpg|jpeg$/; // Allow jpg
     const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     if (isValid) {
       cb(null, true);
@@ -33,26 +33,6 @@ const uploadReviewImages = multer({
   },
   limits: { fileSize: 10 * 1024 * 1024 } // Limit file size to 10MB
 });
-
-async function updateEstablishmentRating(establishmentId) {
-  const reviews = await Review.find({ establishmentId });
-  if (reviews.length === 0) {
-    await Establishment.findByIdAndUpdate(establishmentId, { rating: 0 });
-    return;
-  }
-
-  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
-  const average = total / reviews.length;
-
-  await Establishment.findByIdAndUpdate(establishmentId, {
-    rating: average.toFixed(1)
-  });
-}
-
-function ensureLoggedIn(req, res, next) {
-  if (req.session && req.session.user) return next();
-  return res.status(401).json({ message: "You must be logged in to post a review." });
-}
 
 router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array('reviewImages', 5), async (req, res) => {
   try {
@@ -67,8 +47,6 @@ router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array
 
     const establishment = await Establishment.findById(establishmentId);
     if (!establishment) return res.status(404).json({ message: "Establishment not found" });
-
-    const userId = establishment.userId;
 
     // Create a new review
     const newReview = new Review({
@@ -93,6 +71,26 @@ router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array
     console.error("Review save failed:", err);
   }
 });
+
+async function updateEstablishmentRating(establishmentId) {
+  const reviews = await Review.find({ establishmentId });
+  if (reviews.length === 0) {
+    await Establishment.findByIdAndUpdate(establishmentId, { rating: 0 });
+    return;
+  }
+
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const average = total / reviews.length;
+
+  await Establishment.findByIdAndUpdate(establishmentId, {
+    rating: average.toFixed(1)
+  });
+}
+
+function ensureLoggedIn(req, res, next) {
+  if (req.session && req.session.user) return next();
+  return res.status(401).json({ message: "You must be logged in to post a review." });
+}
 
 //edit review
 router.put("/:reviewId/edit", ensureLoggedIn, async (req, res) => {
