@@ -70,11 +70,12 @@
                                         <div class="col-md-6">
                                             <label for="eProfilePictureFile">Thumbnail:</label>
                                             <div class="image-upload-container">
-                                                <img id="profileImagePreview" src="/establishment_pictures/{{this.image}}" alt="Profile Preview" class="profile-image">
+                                                <img id="profileImagePreview-{{this._id}}" src="/establishment_pictures/{{this.image}}" alt="Profile Preview" class="profile-image">
                                             </div>
 
                                             <div class="form-group">
-                                                <input type="file" class="form-control-file mt-2" id="eProfilePictureFile" name="eProfilePicture" accept=".jpg">
+                                                <input type="file" class="form-control-file mt-2" id="eProfilePictureFile-{{this._id}}" name="eProfilePicture" accept=".jpg">
+                                                <button type="button" class="btn btn-secondary mt-2" id="clearImageBtn-{{this._id}}">Clear Thumbnail</button>
                                             </div>
                                         </div>
                                     </div>
@@ -536,7 +537,7 @@
             </div>
 
             <div class="modal-body" id="createGymModalBody">
-                <form id="createGymForm" action="/createGym" method="POST">
+                <form id="createGymForm" action="/createGymWithImage" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -549,11 +550,11 @@
 
                             <label for="gymProfilePictureFile">Thumbnail:</label>
                             <div class="image-upload-container">
-                                <img id="gymProfileImagePreview" src="/profile_pictures/default_establishment.jpg" alt="Profile Preview" class="profile-image">
+                                <img id="gymProfileImagePreview" src="/establishment_pictures/default_establishment.jpg" alt="Profile Preview" class="profile-image">
                             </div>
 
                             <div class="form-group">
-                                <input type="file" class="form-control-file mt-2" id="gymProfilePicture" name="gymProfilePicture" accept=".jpg">
+                                <input type="file" class="form-control-file mt-2" id="gymImage" name="gymImage" accept=".jpg">
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ const nodemailer = require('nodemailer');
 const sourceEmail = 'spotter.website@gmail.com';
 const sourceEmailPassword = 'secure1234!';
 
-// Set up Multer storage for profile picture uploads
+// Multer storage for profile picture uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/profile_pictures/"); // Store images in this folder
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   }
 });
 
-// Set up Multer middleware
+// Multer middleware
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -38,6 +38,31 @@ const upload = multer({
     }
   },
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
+
+// Multer storage for gym image uploads
+const gymStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/establishment_pictures/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueFilename = `${uuidv4()}${path.extname(file.originalname)}`;
+    cb(null, uniqueFilename);
+  }
+});
+
+const gymUpload = multer({
+  storage: gymStorage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpg/;
+    const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    if (isValid) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpg files are allowed!"), false);
+    }
+  },
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB
 });
 
 const fetchUserDetails = async (user) => {
@@ -393,7 +418,7 @@ router.post("/createGym", async (req, res) => {
       location: regions,
       address,
       contactNumber,
-      amenities: Array.isArray(amenities) ? amenities : [amenities],  // Ensure amenities is an array
+      amenities: Array.isArray(amenities) ? amenities : [amenities],
       rating: 0,
       owner: req.session.user._id,
       image: profilePictureFilename
@@ -411,14 +436,118 @@ router.post("/createGym", async (req, res) => {
   }
 });
 
-router.put("/updateGym/:gymId", async (req, res) => {
+// router.put("/updateGym/:gymId", async (req, res) => {
+//   try {
+//     if (!req.session.user) {
+//       return res.status(401).json({ message: "Unauthorized. Please log in." });
+//     }
+
+//     const { gymId } = req.params;
+//     const { gymName, gymDesc, address, contactNumber, regions, amenities, profilePicture } = req.body;
+
+//     const existingEstablishment = await Establishment.findOne({ _id: gymId, owner: req.session.user._id });
+//     if (!existingEstablishment) {
+//       return res.status(404).json({ message: "Gym not found or you don't have permission to edit it." });
+//     }
+
+//     if (gymName !== existingEstablishment.name) {
+//       const duplicateEstablishment = await Establishment.findOne({ name: gymName, owner: req.session.user._id });
+//       if (duplicateEstablishment) {
+//         return res.status(400).json({ message: "You already have a gym with this name." });
+//       }
+//     }
+
+//     const profilePictureFilename = profilePicture
+//         ? `profile_picture_${Date.now()}.jpg` : existingEstablishment.image;
+
+//     if (profilePicture) {
+//       const base64Data = profilePicture.split(',')[1];
+//       const buffer = Buffer.from(base64Data, 'base64');
+//       fs.writeFileSync(path.join(__dirname, 'uploads', profilePictureFilename), buffer);
+//     }
+
+//     existingEstablishment.name = gymName;
+//     existingEstablishment.shortDescription = gymDesc;
+//     existingEstablishment.address = address;
+//     existingEstablishment.contactNumber = contactNumber;
+//     existingEstablishment.location = regions;
+//     existingEstablishment.amenities = Array.isArray(amenities) ? amenities : [amenities];
+//     existingEstablishment.image = profilePictureFilename;
+
+//     await existingEstablishment.save();
+
+//     res.status(200).json({ message: "Gym updated successfully!", establishment: existingEstablishment });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
+
+// router.put("/updateGym/:gymId", gymUpload.single("gymImage"), async (req, res) => {
+//   try {
+//     if (!req.session.user) {
+//       return res.status(401).json({ message: "Unauthorized. Please log in." });
+//     }
+
+//     const { gymId } = req.params;
+//     const { gymName, gymDesc, address, contactNumber, regions, amenities } = req.body;
+
+//     const existingEstablishment = await Establishment.findOne({ _id: gymId, owner: req.session.user._id });
+//     if (!existingEstablishment) {
+//       return res.status(404).json({ message: "Gym not found or you don't have permission to edit it." });
+//     }
+
+//     if (gymName !== existingEstablishment.name) {
+//       const duplicateEstablishment = await Establishment.findOne({ name: gymName, owner: req.session.user._id });
+//       if (duplicateEstablishment) {
+//         return res.status(400).json({ message: "You already have a gym with this name." });
+//       }
+//     }
+
+//     const uploadedImage = req.file?.filename;
+
+//     existingEstablishment.name = gymName;
+//     existingEstablishment.shortDescription = gymDesc;
+//     existingEstablishment.address = address;
+//     existingEstablishment.contactNumber = contactNumber;
+//     existingEstablishment.location = regions;
+//     existingEstablishment.amenities = Array.isArray(amenities) ? amenities : [amenities];
+    
+//     // if (uploadedImage) {
+//     //   existingEstablishment.image = uploadedImage;
+//     // }
+
+//     if (uploadedImage) {
+//       // delete previous image if it's not the default
+//       if (existingEstablishment.image && existingEstablishment.image !== "default_establishment.jpg") {
+//         const oldImagePath = path.join(__dirname, "../public/establishment_pictures", existingEstablishment.image);
+//         fs.unlink(oldImagePath, (err) => {
+//           if (err) {
+//             console.error("Failed to delete old gym image:", err);
+//           }
+//         });
+//       }
+    
+//       existingEstablishment.image = uploadedImage;
+//     }
+
+//     await existingEstablishment.save();
+
+//     res.status(200).json({ message: "Gym updated successfully!", establishment: existingEstablishment });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error", error: err.message });
+//   }
+// });
+
+router.put("/updateGym/:gymId", gymUpload.single("gymImage"), async (req, res) => {
   try {
     if (!req.session.user) {
       return res.status(401).json({ message: "Unauthorized. Please log in." });
     }
 
     const { gymId } = req.params;
-    const { gymName, gymDesc, address, contactNumber, regions, amenities, profilePicture } = req.body;
+    const { gymName, gymDesc, address, contactNumber, regions, amenities, resetImage } = req.body;
 
     const existingEstablishment = await Establishment.findOne({ _id: gymId, owner: req.session.user._id });
     if (!existingEstablishment) {
@@ -432,14 +561,7 @@ router.put("/updateGym/:gymId", async (req, res) => {
       }
     }
 
-    const profilePictureFilename = profilePicture
-        ? `profile_picture_${Date.now()}.jpg` : existingEstablishment.image;
-
-    if (profilePicture) {
-      const base64Data = profilePicture.split(',')[1];
-      const buffer = Buffer.from(base64Data, 'base64');
-      fs.writeFileSync(path.join(__dirname, 'uploads', profilePictureFilename), buffer);
-    }
+    const uploadedImage = req.file?.filename;
 
     existingEstablishment.name = gymName;
     existingEstablishment.shortDescription = gymDesc;
@@ -447,7 +569,22 @@ router.put("/updateGym/:gymId", async (req, res) => {
     existingEstablishment.contactNumber = contactNumber;
     existingEstablishment.location = regions;
     existingEstablishment.amenities = Array.isArray(amenities) ? amenities : [amenities];
-    existingEstablishment.image = profilePictureFilename;
+
+    if (resetImage === "true" && existingEstablishment.image !== "default_establishment.jpg") {
+      const oldImagePath = path.join(__dirname, "../public/establishment_pictures", existingEstablishment.image);
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      }
+      existingEstablishment.image = "default_establishment.jpg";
+    } else if (uploadedImage) {
+      if (existingEstablishment.image && existingEstablishment.image !== "default_establishment.jpg") {
+        const oldImagePath = path.join(__dirname, "../public/establishment_pictures", existingEstablishment.image);
+        fs.unlink(oldImagePath, (err) => {
+          if (err) console.error("Failed to delete old gym image:", err);
+        });
+      }
+      existingEstablishment.image = uploadedImage;
+    }
 
     await existingEstablishment.save();
 
@@ -478,10 +615,76 @@ router.delete("/deleteGym/:gymId", async (req, res) => {
       return res.status(404).json({ message: "Gym not found." });
     }
 
+    if (deletedGym.image && deletedGym.image !== "default_establishment.jpg") {
+      const imagePath = path.join(__dirname, "../public/establishment_pictures", deletedGym.image);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Failed to delete gym image:", err);
+        }
+      });
+    }
+
     return res.status(200).json({ message: "Gym deleted successfully!" });
   } catch (error) {
     console.error("Error deleting gym:", error);
     res.status(500).json({ message: "Server error, please try again later." });
+  }
+});
+
+router.post("/createGymWithImage", gymUpload.single("gymImage"), async (req, res) => {
+  console.log("Uploaded gym image file:", req.file);
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+
+    const {
+      gymName,
+      gymDesc,
+      address,
+      contactNumber,
+      regions,
+      amenities
+    } = req.body;
+
+    // let amenities = req.body["amenities[]"] || [];
+    // if (!Array.isArray(amenities)) {
+    //   amenities = [amenities];
+    // }
+
+    const existingEstablishment = await Establishment.findOne({
+      name: gymName,
+      owner: req.session.user._id,
+    });
+
+    if (existingEstablishment) {
+      return res.status(400).json({ message: "You already have a gym with this name." });
+    }
+
+    const imageFilename = req.file?.filename || "default_establishment.jpg";
+
+    const newEstablishment = new Establishment({
+      name: gymName,
+      shortDescription: gymDesc,
+      location: regions,
+      address,
+      contactNumber,
+      amenities: Array.isArray(amenities) ? amenities : [amenities],
+      rating: 0,
+      owner: req.session.user._id,
+      image: imageFilename,
+    });
+
+    await newEstablishment.save();
+    await sendGymCreationNotification(req.session.user._id, newEstablishment);
+
+    res.status(201).json({
+      message: "Establishment created successfully!",
+      establishment: newEstablishment,
+    });
+  } catch (err) {
+    console.error("Create Gym Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
