@@ -41,7 +41,8 @@ const upload = multer({
 router.get("/:id", async (req, res) => {
   try {
     // Fetch establishment details by ID
-    const establishment = await Establishment.findById(req.params.id).lean();
+    const establishment = await Establishment.findById(req.params.id)  .populate("owner", "username")
+    .lean();
     if (!establishment) return res.status(404).json({ message: "Establishment not found" });
 
     // Get reviews for this establishment

@@ -120,7 +120,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-router.get("/users/:userId/profile", async (req, res) => {
+router.get("/:userId/profile", async (req, res) => {
   const userId = req.params.userId;
 
   try {
