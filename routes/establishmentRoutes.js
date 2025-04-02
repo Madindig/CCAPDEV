@@ -53,8 +53,12 @@ router.get("/:id", async (req, res) => {
       ...review,
       likesCount: review.likes.length, // Count likes
       dislikesCount: review.dislikes.length, // Count dislikes
-      stars: '★'.repeat(review.rating) // Stars for rating
-    }));
+      stars: '★'.repeat(review.rating), // Stars for rating
+      images: review.images.map(image => ({
+        src: image,
+        reviewId: review._id, // Add the review ID for unique modal ID
+      }))
+    })); 
 
     modifiedReviews.sort((A, B) => {
       const scoreA = A.likesCount - A.dislikesCount;
@@ -100,7 +104,11 @@ router.get("/:id/results", async (req, res) => {
       ...review,
       likesCount: review.likes.length, // Count likes
       dislikesCount: review.dislikes.length, // Count dislikes
-      stars: '★'.repeat(review.rating) // Stars for rating
+      stars: '★'.repeat(review.rating), // Stars for rating
+      images: review.images.map(image => ({
+        src: image,
+        reviewId: review._id, // Add the review ID for unique modal ID
+      }))
     }));
 
     modifiedReviews.sort((A, B) => {
