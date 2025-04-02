@@ -108,24 +108,13 @@ router.put("/:reviewId/edit", ensureLoggedIn, async (req, res) => {
   try {
     const { reviewText, rating } = req.body;
     const { reviewId } = req.params;
-    const newImages = req.files; // Get newly uploaded files
 
     const review = await Review.findById(reviewId);
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-
     review.reviewText = reviewText;
     review.rating = parseInt(rating);
     review.edited = true;
-
-    if (newImages.length > 0) {
-      review.images.forEach((img) => {
-        const filePath = path.join('public/review_pictures', img);
-        fs.unlinkSync(filePath);
-      });
-
-      review.images = newImages.map(file => file.filename);
-    }
 
     await review.save();
     await updateEstablishmentRating(review.establishmentId);
