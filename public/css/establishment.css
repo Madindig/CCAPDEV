@@ -47,7 +47,7 @@
     line-height: 80%;
     border-radius: 25px;
     width: 560px;
-    height: 250px;
+    height: 100%;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -59,4 +59,8 @@
 
 .mt-2 {
     margin-top:-20px;
+}
+
+.col-md-12 {
+    margin-bottom: 3px;
 }
