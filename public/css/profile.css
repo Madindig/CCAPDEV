@@ -80,13 +80,14 @@ body {
 
 .gym-card, .review-card {
     display: flex;
-    width: 100%;
+    width: 600px;
+    height: 200px;
     background-color: #495e57;
     border-radius: 15px;
     margin-bottom: 15px;
     color: #fff;
     align-items: center;
-    line-height: 70%;
+    line-height: 80%;
 }
 
 .gym-card{
@@ -95,7 +96,7 @@ body {
 
 .gym-card img, .review-card img {
     width: 120px;
-    height: 180px;
+    height: 200px;
     border-radius: 10px;
     object-fit: cover;
     margin-right: 15px;
@@ -110,7 +111,7 @@ body {
 
 .gym-details, .review-details {
     flex-grow: 1;
-    padding:5px;
+    padding:10px;
 }
 
 .gym-details h3, .review-details h3 {
