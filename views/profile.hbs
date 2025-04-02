@@ -31,8 +31,7 @@
 
             {{#each gyms}}
                 <div class="gym-card-link" data-href="/establishments/{{this._id}}">
-                    <div class="gym-card">
-
+                    <div class="gym-card-home">
                         <img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
                         <div class="gym-details">
                             <h3>{{this.name}}</h3>
@@ -306,7 +305,7 @@
 	{{#if reviews.length}}
 	{{#each reviews}}
 	<div class="gym-card">
-		<img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}">
+		<span><img src="/establishment_pictures/{{this.image}}" alt="{{this.name}}"><span>
 		<div class="gym-details">
 			<h3>{{this.name}}</h3>
 			<p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>

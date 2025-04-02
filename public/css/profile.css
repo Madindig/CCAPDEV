@@ -78,27 +78,55 @@ body {
     justify-content: center;
 }
 
-.gym-card, .review-card {
+.gym-card, .review-card, .gym-card-home {
     display: flex;
     width: 600px;
-    height: 200px;
+    height: auto;
     background-color: #495e57;
     border-radius: 15px;
     margin-bottom: 15px;
     color: #fff;
     align-items: center;
-    line-height: 80%;
+    line-height: 100%;
+}
+
+.gym-card-home {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: auto;
+    background-color: #495e57;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    color: #fff;
+    align-items: center;
+    line-height: 100%;
 }
 
 .gym-card{
     cursor: pointer;
 }
 
-.gym-card img, .review-card img {
-    width: 120px;
-    height: 200px;
-    border-radius: 10px;
+.gym-card img {
     object-fit: cover;
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+.gym-card-home img {
+    object-fit: cover;
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.review-card img {
+    object-fit: cover;
+    width: 120px;
+    height: 100%;
+    border-radius: 10px;
     margin-right: 15px;
 }
 

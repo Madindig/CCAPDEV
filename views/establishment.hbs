@@ -44,7 +44,7 @@
             </a>
             {{!-- <p><strong>Reviewed by:</strong> {{this.userId.username}}</p> --}}
             <p><strong>Rating:</strong> <span class="rating-stars">{{this.stars}}</span></p>
-            <p><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
+            <p class="text-wrap"><strong>Review:</strong> {{this.reviewText}} {{#if this.edited}}<em class="text-muted">(edited)</em>{{/if}}</p>
             <p><strong>Posted at:</strong> {{this.createdAt}}</p>
             {{#if this.images}}
                 <p><strong>Images: </strong></p>
