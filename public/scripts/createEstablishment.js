@@ -77,7 +77,16 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("gymName", document.getElementById("registerGymName").value);
             formData.append("gymDesc", document.getElementById("gymProfileDescription").value);
             formData.append("address", document.getElementById("gymAddress").value);
-            formData.append("contactNumber", document.getElementById("gymContact").value);
+
+            const phoneRegex = /\b(?:\+63-\d{3}-\d{3}-\d{4}|09\d{2}-\d{3}-\d{4})\b/g;
+
+            const contactNumber = document.getElementById("gymContact").value.trim();
+
+            if (contactNumber === "" || contactNumber.match(phoneRegex)) {
+                formData.append("contactNumber", contactNumber);
+            } else {
+                alert("Invalid phone number. Please enter a valid contact number.");
+            }
 
             const amenities = document.querySelectorAll("input[name='amenities[]']:checked");
             amenities.forEach(input => formData.append("amenities[]", input.value));

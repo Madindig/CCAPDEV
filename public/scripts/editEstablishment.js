@@ -126,7 +126,16 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("gymName", form.querySelector("[id^='eGymName-']").value);
             formData.append("gymDesc", form.querySelector("[id^='eGymDescription-']").value);
             formData.append("address", form.querySelector("[id^='eGymAddress-']").value);
-            formData.append("contactNumber", form.querySelector("[id^='eGymContact-']").value);
+
+            const phoneRegex = /\b(?:\+63-\d{3}-\d{3}-\d{4}|09\d{2}-\d{3}-\d{4})\b/g;
+
+            const contactNumber = form.querySelector("[id^='eGymContact-']").value.trim();
+
+            if (contactNumber === "" || contactNumber.match(phoneRegex)) {
+                formData.append("contactNumber", contactNumber);
+            } else {
+                alert("Invalid phone number. Please enter a valid contact number.");
+            }
 
             const amenities = Array.from(form.querySelectorAll("input[name='eAmenities[]']:checked")).map(input => input.value);
             amenities.forEach(value => formData.append("amenities", value));
