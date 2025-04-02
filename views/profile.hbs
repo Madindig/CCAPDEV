@@ -38,7 +38,7 @@
                             <h3>{{this.name}}</h3>
                             <p><strong>Rating:</strong> {{#if (equal this.rating 0)}}Unrated{{else}}{{this.rating}}{{/if}}</p>
                             <p><strong>Location:</strong> {{this.location}}</p>
-                            <p><strong>Amenities:</strong> {{this.amenities}}</p>
+                            <p><strong>Amenities:</strong> {{#each this.amenities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
                             {{#if this.isUser}}
                             <button class="edit-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#editGymModal-{{this._id}}">Edit</button>
                             <button class="delete-btn" data-id="{{this._id}}" data-toggle="modal" data-target="#deleteGymModal-{{this._id}}">Delete</button>
