@@ -91,11 +91,13 @@ document.addEventListener("DOMContentLoaded", function () {
             let contactNumber = contactInput.value.trim();
             contactNumber = formatPhoneNumber(contactNumber);
 
-            if (contactNumber === "" || contactNumber.match(phoneRegex)) {
+            if (contactNumber.match(phoneRegex)) {
                 contactNumber = '+63 ' + contactNumber;
                 formData.append("contactNumber", contactNumber);
 
-            } else {
+            } else if(contactNumber === ""){
+                formData.append("contactNumber", contactNumber);
+            } else{
                 alert("Invalid phone number. Please enter a valid contact number.");
                 return;
             }
