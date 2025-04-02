@@ -10,9 +10,10 @@ const Comment = require('../models/Comment');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
-const sourceEmail = 'spotter.website@gmail.com';
-const sourceEmailPassword = 'secure1234!';
+const sourceEmail = process.env.SOURCE_EMAIL;
+const sourceEmailPassword = process.env.SOURCE_EMAIL_PASSWORD;
 
 // Multer storage for profile picture uploads
 const storage = multer.diskStorage({
