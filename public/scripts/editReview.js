@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.getElementById(`editReviewForm-${reviewId}`);
     form.dataset.reviewId = reviewId;
+    form.dataset.originalReview = reviewText;
 
     document.getElementById(`editReviewbox-${reviewId}`).value = reviewText;
     document.getElementById(`editReviewRating-${reviewId}`).value = reviewRating;
@@ -22,6 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!reviewText || !reviewId) {
         alert("Review content or ID is missing.");
+        return;
+      }
+
+      if (rating < 1 || rating > 5) {
+        alert("Please select a rating between 1 and 5.");
         return;
       }
 

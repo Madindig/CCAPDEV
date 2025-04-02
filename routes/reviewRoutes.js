@@ -5,6 +5,7 @@ const Establishment = require("../models/Establishment");
 const multer = require("multer");
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
+const fs = require("fs");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -41,12 +42,22 @@ router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array
 
     // Handle file uploads
     const reviewImages = req.files;  // This will hold the uploaded image files
+
     if (!reviewText) {
       return res.status(400).json({ message: "Review text is required" });
     }
 
     const establishment = await Establishment.findById(establishmentId);
     if (!establishment) return res.status(404).json({ message: "Establishment not found" });
+
+    const existingReview = await Review.findOne({
+      userId: req.session.user._id,
+      establishmentId
+    });
+
+    if (existingReview) {
+      return res.status(400).json({ message: "You have already posted a review for this establishment" });
+    }
 
     // Create a new review
     const newReview = new Review({
@@ -97,18 +108,25 @@ router.put("/:reviewId/edit", ensureLoggedIn, async (req, res) => {
   try {
     const { reviewText, rating } = req.body;
     const { reviewId } = req.params;
+    const newImages = req.files; // Get newly uploaded files
 
     const review = await Review.findById(reviewId);
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-    // Optional: check ownership
-    if (!review.userId.equals(req.session.user._id)) {
-      return res.status(403).json({ message: "Unauthorized to edit this review" });
-    }
 
     review.reviewText = reviewText;
     review.rating = parseInt(rating);
     review.edited = true;
+
+    if (newImages.length > 0) {
+      review.images.forEach((img) => {
+        const filePath = path.join('public/review_pictures', img);
+        fs.unlinkSync(filePath);
+      });
+
+      review.images = newImages.map(file => file.filename);
+    }
+
     await review.save();
     await updateEstablishmentRating(review.establishmentId);
 
@@ -127,10 +145,10 @@ router.delete("/:reviewId", ensureLoggedIn, async (req, res) => {
     const review = await Review.findById(reviewId);
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-    // Optional: check ownership
-    if (!review.userId.equals(req.session.user._id)) {
-      return res.status(403).json({ message: "Unauthorized to delete this review" });
-    }
+    review.images.forEach((img) => {
+      const filePath = path.join('public/review_pictures', img);
+      fs.unlinkSync(filePath);
+    });
 
     await Review.findByIdAndDelete(reviewId);
     await updateEstablishmentRating(review.establishmentId);
