@@ -387,6 +387,24 @@
 	{{else}}
 	    <p>No reviews yet.</p>
 	{{/if}}
+
+    <h2>Comments</h2>
+    {{#if comments.length}}
+        {{#each comments}}
+        <div class="gym-card">
+            <div class="gym-details">
+            <p><strong>Your Comment:</strong> {{this.commentText}}</p>
+            <p><strong>Review Snippet:</strong> {{#if this.reviewId}}{{this.reviewId.reviewText}}{{else}}(Review not found){{/if}}</p>
+            <p><strong>Rating:</strong> {{this.reviewId.rating}}</p>
+            <p><strong>Establishment:</strong> {{this.reviewId.establishmentId.name}}</p>
+            <p class="text-muted">Posted: {{this.createdAt}}</p>
+            <button class="delete-btn" onclick="deleteComment('{{this._id}}')">Delete</button>
+            </div>
+        </div>
+        {{/each}}
+    {{else}}
+        <p>You haven't posted any comments yet.</p>
+    {{/if}}
     </div>
 
 </div>
