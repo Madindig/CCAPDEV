@@ -10,10 +10,11 @@ const Comment = require('../models/Comment');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
 
+const dotenv = require("dotenv");
+dotenv.config();
 const sourceEmail = process.env.SOURCE_EMAIL;
-const sourceEmailPassword = process.env.SOURCE_EMAIL_PASSWORD;
+const sourceEmailPassword = process.env.SOURCE_PASSWORD;
 
 // Multer storage for profile picture uploads
 const storage = multer.diskStorage({
@@ -130,7 +131,7 @@ router.get("/profile", async (req, res) => {
   }
 });
 
-router.get("/:userId/profile", async (req, res) => {
+router.get("/users/:userId/profile", async (req, res) => {
   const userId = req.params.userId;
 
   try {

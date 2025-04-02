@@ -117,23 +117,27 @@
             </div>
 
             <form id="createReviewForm">
-              <div class="modal-body" id="reviewModalBody">
-                <input type="hidden" id="establishmentId" value="{{establishment._id}}">
-                <!-- Rating Dropdown -->
-                <label for="reviewRating" class="form-label">Rating:</label>
-                <select class="form-select" id="reviewRating" name="reviewRating">
-                    <option value="1">1 - Worst</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5" selected>5 - Best</option>
-                </select>
+                <div class="modal-body" id="reviewModalBody">
+                    <input type="hidden" id="establishmentId" value="{{establishment._id}}">
+                    <!-- Rating Dropdown -->
+                    <label for="reviewRating" class="form-label">Rating:</label>
+                    <select class="form-select" id="reviewRating" name="reviewRating">
+                        <option value="1">1 - Worst</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5 - Best</option>
+                    </select>
 
-                <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review"></textarea>
-              </div>
+                    <textarea class="commentbox form-control mt-3" id="reviewbox" name="reviewbox" rows="4" placeholder="Leave a review"></textarea>
 
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                    <!-- Image Upload -->
+                    <label for="reviewImages" class="form-label mt-3">Upload Images:</label>
+                    <input type="file" class="form-control" id="reviewImages" name="reviewImages" multiple>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>

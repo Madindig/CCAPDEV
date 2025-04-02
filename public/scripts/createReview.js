@@ -5,9 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function resetReviewModal() {
     const reviewText = document.getElementById("reviewbox");
     const rating = document.getElementById("reviewRating");
-  
+    const reviewImages = document.getElementById("reviewImages");
+
     if (reviewText) reviewText.value = "";
     if (rating) rating.value = "5";
+    if (reviewImages) reviewImages.value = "";  // Reset file input
   }
 
   if (form) {
@@ -17,19 +19,28 @@ document.addEventListener("DOMContentLoaded", function () {
       const reviewText = document.getElementById("reviewbox").value.trim();
       const rating = document.getElementById("reviewRating").value;
       const establishmentId = document.getElementById("establishmentId").value;
+      const reviewImages = document.getElementById("reviewImages").files;  // Access multiple images
 
       if (!reviewText) {
         alert("Please enter your review.");
         return;
       }
 
+      // Prepare FormData to handle both text and file uploads
+      const formData = new FormData();
+      formData.append("reviewText", reviewText);
+      formData.append("rating", rating);
+      formData.append("establishmentId", establishmentId);
+
+      // Append each selected image to FormData
+      for (let i = 0; i < reviewImages && 5; i++) {
+        formData.append("reviewImages", reviewImages[i]);
+      }
+
       try {
         const response = await fetch(`/reviews/${establishmentId}/create`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ reviewText, rating })
+          body: formData  // Send FormData directly without JSON headers
         });
 
         const data = await response.json();
@@ -50,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Reset form when modal is closed
   if (reviewModal) {
     reviewModal.addEventListener("hidden.bs.modal", resetReviewModal);
-  
+
     const closeButton = reviewModal.querySelector(".close");
     if (closeButton) {
       closeButton.addEventListener("click", resetReviewModal);

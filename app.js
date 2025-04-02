@@ -12,7 +12,6 @@ const session = require("express-session");
 const path = require("path");
 const { engine } = require("express-handlebars");
 const sessionMiddleware = require("./middlewares/sessionMiddleware");
-const nodemailer = require('nodemailer');
 
 /*
   Import routes:
@@ -63,10 +62,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // Secret key for signing session cookies
+    secret: process.env.SESSION_SECRET,
     resave: false, // Do not save session if it hasn't changed
     saveUninitialized: true, // Save new sessions
-    cookie: { secure: false } // Use 'true' in production with HTTPS
+      cookie: {
+          maxAge: 30 * 24 * 60 * 60 * 1000
+      }
   })
 );
 

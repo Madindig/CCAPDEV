@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 formData.append("contactNumber", contactNumber);
             } else {
                 alert("Invalid phone number. Please enter a valid contact number.");
+                return;
             }
 
             const amenities = document.querySelectorAll("input[name='amenities[]']:checked");

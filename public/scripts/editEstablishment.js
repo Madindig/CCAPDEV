@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 formData.append("contactNumber", contactNumber);
             } else {
                 alert("Invalid phone number. Please enter a valid contact number.");
+                return;
             }
 
             const amenities = Array.from(form.querySelectorAll("input[name='eAmenities[]']:checked")).map(input => input.value);

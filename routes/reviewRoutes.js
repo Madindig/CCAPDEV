@@ -1,12 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const Review = require("../models/Review");
-const User = require("../models/User");
 const Establishment = require("../models/Establishment");
-const nodemailer = require('nodemailer');
+const multer = require("multer");
+const path = require("path");
+const { v4: uuidv4 } = require('uuid');
 
-const sourceEmail = 'spotter.website@gmail.com';
-const sourceEmailPassword = 'secure1234!';
+const dotenv = require("dotenv");
+dotenv.config();
+
+const reviewStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/review_pictures/"); // Store images in the review_pictures folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueFilename = `${uuidv4()}${path.extname(file.originalname)}`; // Assign unique filename
+    cb(null, uniqueFilename);
+  }
+});
+
+// Multer middleware for review images
+const uploadReviewImages = multer({
+  storage: reviewStorage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpg/; // Allow jpg, jpeg, and png files
+    const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    if (isValid) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpg files are allowed"), false);
+    }
+  },
+  limits: { fileSize: 10 * 1024 * 1024 } // Limit file size to 10MB
+});
 
 async function updateEstablishmentRating(establishmentId) {
   const reviews = await Review.find({ establishmentId });
@@ -23,60 +49,28 @@ async function updateEstablishmentRating(establishmentId) {
   });
 }
 
-async function sendReviewNotificationToUserSubscribers(userId, review, establishment) {
-  // Fetch the user (owner of the establishment) and their subscribers
-  const user = await User.findById(userId).populate('subscribers'); // Fetch user and their subscribers
-
-  if (!user || !user.subscribers.length) {
-    return; // No subscribers to notify
-  }
-
-  // Set up Nodemailer transport
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: sourceEmail,
-      pass: sourceEmailPassword,
-    },
-  });
-
-  // Send email to each subscriber
-  for (let subscriber of user.subscribers) {
-    const mailOptions = {
-      from: sourceEmail,
-      to: subscriber.email,
-      subject: `New Review for ${establishment.name}`,
-      html: `<p>Dear ${subscriber.username},</p>
-             <p>A new review has been posted for the gym ${establishment.name} by ${review.userId.username}.</p>
-             <p><strong>Review:</strong> ${review.reviewText}</p>
-             <p><strong>Rating:</strong> ${review.rating} stars</p>
-             <p>Thank you for following ${user.username}'s establishments!</p>`
-    };
-
-    try {
-      await transporter.sendMail(mailOptions);
-      console.log(`Email sent to ${subscriber.email}`);
-    } catch (error) {
-      console.error(`Error sending email to ${subscriber.email}: ${error.message}`);
-    }
-  }
-}
-
 function ensureLoggedIn(req, res, next) {
   if (req.session && req.session.user) return next();
   return res.status(401).json({ message: "You must be logged in to post a review." });
 }
 
-router.post("/:establishmentId/create", ensureLoggedIn, async (req, res) => {
+router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array('reviewImages', 5), async (req, res) => {
   try {
     const { reviewText, rating } = req.body;
     const { establishmentId } = req.params;
+
+    // Handle file uploads
+    const reviewImages = req.files;  // This will hold the uploaded image files
+    if (!reviewText) {
+      return res.status(400).json({ message: "Review text is required" });
+    }
 
     const establishment = await Establishment.findById(establishmentId);
     if (!establishment) return res.status(404).json({ message: "Establishment not found" });
 
     const userId = establishment.userId;
 
+    // Create a new review
     const newReview = new Review({
       userId: req.session.user._id,
       establishmentId,
@@ -84,14 +78,14 @@ router.post("/:establishmentId/create", ensureLoggedIn, async (req, res) => {
       rating: parseInt(rating),
       likes: [],
       dislikes: [],
-      createdAt: new Date()
+      createdAt: new Date(),
+      images: reviewImages ? reviewImages.map(file => file.filename) : [] // Store filenames of the uploaded images
     });
 
     await newReview.save();
 
+    // Update the establishment's rating
     await updateEstablishmentRating(establishmentId);
-
-    await sendReviewNotificationToUserSubscribers(userId, newReview, establishment);
 
     res.status(201).json({ message: "Review posted successfully!", review: newReview });
   } catch (err) {

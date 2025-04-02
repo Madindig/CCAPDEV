@@ -14,9 +14,6 @@ window.onload = function() {
     }
 }
 
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const profilePictureInput = document.getElementById("profilePictureFile");
     const registerButton = document.getElementById("registerButton");
@@ -134,8 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (emailPattern.test(username)){
-                alert('Please do not use an email address as a Username')    ;
+            if (emailPattern.test(username)) {
+                alert('Please do not use an email address as a Username');
+                return;
             }
 
             if (!emailPattern.test(email)) {
@@ -184,6 +182,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await response.json();
                 if (response.ok) {
                     console.log("Registration Successful:", data);
+
+
+                    setCookie('authToken', data.token, 30);
                     window.location.reload();
                 } else {
                     console.error("Error:", data.message);
@@ -195,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (loginButton) {
-
     window.onload = function() {
         const username = getCookie("username");
         const password = getCookie("password");
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch("/users/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ username, password, rememberMe })
                 });
                 
                 const data = await response.json();
@@ -270,8 +270,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 })
-
-
 
 function setCookie(cname,cvalue,exdays) {
     const d = new Date();
