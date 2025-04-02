@@ -105,6 +105,14 @@ router.get("/profile", async (req, res) => {
 
       const { establishments, userReviews, isBusiness } = await fetchUserDetails(user);
 
+      const userComments = await Comment.find({ userId: user._id })
+      .populate({
+        path: 'reviewId',
+        model: 'Review',
+        populate: { path: 'establishmentId', model: 'Establishment' }
+      })
+      .lean();
+
       if(isBusiness) {
         for(const gym of establishments) {
           gym.isUser = true;
@@ -117,15 +125,10 @@ router.get("/profile", async (req, res) => {
             reviewId: review._id
           }));
         }
+        for(const comment of userComments) {
+          comment.isUser = true;
+        }
       }
-
-      const userComments = await Comment.find({ userId: user._id })
-      .populate({
-        path: 'reviewId',
-        model: 'Review',
-        populate: { path: 'establishmentId', model: 'Establishment' }
-      })
-      .lean();
       
       res.render("profile", { user, isBusiness, gyms: establishments, reviews: userReviews, comments: userComments, isCurrentUser : true });
       
@@ -741,7 +744,6 @@ router.post("/createGymWithImage", gymUpload.single("gymImage"), async (req, res
     });
 
     await newEstablishment.save();
-    await sendGymCreationNotification(req.session.user._id, newEstablishment);
 
     res.status(201).json({
       message: "Establishment created successfully!",
