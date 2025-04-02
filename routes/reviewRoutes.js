@@ -35,7 +35,7 @@ const uploadReviewImages = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // Limit file size to 10MB
 });
 
-router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array('reviewImages', 5), async (req, res) => {
+router.post("/:establishmentId/create", ensureLoggedIn, uploadReviewImages.array('reviewImages', 6), async (req, res) => {
   try {
     const { reviewText, rating } = req.body;
     const { establishmentId } = req.params;

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("rating", rating);
       formData.append("establishmentId", establishmentId);
 
-      for (let i = 0; i < reviewImages.length && i < 5; i++) {
+      for (let i = 0; i < reviewImages.length && i < 6; i++) {
         formData.append("reviewImages", reviewImages[i]);
       }
 
